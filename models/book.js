@@ -9,6 +9,8 @@ const BookSchema = new Schema(
     price: { type: Number, required: true },
     author_id: { type: ObjectId, ref: "author", required: true },
     publisher_id: { type: ObjectId, ref: "publisher", required: true },
+    image: {type: String},
+    images: [{type: String}],
     description: { type: String },
     ...fieldsCommon()
   },
