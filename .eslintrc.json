@@ -21,6 +21,7 @@
         "indent": ["error", 4],
         "quotes": ["error", "single"],
         "semi": "error",
-        "no-console": "error"
+        "no-console": "error",
+        "camelcase":"off"
     }
 }
