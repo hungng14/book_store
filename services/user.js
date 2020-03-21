@@ -11,7 +11,7 @@ class UserService extends CrudService {
         super();
     }
 
-    async sign_in(data) {
+    async signIn(data) {
         try {
             const { email, password } = data;
             const conditions = {
@@ -51,7 +51,7 @@ class UserService extends CrudService {
         }
     }
 
-    async sign_in_with_social(data) {
+    async signInWithSocial(data) {
         try {
             const {
                 email = '', phone = '', avatar, fullname,
@@ -100,7 +100,7 @@ class UserService extends CrudService {
 
     async register(data) {
         try {
-            const has_exist_email = await this.has_exist_email(data);
+            const has_exist_email = await this.hasExistEmail(data);
             if (has_exist_email) {
                 return responseError(1052);
             }
@@ -152,7 +152,7 @@ class UserService extends CrudService {
         }
     }
 
-    async has_exist_email(data) {
+    async hasExistEmail(data) {
         try {
             const { email } = data;
             const conditions = {
@@ -171,14 +171,15 @@ class UserService extends CrudService {
         }
     }
 
+    deleteUrlImage(full_url_image) {
+        full_url_image && deleteFile(full_url_image);
+    }
+
     async create(data) {
-        function delete_url_img() {
-            data.full_url_image && deleteFile(data.full_url_image);
-        }
         try {
-            const has_exist_email = await this.has_exist_email(data);
+            const has_exist_email = await this.hasExistEmail(data);
             if (has_exist_email) {
-                delete_url_img();
+                this.deleteUrlImage(data.full_url_image);
                 return responseError(1052);
             }
 
@@ -198,10 +199,10 @@ class UserService extends CrudService {
             if (!isEmpty(result)) {
                 return responseSuccess(101, result);
             }
-            delete_url_img();
+            this.deleteUrlImage(data.full_url_image);
             return responseError(1050);
         } catch (error) {
-            delete_url_img();
+            this.deleteUrlImage(data.full_url_image);
             throw responseError(1000, error);
         }
     }
@@ -224,13 +225,10 @@ class UserService extends CrudService {
     }
 
     async updateOne(data) {
-        function delete_url_img() {
-            data.full_url_image && deleteFile(data.full_url_image);
-        }
         try {
-            const has_exist_email = await this.has_exist_email(data);
+            const has_exist_email = await this.hasExistEmail(data);
             if (has_exist_email) {
-                delete_url_img();
+                this.deleteUrlImage(data.full_url_image);
                 return responseError(1052);
             }
             const conditions = {
@@ -256,7 +254,7 @@ class UserService extends CrudService {
                 };
                 const result = await super.updateOne(conditions, setAvatar);
                 if (isEmpty(result)) {
-                    delete_url_img();
+                    this.deleteUrlImage(data.full_url_image);
                     return responseError(1054);
                 }
                 const old_url_image = result.avatar;
@@ -269,12 +267,12 @@ class UserService extends CrudService {
             }
             return responseSuccess(103, result);
         } catch (error) {
-            delete_url_img();
+            this.deleteUrlImage(data.full_url_image);
             throw responseError(1000, error);
         }
     }
 
-    async update_status_one(data) {
+    async updateStatusOne(data) {
         try {
             const conditions = {
                 _id: data.user_o_id,
@@ -294,7 +292,7 @@ class UserService extends CrudService {
         }
     }
 
-    async delete_one(data) {
+    async deleteOne(data) {
         try {
             const conditions = {
                 _id: data.user_o_id,

@@ -8,7 +8,7 @@ class SignInController extends BaseController {
 
     async signIn(req, res) {
         try {
-            const result = await user_ser.sign_in(req.body);
+            const result = await user_ser.signIn(req.body);
             return super.resJsonSuccess(res, result);
         } catch (error) {
             return super.resJsonError(res, error, 'sign_in');
@@ -17,7 +17,7 @@ class SignInController extends BaseController {
 
     async signInWithSocial(req, res) {
         try {
-            const result = await user_ser.sign_in_with_social(req.body);
+            const result = await user_ser.signInWithSocial(req.body);
             return super.resJsonSuccess(res, result);
         } catch (error) {
             return super.resJsonError(res, error, 'sign_in');

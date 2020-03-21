@@ -6,7 +6,7 @@ class UserController extends BaseController {
         super();
     }
 
-    async list_all(req, res) {
+    async listAll(req, res) {
         try {
             const result = await user_ser.listAll(req.query);
             return super.resJsonSuccess(res, result);
@@ -33,7 +33,7 @@ class UserController extends BaseController {
         }
     }
 
-    async get_info(req, res) {
+    async getInfo(req, res) {
         try {
             const result = await user_ser.getInfo(req.body);
             return super.resJsonSuccess(res, result);
@@ -51,9 +51,9 @@ class UserController extends BaseController {
         }
     }
 
-    async update_status(req, res) {
+    async updateStatus(req, res) {
         try {
-            const result = await user_ser.update_status_one(req.body);
+            const result = await user_ser.updateStatusOne(req.body);
             return super.resJsonSuccess(res, result);
         } catch (error) {
             return super.resJsonError(res, error, 'user');
@@ -62,7 +62,7 @@ class UserController extends BaseController {
 
     async delete(req, res) {
         try {
-            const result = await user_ser.delete_one(req.body);
+            const result = await user_ser.deleteOne(req.body);
             return super.resJsonSuccess(res, result);
         } catch (error) {
             return super.resJsonError(res, error, 'user');
