@@ -1,6 +1,6 @@
 const CrudService = require('./crud');
 const config_jwt = require('../configs/jwt');
-const { STATUS, ROLES } = require('../constants/constants');
+const { STATUS } = require('../constants/constants');
 const {
     responseError, responseSuccess, isEmpty, compareValue,
     sliceString, deleteFile, getFullPath,
@@ -110,7 +110,7 @@ class UserService extends CrudService {
                 email: data.email,
                 password: data.password,
                 status: STATUS[0],
-                role: ROLES.member,
+                role: 2,
             };
             const result = await super.create(set);
             if (!isEmpty(result)) {
@@ -140,7 +140,7 @@ class UserService extends CrudService {
                 limit: +data.limit || 10,
                 page: +data.page || 1,
                 sort: { [data.sort_key || '_id']: data.sort_order || -1 },
-                select: 'info status created_date mobile email user_code',
+                select: 'created_date fullname mobile status mobile email',
             };
             const result = await super.listWithPagination(query, options);
             if (!isEmpty(result)) {

@@ -14,4 +14,4 @@ function writeLog(file_name, error) {
     logger.error(error);
 }
 
-module.exports.write_log = writeLog;
+module.exports.writeLog = writeLog;

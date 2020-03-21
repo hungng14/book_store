@@ -4,7 +4,6 @@ const {
 } = require('../utils/shared');
 
 async function handle_connect(err, db) {
-    console.log(err)
     if (err) logError('Connecting to Database failed!');
     else {
         logSuccess(`Connecting to Database Master: "${db.name}" success!`);

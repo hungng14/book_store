@@ -72,6 +72,7 @@ class CrudService extends BaseService {
         try {
             const coll_name = this.schema_name;
             const decoded = get_decoded() || {};
+            data.created_date = generatorTime();
             data.created_by = decoded.user_o_id;
             const promise = this[`${coll_name}_collect`].create(data);
             return this.promise(promise);

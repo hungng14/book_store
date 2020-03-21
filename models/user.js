@@ -10,6 +10,7 @@ const UserSchema = new Schema(
         email: { type: String, index: true },
         mobile: { type: String, index: true },
         role: { type: Number, enum: ROLES, required: true },
+        password: { type: String, required: true },
         ...fieldsCommon(),
     },
     { ...optionsSchemaCommon({ collection: 'user' }) },

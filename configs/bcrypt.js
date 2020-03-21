@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 class Bcrypt {
     constructor() {
         this.SALT_ROUNDS = 9;
+        this.hashPassword = this.hashPassword.bind(this);
+        this.verifyPassword = this.verifyPassword.bind(this);
     }
 
     hashPassword(password) {
