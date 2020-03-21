@@ -18,10 +18,10 @@ class Utils {
                 type: String, enum: STATUS, default: 10, required: true,
             },
             is_removed: { type: Boolean, default: false },
-            created_date: { type: Date },
+            created_date: { type: Date, required: true },
             updated_date: { type: Date },
-            created_by: { type: ObjectId, ref: 'user', required: true },
-            updated_by: { type: ObjectId, ref: 'user', required: true },
+            created_by: { type: ObjectId, ref: 'user', default: null },
+            updated_by: { type: ObjectId, ref: 'user', default: null },
         };
     }
 }
