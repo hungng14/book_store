@@ -2,9 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 
-/* GET home page. */
-router.get('/', (req, res) => {
-    res.render('index', { title: 'Express' });
-});
+require('./no_auth')(router);
+require('./guard/middleware')(router);
+require('./web')(router);
+require('./mobile')(router);
 
 module.exports = router;

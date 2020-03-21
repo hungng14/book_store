@@ -17,6 +17,7 @@ class Utils {
             status: {
                 type: String, enum: STATUS, default: 10, required: true,
             },
+            is_removed: { type: Boolean, default: false },
             created_date: { type: Date },
             updated_date: { type: Date },
             created_by: { type: ObjectId, ref: 'user', required: true },
