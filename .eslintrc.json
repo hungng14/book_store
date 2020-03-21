@@ -31,6 +31,7 @@
         "no-underscore-dangle": ["error", { "allow": ["options_", "_id"] }],
         "no-unused-expressions": "off",
         "no-useless-constructor": "off",
-        "global-require": "off"
+        "global-require": "off",
+        "func-names": "off"
     }
 }

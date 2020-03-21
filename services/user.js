@@ -109,7 +109,7 @@ class UserService extends CrudService {
                 fullname: data.fullname,
                 email: data.email,
                 password: data.password,
-                status: STATUS.active,
+                status: STATUS[0],
                 role: ROLES.member,
             };
             const result = await super.create(set);
