@@ -5,12 +5,11 @@ const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
-const momentTZ = require('moment-timezone');
+const moment = require('moment');
+require('moment/locale/vi');
 
 const { log } = console;
-momentTZ().tz('Asia/Ho_Chi_Minh');
-
-const { messages_success, messages_error } = require('../configs/messages');
+const { messagesSuccess, messagesError } = require('../configs/messages');
 
 class Shared {
     constructor() {
@@ -37,12 +36,8 @@ class Shared {
         log(chalk.rgb(113, 173, 221)(message));
     }
 
-    generatorTime() {
-        return momentTZ();
-    }
-
-    time_moment(format = 'YYYY-MM-DD') {
-        return momentTZ().format(format);
+    generatorTime(format) {
+        return moment().format(format);
     }
 
     isEmpty(value) { return isEmpty(value); }
@@ -61,11 +56,13 @@ class Shared {
         return checkTwoFirstNumber;
     }
 
+    notSpaceAllow(value) { return /^\S*$/.test(value); }
+
     responseSuccess(status_code, data) {
         const response = {
             success: true,
             status_code,
-            message: messages_success[status_code] || messages_success[100],
+            message: messagesSuccess[status_code] || messagesSuccess[100],
         };
         if (data) {
             response.data = data;
@@ -77,7 +74,7 @@ class Shared {
         const response = {
             success: false,
             status_code,
-            message: messages_error[status_code] || messages_success[1000],
+            message: messagesError[status_code] || messagesSuccess[1000],
         };
         if (error) {
             response.error = error;
@@ -217,5 +214,5 @@ class Shared {
     }
 }
 
-const sha_ins = new Shared();
-module.exports = sha_ins;
+const shaInstance = new Shared();
+module.exports = shaInstance;

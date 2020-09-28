@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 
 class JWT {
     constructor() {
-        this.secret = process.env.SECRET;
+        this.secretMember = process.env.SECRET_TOKEN_MEMBER;
+        this.secretAdmin = process.env.SECRET_TOKEN_ADMIN;
     }
 
     async sign(payload = {}, expiresIn = '2h') {
@@ -14,9 +15,18 @@ class JWT {
         });
     }
 
-    async verify(token) {
+    async verifyAdmin(token) {
         return new Promise((resolve, reject) => {
-            jwt.verify(token, this.secret, (err, decoded) => {
+            jwt.verify(token, this.secretAdmin, (err, decoded) => {
+                if (err) return reject(err);
+                return resolve(decoded);
+            });
+        });
+    }
+
+    async verifyMember(token) {
+        return new Promise((resolve, reject) => {
+            jwt.verify(token, this.secretMember, (err, decoded) => {
                 if (err) return reject(err);
                 return resolve(decoded);
             });

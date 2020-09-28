@@ -2,7 +2,7 @@ const utils = require('../utils/utils');
 
 class BaseService {
     constructor() {
-        this.schema_name = utils.coll_name(this.constructor.name);
+        this.collectionName = utils.collectionName(this.constructor.name);
     }
 
     me() {

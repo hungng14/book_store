@@ -1,28 +1,28 @@
 class Utils {
     constructor() {
-        this.decoded = {};
+        this.decoded = null;
     }
 
-    static coll_name(value = '') {
-        const class_name = value.split('Service')[0];
-        let coll_name = '';
-        for (let i = 0, leng = class_name.length; i < leng; i += 1) {
-            const is_upper = class_name.charAt(i) === class_name.charAt(i).toUpperCase();
-            if (is_upper && i > 0) {
-                coll_name += `_${class_name.charAt(i)}`;
+    static collectionName(value = '') {
+        const className = value.split('Service')[0];
+        let collectionName = '';
+        for (let i = 0, leng = className.length; i < leng; i += 1) {
+            const isUpper = className.charAt(i) === className.charAt(i).toUpperCase();
+            if (isUpper && i > 0) {
+                collectionName += `_${className.charAt(i)}`;
                 continue;
             }
-            coll_name += class_name.charAt(i);
+            collectionName += className.charAt(i);
         }
-        return coll_name.toLocaleLowerCase();
+        return collectionName.toLocaleLowerCase();
     }
 
-    static set_decoded(decoded) {
+    static setDecoded(decoded) {
         Utils.decoded = decoded;
         return Utils.decoded;
     }
 
-    static get_decoded() {
+    static getDecoded() {
         return Utils.decoded;
     }
 }

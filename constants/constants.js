@@ -1,5 +1,13 @@
-module.exports = {
-    STATUS: [10, 20, 30, 40],
-    VOTE: [0, 1, 2, 3, 4, 5],
-    ROLES: [1, 2], //  1: admin, 2: member
+exports.PROD_ENV = process.env === 'production';
+exports.STATUS = {
+    Active: 'Active',
+    Inactive: 'Inactive',
+    New: 'New',
 };
+
+exports.ROLES = {
+    ADMIN: 'ADMIN',
+    MEMBER: 'MEMBER',
+};
+
+exports.STARTS = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];

@@ -1,5 +1,4 @@
-
 module.exports = (router) => {
-    require('./sign_in')(router);
+    require('./signIn')(router);
     require('./session')(router);
 };

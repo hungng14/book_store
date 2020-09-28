@@ -1,29 +1,27 @@
-/* eslint-disable class-methods-use-this */
+const AccountModel = require('./account');
+const AuthorModel = require('./author');
+const BookmarkModel = require('./bookmark');
+const CategoryModel = require('./category');
+const ChapterModel = require('./chapter');
+const CommentModel = require('./comment');
+const CommentReplyModel = require('./comment_reply');
+const HistoryModel = require('./history');
+const RatingModel = require('./rating');
+const StoryModel = require('./story');
+const ViewStatisticModel = require('./view_statistic');
+const ViewStatisticDetailModel = require('./view_statistic_detail');
 
-const { STATUS } = require('../constants/constants');
-const { ObjectId } = require('./_plugins');
-
-class Utils {
-    constructor() {
-        this.status = '';
-    }
-
-    optionsSchemaCommon({ collection }) {
-        return { _id: true, collection, versionKey: false };
-    }
-
-    fieldsCommon() {
-        return {
-            status: {
-                type: String, enum: STATUS, default: 10, required: true,
-            },
-            is_removed: { type: Boolean, default: false },
-            created_date: { type: Date, required: true },
-            updated_date: { type: Date },
-            created_by: { type: ObjectId, ref: 'user', default: null },
-            updated_by: { type: ObjectId, ref: 'user', default: null },
-        };
-    }
-}
-
-module.exports = new Utils();
+module.exports = {
+    AccountModel,
+    AuthorModel,
+    BookmarkModel,
+    CategoryModel,
+    ChapterModel,
+    CommentModel,
+    CommentReplyModel,
+    HistoryModel,
+    RatingModel,
+    StoryModel,
+    ViewStatisticModel,
+    ViewStatisticDetailModel,
+};
