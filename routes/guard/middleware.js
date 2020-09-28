@@ -1,4 +1,4 @@
-const config_jwt = require('../../configs/jwt');
+const configJWT = require('../../configs/jwt');
 const { responseError: response_error } = require('../../utils/shared');
 const utils = require('../../utils/utils');
 
@@ -6,9 +6,9 @@ module.exports = (router) => {
     router.use(async (req, res, next) => {
         try {
             const { token } = req.headers;
-            const decoded = await config_jwt.verify(token);
+            const decoded = await configJWT.verifyMember(token);
             req.decoded = decoded;
-            utils.set_decoded(decoded);
+            utils.setDecoded(decoded);
             return next();
         } catch (error) {
             const { name } = error;

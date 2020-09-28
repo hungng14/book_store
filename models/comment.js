@@ -1,17 +1,17 @@
 const {
     Schema, ObjectId, mongoose, mongoose_paginate,
 } = require('./_plugins');
-const { fieldsCommon, optionsSchemaCommon } = require('./_utils');
+const { fieldsCommon, optionsSchemaCommon } = require('./_stuffs');
 
 const CommentSchema = new Schema(
     {
-        book_id: { type: ObjectId, ref: 'book', required: true },
-        user_id: { type: ObjectId, ref: 'user', required: true },
+        storyOId: { type: ObjectId, ref: 'story', required: true },
+        accountOId: { type: ObjectId, ref: 'account', required: true },
         content: { type: String },
-        ...fieldsCommon(),
+        ...fieldsCommon({ status: false }),
     },
     { ...optionsSchemaCommon({ collection: 'comment' }) },
 );
-CommentSchema.plugins(mongoose_paginate);
+CommentSchema.plugin(mongoose_paginate);
 const Comment = mongoose.model('comment', CommentSchema);
 module.exports = Comment;

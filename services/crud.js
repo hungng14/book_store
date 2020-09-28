@@ -1,19 +1,29 @@
 const BaseService = require('./base');
-const user_model = require('../models/user');
-const { STATUS } = require('../constants/constants');
+const models = require('../models/_utils');
 const { isEmpty, generatorTime } = require('../utils/shared');
-const { get_decoded } = require('../utils/utils');
+const { getDecoded } = require('../utils/utils');
 
 class CrudService extends BaseService {
     constructor() {
         super();
-        this.user_collect = user_model;
+        this.accountCollection = models.AccountModel;
+        this.authorCollection = models.AuthorModel;
+        this.bookmarkCollection = models.BookmarkModel;
+        this.categoryCollection = models.CategoryModel;
+        this.chapterCollection = models.ChapterModel;
+        this.commentReplyCollection = models.CommentReplyModel;
+        this.commentCollection = models.CommentModel;
+        this.historyCollection = models.HistoryModel;
+        this.ratingCollection = models.RatingModel;
+        this.storyCollection = models.StoryModel;
+        this.viewStatisticCollection = models.ViewStatisticModel;
+        this.viewStatisticDetailCollection = models.ViewStatisticDetailModel;
     }
 
     listAll(query = {}, populate) {
         try {
-            const coll_name = this.schema_name;
-            const promise = this[`${coll_name}_collect`].find(query).populate(populate);
+            const { collectionName } = this;
+            const promise = this[`${collectionName}Collection`].find(query).populate(populate);
             return this.promise(promise);
         } catch (error) {
             throw error;
@@ -30,38 +40,8 @@ class CrudService extends BaseService {
                 },
             };
             const options_ = !isEmpty(options) ? options : defaul_options;
-            const coll_name = this.schema_name;
-            const promise = this[`${coll_name}_collect`].paginate(query, options_);
-            return this.promise(promise);
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    listActive(query = {}, fields, populate) {
-        try {
-            const coll_name = this.schema_name;
-            query.status = STATUS.active;
-            const promise = this[`${coll_name}_collect`].find(query).select(fields).populate(populate);
-            return this.promise(promise);
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    listActiveWithPagination(query = {}, options = {}) {
-        try {
-            query.status = STATUS.active;
-            const defaul_options = {
-                limit: 10,
-                page: 1,
-                sort: {
-                    _id: -1,
-                },
-            };
-            const options_ = !isEmpty(options) ? options : defaul_options;
-            const coll_name = this.schema_name;
-            const promise = this[`${coll_name}_collect`].paginate(query, options_);
+            const { collectionName } = this;
+            const promise = this[`${collectionName}Collection`].paginate(query, options_);
             return this.promise(promise);
         } catch (error) {
             throw error;
@@ -70,11 +50,12 @@ class CrudService extends BaseService {
 
     create(data) {
         try {
-            const coll_name = this.schema_name;
-            const decoded = get_decoded() || {};
-            data.created_date = generatorTime();
-            data.created_by = decoded.user_o_id;
-            const promise = this[`${coll_name}_collect`].create(data);
+            const { collectionName } = this;
+            const decoded = getDecoded();
+            if (decoded) {
+                data.createdBy = decoded.accountOId;
+            }
+            const promise = this[`${collectionName}Collection`].create(data);
             return this.promise(promise);
         } catch (error) {
             throw error;
@@ -83,11 +64,11 @@ class CrudService extends BaseService {
 
     updateOne(conditions, set, options = {}) {
         try {
-            const coll_name = this.schema_name;
-            const decoded = get_decoded();
+            const { collectionName } = this;
+            const decoded = getDecoded();
             set.updated_by = decoded.user_o_id;
             set.updated_at = generatorTime();
-            const promise = this[`${coll_name}_collect`].findOneAndUpdate(conditions, set, options);
+            const promise = this[`${collectionName}Collection`].findOneAndUpdate(conditions, set, options);
             return this.promise(promise);
         } catch (error) {
             throw error;
@@ -96,8 +77,8 @@ class CrudService extends BaseService {
 
     getInfo(conditions, fields, populate) {
         try {
-            const coll_name = this.schema_name;
-            const promise = this[`${coll_name}_collect`].findOne(conditions).select(fields).populate(populate);
+            const { collectionName } = this;
+            const promise = this[`${collectionName}Collection`].findOne(conditions).select(fields).populate(populate);
             return this.promise(promise);
         } catch (error) {
             throw error;
@@ -106,8 +87,8 @@ class CrudService extends BaseService {
 
     removeOne(conditions) {
         try {
-            const coll_name = this.schema_name;
-            const promise = this[`${coll_name}_collect`].deleteOne(conditions);
+            const { collectionName } = this;
+            const promise = this[`${collectionName}Collection`].deleteOne(conditions);
             return this.promise(promise);
         } catch (error) {
             throw error;

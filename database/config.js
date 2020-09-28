@@ -1,3 +1,11 @@
-const { URI_CONNECT_MONGO } = require('../settings/config');
+const { PROD_ENV } = require('../constants/constants');
 
-require('./connection_db_master')(URI_CONNECT_MONGO);
+let URI = '';
+
+if (PROD_ENV) {
+    URI = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+} else {
+    URI = 'mongodb://localhost:27017/book_store';
+}
+
+require('./connection_db_master')(URI);

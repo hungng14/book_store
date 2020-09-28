@@ -1,16 +1,16 @@
-const { isObjectId, isMobilePhone } = require('../../utils/shared');
+const { isObjectId, isMobilePhone, isEmpty } = require('../../utils/shared');
 const { ROLES = [] } = require('../../constants/constants');
 
 class Utils {
-    validateObjectId(field_name, required = false) {
+    validateObjectId(fieldName, required = false) {
         return {
-            [field_name]: {
+            [fieldName]: {
                 [required ? 'notEmpty' : 'optional']: true,
                 custom: {
                     options: (value) => isObjectId(value),
-                    errorMessage: `${field_name} must is ObjectId`,
+                    errorMessage: `${fieldName} must is ObjectId`,
                 },
-                errorMessage: `${field_name} is required`,
+                errorMessage: `${fieldName} is required`,
             },
         };
     }
@@ -51,26 +51,34 @@ class Utils {
         };
     }
 
-    validateField(field_name, required) {
-        return {
-            [field_name]: {
+    validateField(fieldName, required, custom) {
+        const objValidate = {
+            [fieldName]: {
                 [required ? 'notEmpty' : 'optional']: true,
-                errorMessage: `${field_name} is required`,
+                errorMessage: `${fieldName} is required`,
             },
         };
+        if (!isEmpty(custom)) {
+            objValidate[fieldName].custom = custom;
+        }
+        return objValidate;
     }
 
-    validateFieldWithMinLength(field_name, min_length, required) {
-        return {
-            [field_name]: {
+    validateFieldWithMinLength(fieldName, minLength, required, custom) {
+        const objValidate = {
+            [fieldName]: {
                 [required ? 'notEmpty' : 'optional']: true,
                 isLength: {
-                    options: { min: min_length },
-                    errorMessage: `${field_name} should be at least ${min_length} chars long`,
+                    options: { min: minLength },
+                    errorMessage: `${fieldName} should be at least ${minLength} chars long`,
                 },
-                errorMessage: `${field_name} required`,
+                errorMessage: `${fieldName} required`,
             },
         };
+        if (!isEmpty(custom)) {
+            objValidate[fieldName].custom = custom;
+        }
+        return objValidate;
     }
 
     validateRole(required) {
@@ -85,6 +93,18 @@ class Utils {
                 errorMessage: 'role is required',
             },
         };
+    }
+
+    checkBodyValidator(req, validator) {
+        req.checkBody(validator);
+        const errors = req.validationErrors();
+        return errors;
+    }
+
+    checkQueryValidator(req, validator) {
+        req.checkQuery(validator);
+        const errors = req.validationErrors();
+        return errors;
     }
 }
 
