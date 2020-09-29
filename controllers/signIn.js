@@ -1,15 +1,18 @@
 const BaseController = require('./base');
 const accountService = require('../services/account');
+const { TITLE_WEB_MEMBER, TITLE_WEB_ADMIN } = require('../constants/constants');
 
 class SignInController extends BaseController {
     constructor() {
         super();
     }
 
-    async signInMember(req, res) {
+    async viewSignInAdmin(req, res) {
         try {
-            const result = await accountService.signInMember(req.body);
-            return super.resJsonSuccess(res, result);
+            return res.render('signInAdmin/index', {
+                title: TITLE_WEB_ADMIN,
+                layout: false,
+            });
         } catch (error) {
             return super.resJsonError(res, error, 'account');
         }
@@ -18,6 +21,26 @@ class SignInController extends BaseController {
     async signInAdmin(req, res) {
         try {
             const result = await accountService.signInAdmin(req.body);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'account');
+        }
+    }
+
+    async viewSignInMember(req, res) {
+        try {
+            return res.render('signInMember/index', {
+                title: TITLE_WEB_MEMBER,
+                layout: false,
+            });
+        } catch (error) {
+            return super.resJsonError(res, error, 'account');
+        }
+    }
+
+    async signInMember(req, res) {
+        try {
+            const result = await accountService.signInMember(req.body);
             return super.resJsonSuccess(res, result);
         } catch (error) {
             return super.resJsonError(res, error, 'account');

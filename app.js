@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
+const hbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const expressValidator = require('express-validator');
@@ -11,8 +12,15 @@ const app = express();
 require('./database/config');
 
 // view engine setup
+app.engine('hbs', hbs({
+    extname: 'hbs',
+    defaultLayout: 'main',
+    partialsDir: `${__dirname}/views`,
+    layoutsDir: `${__dirname}/views/layouts/`,
+    // helpers,
+}));
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());

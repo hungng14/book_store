@@ -13,7 +13,8 @@ const {
 const uploadFileUser = uploadFile(storage('users'), fileFilterImage, 'image');
 
 module.exports = (router) => {
-    router.post('/api/wb-adm/account/list', userCtl.list);
+    router.get('/admin/account', userCtl.view);
+    router.post('/admin/account/list', userCtl.list);
     // router.post('/api/wb/user/list', user_con.list);
     // router.post('/api/wb/user/create', handleUpload(uploadFileUser), createMiddleware, user_con.create);
     // router.post('/api/wb/user/get_info', getInfoMiddleware, user_con.getInfo);
