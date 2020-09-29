@@ -2,11 +2,11 @@ const configJWT = require('../../configs/jwt');
 const { responseError: response_error } = require('../../utils/shared');
 const utils = require('../../utils/utils');
 
-module.exports = (router) => {
+module.exports = (router, verifyProp) => {
     router.use(async (req, res, next) => {
         try {
             const { token } = req.headers;
-            const decoded = await configJWT.verifyMember(token);
+            const decoded = await configJWT[verifyProp](token);
             req.decoded = decoded;
             utils.setDecoded(decoded);
             return next();

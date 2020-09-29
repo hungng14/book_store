@@ -1,10 +1,9 @@
 const express = require('express');
 
 const router = express.Router();
-
 require('./no_auth')(router);
-require('./guard/middleware')(router);
+// require('./mobile')(router);
+// require('./guard/middleware')(router, 'verifyAdmin');
 require('./web')(router);
-require('./mobile')(router);
 
 module.exports = router;
