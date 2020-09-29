@@ -1,6 +1,7 @@
+const path = require('path');
 const { writeLog } = require('../logs/config_log');
 const { generatorTime } = require('../utils/shared');
-const { TITLE_WEB_ADMIN } = require('../constants/constants');
+const { TITLE_WEB_ADMIN, TITLE_WEB_MEMBER } = require('../constants/constants');
 
 class BaseController {
     resJsonSuccess(res, result = {}) {
@@ -18,7 +19,16 @@ class BaseController {
             title: TITLE_WEB_ADMIN,
         };
         Object.assign(params, commonProp);
-        return res.render(params.path, params);
+        return res.render(`admin/${params.path}`, params);
+    }
+
+    renderPageUser(req, res, params) {
+        const commonProp = {
+            title: TITLE_WEB_MEMBER,
+            layout: path.join(__dirname, '../views/user/layouts/main'),
+        };
+        Object.assign(params, commonProp);
+        return res.render(`user/${params.path}`, params);
     }
 }
 module.exports = BaseController;

@@ -1,0 +1,44 @@
+<header class="page-hd">
+    <div class="container header-ur">
+        <div class="hd-box">
+            <div class="hd-menu-left">
+                <ul class="hd-nav-menu">
+                    <li><a href="#about">
+                            <img height="100" width="100"
+                                src="https://truyencv.com/images/poster/do-de-cua-ta-deu-la-trum-phan-dien-poster-1578750543-200x300.jpg"
+                                alt="">
+                        </a></li>
+                    <li><a href="#about">Danh mục</a></li>
+                    <li><a href="#home">Thể loại</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="hd-box">
+            <div class="hd-menu-right">
+                <ul class="hd-nav-menu">
+                    <li>
+                        <div>
+                            <input type="text" placeholder="Tên truyện hoặc thể loại">
+                        </div>
+                    </li>
+                    <li>
+                        <span>
+                            <i class="mdi mdi-account-circle mdi-icon-user"></i>
+                        </span>
+                    </li>
+                    <li><a href="#services">Đăng nhập</a></li>
+                    <li><a href="#work">Đăng ký</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<script type="text/javascript">
+    window.addEventListener('scroll', () => {
+        console.log(window.scrollY)
+        const header = document.querySelector('header');
+        header.classList.toggle('sticky', window.scrollY > 0);
+    });
+</script>

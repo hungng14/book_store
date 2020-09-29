@@ -10,7 +10,6 @@ class AccountController extends BaseController {
         try {
             return super.renderPageAdmin(req, res, { path: 'account/index' });
         } catch (error) {
-            console.log(error)
             return super.resJsonError(res, error, 'account');
         }
     }
