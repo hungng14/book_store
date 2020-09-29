@@ -4,6 +4,7 @@ const path = require('path');
 const hbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const compression = require('compression');
 const expressValidator = require('express-validator');
 const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index');
@@ -16,12 +17,12 @@ app.engine('hbs', hbs({
     extname: 'hbs',
     defaultLayout: 'main',
     partialsDir: `${__dirname}/views`,
-    layoutsDir: `${__dirname}/views/layouts/`,
+    layoutsDir: `${__dirname}/views/admin/layouts/`,
     // helpers,
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
+app.use(compression());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
