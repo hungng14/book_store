@@ -1,4 +1,5 @@
 exports.PROD_ENV = process.env.NODE_ENV === 'production';
+console.log(process.env.NODE_ENV)
 exports.STATUS = {
     Active: 'Active',
     Inactive: 'Inactive',
