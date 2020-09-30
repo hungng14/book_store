@@ -1,6 +1,8 @@
 const BaseController = require('./base');
 const accountService = require('../services/account');
 const { TITLE_WEB_MEMBER, TITLE_WEB_ADMIN } = require('../constants/constants');
+const configPasspost = require('../configs/passport');
+const { responseError } = require('../utils/shared');
 
 class SignInController extends BaseController {
     constructor() {
@@ -18,10 +20,18 @@ class SignInController extends BaseController {
         }
     }
 
-    async signInAdmin(req, res) {
+    async signInAdmin(req, res, next) {
         try {
-            const result = await accountService.signInAdmin(req.body);
-            return super.resJsonSuccess(res, result);
+            return configPasspost.authenticate('local', (err, result) => {
+                if (err) return super.resJsonError(res, err, 'account');
+                if (!result) return super.resJsonSuccess(res, responseError(1065));
+                return req.logIn(result, (errLogin) => {
+                    if (errLogin) {
+                        return next(err);
+                    }
+                    return super.resJsonSuccess(res, result);
+                });
+            })(req, res, next);
         } catch (error) {
             return super.resJsonError(res, error, 'account');
         }

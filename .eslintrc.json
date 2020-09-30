@@ -29,7 +29,7 @@
         "no-param-reassign": "off",
         "no-continue": "off",
         "no-underscore-dangle": ["error", { "allow": ["options_", "_id"] }],
-        "no-unused-expressions": "off",
+        "no-unused-expressions": "warn",
         "no-useless-constructor": "off",
         "global-require": "off",
         "func-names": "off"

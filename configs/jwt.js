@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { ROLES } = require('../constants/constants');
 
 class JWT {
     constructor() {
@@ -6,9 +7,18 @@ class JWT {
         this.secretAdmin = process.env.SECRET_TOKEN_ADMIN;
     }
 
-    async sign(payload = {}, expiresIn = '2h') {
+    async signMember(payload = {}, expiresIn = '2h') {
         return new Promise((resolve, reject) => {
-            jwt.sign(payload, this.secret, { expiresIn, mutatePayload: true }, (err, token) => {
+            jwt.sign(payload, this.secretMember, { expiresIn, mutatePayload: true }, (err, token) => {
+                if (err) throw reject(err);
+                return resolve(token);
+            });
+        });
+    }
+
+    async signAdmin(payload = {}, expiresIn = '2h') {
+        return new Promise((resolve, reject) => {
+            jwt.sign(payload, this.secretAdmin, { expiresIn, mutatePayload: true }, (err, token) => {
                 if (err) throw reject(err);
                 return resolve(token);
             });
@@ -19,6 +29,7 @@ class JWT {
         return new Promise((resolve, reject) => {
             jwt.verify(token, this.secretAdmin, (err, decoded) => {
                 if (err) return reject(err);
+                if (decoded.roleType !== ROLES.ADMIN) return reject(new Error('JsonWebTokenError'));
                 return resolve(decoded);
             });
         });

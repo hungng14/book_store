@@ -38,8 +38,9 @@ class AccountService extends CrudService {
                 username: account.username,
             };
             const payloadRefreshToken = { ...payload };
-            const token = await configJWT.sign(payload, process.env.TOKEN_LIFE);
-            const refreshToken = await configJWT.sign(payloadRefreshToken, process.env.REFRESH_TOKEN_LIFE || '7 days');
+            const propSignJWT = data.roleType === ROLES.ADMIN ? 'signAdmin' : 'signMember';
+            const token = await configJWT[propSignJWT]({ ...payload, roleType: account.roleType }, process.env.TOKEN_LIFE);
+            const refreshToken = await configJWT[propSignJWT](payloadRefreshToken, process.env.REFRESH_TOKEN_LIFE || '7 days');
             const result = {
                 token,
                 refreshToken,
@@ -113,15 +114,15 @@ class AccountService extends CrudService {
         }
     }
 
-    deleteUrlImage(full_url_image) {
-        full_url_image && deleteFile(full_url_image);
+    deleteUrlImage(fullUrlImage) {
+        if (fullUrlImage) deleteFile(fullUrlImage);
     }
 
     async create(data) {
         try {
             const has_exist_email = await this.hasExistEmail(data);
             if (has_exist_email) {
-                this.deleteUrlImage(data.full_url_image);
+                this.deleteUrlImage(data.fullUrlImage);
                 return responseError(1052);
             }
 
@@ -132,8 +133,8 @@ class AccountService extends CrudService {
                 status: STATUS.new,
                 role: data.role,
             };
-            if (!isEmpty(data.full_url_image)) {
-                const replace_path = data.full_url_image.split('\\').join('/');
+            if (!isEmpty(data.fullUrlImage)) {
+                const replace_path = data.fullUrlImage.split('\\').join('/');
                 const url_image = sliceString(replace_path, '/uploads');
                 set.avatar = url_image;
             }
@@ -141,10 +142,10 @@ class AccountService extends CrudService {
             if (!isEmpty(result)) {
                 return responseSuccess(101, result);
             }
-            this.deleteUrlImage(data.full_url_image);
+            this.deleteUrlImage(data.fullUrlImage);
             return responseError(1050);
         } catch (error) {
-            this.deleteUrlImage(data.full_url_image);
+            this.deleteUrlImage(data.fullUrlImage);
             throw responseError(1000, error);
         }
     }
@@ -153,7 +154,7 @@ class AccountService extends CrudService {
         try {
             const has_exist_email = await this.hasExistEmail(data);
             if (has_exist_email) {
-                this.deleteUrlImage(data.full_url_image);
+                this.deleteUrlImage(data.fullUrlImage);
                 return responseError(1052);
             }
             const conditions = {
@@ -171,15 +172,15 @@ class AccountService extends CrudService {
                 set.role = data.role;
             }
             const options = { new: true };
-            if (!isEmpty(data.full_url_image)) {
-                const replace_path = data.full_url_image.split('\\').join('/');
+            if (!isEmpty(data.fullUrlImage)) {
+                const replace_path = data.fullUrlImage.split('\\').join('/');
                 const new_url_image = sliceString(replace_path, '/uploads');
                 const setAvatar = {
                     avatar: new_url_image,
                 };
                 const result = await super.updateOne(conditions, setAvatar);
                 if (isEmpty(result)) {
-                    this.deleteUrlImage(data.full_url_image);
+                    this.deleteUrlImage(data.fullUrlImage);
                     return responseError(1054);
                 }
                 const old_url_image = result.avatar;
@@ -192,7 +193,7 @@ class AccountService extends CrudService {
             }
             return responseSuccess(103, result);
         } catch (error) {
-            this.deleteUrlImage(data.full_url_image);
+            this.deleteUrlImage(data.fullUrlImage);
             throw responseError(1000, error);
         }
     }

@@ -5,9 +5,12 @@ const hbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const compression = require('compression');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const expressValidator = require('express-validator');
 const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index');
+const { mongoose } = require('./models/_plugins');
 
 const app = express();
 require('./database/config');
@@ -22,6 +25,17 @@ app.engine('hbs', hbs({
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.use(session({
+    secret: 'abcddd',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+    }),
+    cookie: { maxAge: 20 * 24 * 60 * 60 * 1000 },
+}));
+require('./configs/passport').init(app);
+
 app.use(compression());
 app.use(logger('dev'));
 app.use(express.json());

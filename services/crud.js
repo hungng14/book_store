@@ -20,6 +20,11 @@ class CrudService extends BaseService {
         this.viewStatisticDetailCollection = models.ViewStatisticDetailModel;
     }
 
+    collectionCurrent() {
+        const { collectionName } = this;
+        return this[`${collectionName}Collection`];
+    }
+
     listAll(query = {}, populate) {
         try {
             const { collectionName } = this;
@@ -62,12 +67,14 @@ class CrudService extends BaseService {
         }
     }
 
-    updateOne(conditions, set, options = {}) {
+    updateOne(conditions, set, options = { new: true }) {
         try {
             const { collectionName } = this;
             const decoded = getDecoded();
-            set.updated_by = decoded.user_o_id;
-            set.updated_at = generatorTime();
+            if (decoded) {
+                set.updatedBy = decoded.accountOId;
+            }
+            set.updatedAt = generatorTime();
             const promise = this[`${collectionName}Collection`].findOneAndUpdate(conditions, set, options);
             return this.promise(promise);
         } catch (error) {

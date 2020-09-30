@@ -1,4 +1,5 @@
 const BaseController = require('./base');
+const authorService = require('../services/author');
 
 class AuthorController extends BaseController {
     constructor() {
@@ -9,7 +10,33 @@ class AuthorController extends BaseController {
         try {
             return super.renderPageAdmin(req, res, { path: 'author/index' });
         } catch (error) {
-            console.log(error)
+            return super.resJsonError(res, error, 'author');
+        }
+    }
+
+    async create(req, res) {
+        try {
+            const result = await authorService.create(req.body);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'author');
+        }
+    }
+
+    async list(req, res) {
+        try {
+            const result = await authorService.list(req.body);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'author');
+        }
+    }
+
+    async update(req, res) {
+        try {
+            const result = await authorService.updateOne(req.body);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
             return super.resJsonError(res, error, 'author');
         }
     }
