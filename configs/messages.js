@@ -52,4 +52,12 @@ module.exports.messagesError = {
     /** author from 1121 to 1130 */
     1121: 'Author name has already exist',
 
+    /** category from 1131 to 1140 */
+    1131: 'Category name has already exist',
+
+    /** story from 1131 to 1140 */
+    1141: 'Story code has already exist',
+    1142: 'Chapter number has already exist',
+    1143: 'Chapter title has already exist',
+
 };

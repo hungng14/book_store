@@ -4,7 +4,7 @@ const isEmpty = require('is-empty');
 const accountService = require('../services/account');
 
 passport.serializeUser((user, done) => {
-    done(null, user);
+    done(null, user.data);
 });
 
 passport.deserializeUser((user, done) => {
@@ -19,7 +19,7 @@ passport.use(new LocalStrategy({
     accountService.signInAdmin({ username, password })
         .then((response) => {
             if (!isEmpty(response) && response.success) {
-                return done(null, response.data);
+                return done(null, response);
             }
             return done(null);
         }, (err) => done(null));

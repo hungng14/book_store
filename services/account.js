@@ -83,7 +83,7 @@ class AccountService extends CrudService {
             const options = {
                 limit: +data.limit || 10,
                 page: +data.page || 1,
-                sort: { [data.sort_key || '_id']: data.sort_order || -1 },
+                sort: { [data.sortKey || '_id']: data.sortOrder || -1 },
                 select: 'created_date fullname mobile status mobile email',
             };
             const result = await super.listWithPagination(query, options);
@@ -210,7 +210,7 @@ class AccountService extends CrudService {
             const options = { new: true };
             const result = await super.updateOne(conditions, set, options);
             if (!isEmpty(result)) {
-                return responseSuccess(105);
+                return responseSuccess(205);
             }
             return responseError(1056);
         } catch (error) {

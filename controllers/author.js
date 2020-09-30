@@ -25,7 +25,7 @@ class AuthorController extends BaseController {
 
     async list(req, res) {
         try {
-            const result = await authorService.list(req.body);
+            const result = await authorService.list(req.query);
             return super.resJsonSuccess(res, result);
         } catch (error) {
             return super.resJsonError(res, error, 'author');

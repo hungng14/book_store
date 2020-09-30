@@ -15,7 +15,7 @@ class CategoryService extends CrudService {
             const options = {
                 limit: +data.limit || 10,
                 page: +data.page || 1,
-                sort: { [data.sort_key || '_id']: data.sort_order || -1 },
+                sort: { [data.sortKey || '_id']: data.sortOrder || -1 },
                 select: 'name description createdDate',
             };
             const result = await super.listWithPagination(query, options);
@@ -38,7 +38,7 @@ class CategoryService extends CrudService {
     async create(data) {
         try {
             const existName = await this.findOne({ name: data.name });
-            if (existName) return responseError(1121);
+            if (existName) return responseError(1131);
             const set = {
                 name: data.name,
                 description: data.description,
@@ -57,7 +57,7 @@ class CategoryService extends CrudService {
         try {
             const findName = await this.findOne(data);
             if (findName && !compareValue(findName._id, data.categoryOId)) {
-                return responseError(1121);
+                return responseError(1131);
             }
             const conditions = {
                 _id: data.categoryOId,
@@ -85,7 +85,7 @@ class CategoryService extends CrudService {
             };
             const result = await super.updateOne(conditions, set);
             if (isEmpty(result)) return responseError(1009);
-            return responseSuccess(105);
+            return responseSuccess(205);
         } catch (error) {
             throw responseError(1000, error);
         }

@@ -7,7 +7,7 @@ const {
 const { responseError } = require('../utils/shared');
 const { checkBodyValidator } = require('./validators/_utils');
 
-class UserMiddleware {
+class ValidatorMiddleware {
     createMiddleware(req, res, next) {
         const errorValidator = checkBodyValidator(req, createValidator);
         if (errorValidator) return res.json(responseError(1001, errorValidator));
@@ -27,5 +27,5 @@ class UserMiddleware {
     }
 }
 
-const ins = new UserMiddleware();
+const ins = new ValidatorMiddleware();
 module.exports = ins;

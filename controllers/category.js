@@ -25,7 +25,7 @@ class CategoryController extends BaseController {
 
     async list(req, res) {
         try {
-            const result = await categoryService.list(req.body);
+            const result = await categoryService.list(req.query);
             return super.resJsonSuccess(res, result);
         } catch (error) {
             return super.resJsonError(res, error, 'category');

@@ -5,4 +5,5 @@ module.exports = (router) => {
     require('./account')(router);
     require('./category')(router);
     require('./author')(router);
+    require('./story')(router);
 };
