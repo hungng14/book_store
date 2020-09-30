@@ -1,3 +1,11 @@
+const buttonOpen = document.getElementById('openModal');
+buttonOpen.addEventListener('click', () => {
+    $("#name").css("border", "1px solid #ebedf2");
+    $('#errorName').css("display", "none");
+    $('#name').val('');
+    $('#description').val('');
+});
+
 const button = document.getElementById('save');
 button.addEventListener('click', () => {
     console.log('ok')
