@@ -23,6 +23,10 @@ module.exports.messagesError = {
     1003: 'File upload is not image!',
     1004: 'Refresh token error!',
     1005: 'Token expired!',
+    1006: 'Error occurred when creating',
+    1007: 'Error occurred when updating',
+    1008: 'Error occurred when showing list',
+    1009: 'Error occurred when deleting',
     /** user from 1050 to 1100 */
     1050: 'Create user error',
     1051: 'Get list user error',
@@ -44,4 +48,16 @@ module.exports.messagesError = {
     /** company from 1101 to 1120 */
     1101: 'Company code not correct',
     1102: 'Not found company',
+
+    /** author from 1121 to 1130 */
+    1121: 'Author name has already exist',
+
+    /** category from 1131 to 1140 */
+    1131: 'Category name has already exist',
+
+    /** story from 1131 to 1140 */
+    1141: 'Story code has already exist',
+    1142: 'Chapter number has already exist',
+    1143: 'Chapter title has already exist',
+
 };

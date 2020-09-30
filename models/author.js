@@ -12,5 +12,13 @@ const AuthorSchema = new Schema(
     { ...optionsSchemaCommon({ collection: 'author' }) },
 );
 AuthorSchema.plugin(mongoose_paginate);
+AuthorSchema.index({
+    name: 1, isDeleted: 1,
+}, {
+    unique: true,
+    partialFilterExpression: {
+        isDeleted: { $eq: true },
+    },
+});
 const Author = mongoose.model('author', AuthorSchema);
 module.exports = Author;
