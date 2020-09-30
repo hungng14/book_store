@@ -16,6 +16,10 @@
         "es6": true,
         "node": true
     },
+    "globals": {
+        "document": true,
+        "axios": true
+    },
     "rules": {
         "linebreak-style": 0,
         "indent": ["error", 4],

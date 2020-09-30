@@ -36,6 +36,8 @@ class AccountService extends CrudService {
             const payload = {
                 accountOId: account._id,
                 username: account.username,
+                firstname: account.firstname,
+                lastname: account.lastname,
             };
             const payloadRefreshToken = { ...payload };
             const propSignJWT = data.roleType === ROLES.ADMIN ? 'signAdmin' : 'signMember';

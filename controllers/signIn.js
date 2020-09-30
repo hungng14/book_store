@@ -11,7 +11,7 @@ class SignInController extends BaseController {
 
     async viewSignInAdmin(req, res) {
         try {
-            return res.render('signInAdmin/index', {
+            return res.render('admin/signInAdmin/index', {
                 title: TITLE_WEB_ADMIN,
                 layout: false,
             });
@@ -39,7 +39,7 @@ class SignInController extends BaseController {
 
     async viewSignInMember(req, res) {
         try {
-            return res.render('signInMember/index', {
+            return res.render('user/signInMember/index', {
                 title: TITLE_WEB_MEMBER,
                 layout: false,
             });
@@ -73,6 +73,11 @@ class SignInController extends BaseController {
         } catch (error) {
             return super.resJsonError(res, error, 'account');
         }
+    }
+
+    logoutAdmin(req, res) {
+        req.logout();
+        return res.redirect('/admin/sign-in');
     }
 }
 

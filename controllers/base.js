@@ -17,6 +17,11 @@ class BaseController {
     renderPageAdmin(req, res, params) {
         const commonProp = {
             title: TITLE_WEB_ADMIN,
+            infoUser: {
+                username: req.user.username,
+                firstname: req.user.firstname,
+                lastname: req.user.lastname,
+            },
         };
         Object.assign(params, commonProp);
         return res.render(`admin/${params.path}`, params);
