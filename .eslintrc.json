@@ -18,7 +18,9 @@
     },
     "globals": {
         "document": true,
-        "axios": true
+        "axios": true,
+        "swal": true,
+        "$": true
     },
     "rules": {
         "linebreak-style": 0,
@@ -36,6 +38,7 @@
         "no-unused-expressions": "warn",
         "no-useless-constructor": "off",
         "global-require": "off",
-        "func-names": "off"
+        "func-names": "off",
+        "consistent-return": "off"
     }
 }
