@@ -27,6 +27,8 @@ module.exports.messagesError = {
     1007: 'Error occurred when updating',
     1008: 'Error occurred when showing list',
     1009: 'Error occurred when deleting',
+    1010: 'Error occurred when showing info',
+    1011: 'Upload file error',
     /** user from 1050 to 1100 */
     1050: 'Create user error',
     1051: 'Get list user error',
@@ -55,9 +57,12 @@ module.exports.messagesError = {
     /** category from 1131 to 1140 */
     1131: 'Category name has already exist',
 
-    /** story from 1131 to 1140 */
+    /** story from 1141 to 1150 */
     1141: 'Story code has already exist',
     1142: 'Chapter number has already exist',
     1143: 'Chapter title has already exist',
+
+    /** story from 1151 to 1160 */
+    1151: 'Information has already exist',
 
 };

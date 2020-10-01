@@ -18,6 +18,7 @@ class CrudService extends BaseService {
         this.storyCollection = models.StoryModel;
         this.viewStatisticCollection = models.ViewStatisticModel;
         this.viewStatisticDetailCollection = models.ViewStatisticDetailModel;
+        this.informationCollection = models.InformationModel;
     }
 
     collectionCurrent() {
