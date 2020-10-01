@@ -60,6 +60,15 @@ class StoryController extends BaseController {
         }
     }
 
+    async getInfo(req, res) {
+        try {
+            const result = await storyService.getInfo(req.query);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
     async update(req, res) {
         try {
             const result = await storyService.updateOne(req.body);

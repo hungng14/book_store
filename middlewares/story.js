@@ -8,7 +8,7 @@ const {
 } = require('./validators/story');
 
 const { responseError } = require('../utils/shared');
-const { checkBodyValidator } = require('./validators/_utils');
+const { checkBodyValidator, checkQueryValidator } = require('./validators/_utils');
 
 class ValidatorMiddleware {
     createMiddleware(req, res, next) {
@@ -25,6 +25,12 @@ class ValidatorMiddleware {
 
     checkOIdMiddleware(req, res, next) {
         const errorValidator = checkBodyValidator(req, storyOIdValidator);
+        if (errorValidator) return res.json(responseError(1001, errorValidator));
+        return next();
+    }
+
+    checkQueOIdMiddleware(req, res, next) {
+        const errorValidator = checkQueryValidator(req, storyOIdValidator);
         if (errorValidator) return res.json(responseError(1001, errorValidator));
         return next();
     }

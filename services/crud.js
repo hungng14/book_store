@@ -2,6 +2,7 @@ const BaseService = require('./base');
 const models = require('../models/_utils');
 const { isEmpty, generatorTime } = require('../utils/shared');
 const { getDecoded } = require('../utils/utils');
+const { STATUS } = require('../constants/constants');
 
 class CrudService extends BaseService {
     constructor() {
@@ -30,6 +31,19 @@ class CrudService extends BaseService {
         try {
             const { collectionName } = this;
             const promise = this[`${collectionName}Collection`].find(query).populate(populate);
+            return this.promise(promise);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    listActive(query = {}, fields, populate) {
+        try {
+            const { collectionName } = this;
+            Object.assign(query, { status: STATUS.Active });
+            const promise = this[`${collectionName}Collection`].find(query);
+            if (fields) promise.select(fields);
+            if (populate) promise.populate(populate);
             return this.promise(promise);
         } catch (error) {
             throw error;
@@ -86,7 +100,9 @@ class CrudService extends BaseService {
     getInfo(conditions, fields, populate) {
         try {
             const { collectionName } = this;
-            const promise = this[`${collectionName}Collection`].findOne(conditions).select(fields).populate(populate);
+            const promise = this[`${collectionName}Collection`].findOne(conditions);
+            if (fields) promise.select(fields);
+            if (populate) promise.populate(populate);
             return this.promise(promise);
         } catch (error) {
             throw error;
@@ -101,6 +117,12 @@ class CrudService extends BaseService {
         } catch (error) {
             throw error;
         }
+    }
+
+    populateModel(path, select, match = {}, options = {}) {
+        return {
+            path, select, match: { isDeleted: false, ...match }, options,
+        };
     }
 }
 module.exports = CrudService;
