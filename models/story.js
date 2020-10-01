@@ -20,7 +20,7 @@ const StorySchema = new Schema(
         state: { type: String, default: STORY_STATES.FULL, enum: Object.values(STORY_STATES) },
         ...fieldsCommon(),
     },
-    { ...optionsSchemaCommon({ collection: 'story' }) },
+    { ...optionsSchemaCommon({ collection: 'story' }), toJSON: { virtuals: true } },
 );
 StorySchema.plugin(mongoose_paginate);
 StorySchema.index({
@@ -30,6 +30,18 @@ StorySchema.index({
     partialFilterExpression: {
         isDeleted: { $eq: true },
     },
+});
+StorySchema.virtual('author', {
+    ref: 'author',
+    localField: 'authorOId',
+    foreignField: '_id',
+    justOne: true,
+});
+StorySchema.virtual('category', {
+    ref: 'category',
+    localField: 'categoryOId',
+    foreignField: '_id',
+    justOne: true,
 });
 const Story = mongoose.model('story', StorySchema);
 module.exports = Story;

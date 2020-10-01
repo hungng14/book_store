@@ -7,7 +7,7 @@ class DashboardController extends BaseController {
 
     async view(req, res) {
         try {
-            return super.renderPageUser(req, res, { path: 'home/index' });
+            return (await super.renderPageUser(req, res, { path: 'home/index' }));
         } catch (error) {
             return super.resJsonError(res, error, 'home');
         }

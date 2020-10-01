@@ -18,7 +18,11 @@
     },
     "globals": {
         "document": true,
-        "axios": true
+        "axios": true,
+        "swal": true,
+        "$": true,
+        "initPaginationTemplate": true,
+        "HttpService": true
     },
     "rules": {
         "linebreak-style": 0,
@@ -33,9 +37,12 @@
         "no-param-reassign": "off",
         "no-continue": "off",
         "no-underscore-dangle": ["error", { "allow": ["options_", "_id"] }],
-        "no-unused-expressions": "warn",
         "no-useless-constructor": "off",
         "global-require": "off",
-        "func-names": "off"
+        "func-names": "off",
+        "consistent-return": "off",
+        "array-callback-return": "off",
+        "no-use-before-define": "off",
+        "no-unused-expressions": "off"
     }
 }
