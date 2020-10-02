@@ -1,44 +1,106 @@
-const button = document.getElementById('save');
-button.addEventListener('click', () => {
-    const authorName = document.getElementById('name').value;
-    const description = document.getElementById('description').value;
-    axios.post('/admin/author/create', {
-        name: authorName, description,
-    })
-        .then((response) => {
-            if (response.data.success) {
-                $('#name').css('border', '1px solid #ebedf2');
-                swal(
-                    'Success',
-                    response.data.message,
-                    'success',
-                );
-                $('#exampleModal').modal('hide');
-                $('#authorTable>tbody').append(`<tr><td> ${authorName} </td><td> ${description} </td>  <td><a href="#">edit</a> <a href="#">delete</a>   </td> </tr>`);
-                $('#errorName').css('display', 'none');
-                $('#name').val('');
-                $('#description').val('');
-            } else {
-                $('#name').css('border', '1px solid red');
-                $('#errorName').css('display', 'block');
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+const scope = {};
+getElement('#btn-show-modal-create').addEventListener('click', () => {
+    getElement('#form-modal').setAttribute('data-action', 'create');
+    getElement('#form-modal').removeAttribute('data-storyOId');
+    handleValue('resetValue', '#form-modal', { names: ['name', 'description'] });
 });
 
-axios.get('/admin/author/list', {
-})
-    .then((response) => {
-        const stt = 0;
-        if (response.data.success) {
-            response.data.data.docs.forEach((item) => {
-                $('#authorTable>tbody').append(`<tr><td> ${item.name} </td><td> ${item.description} </td>  <td><a href="#">edit</a> <a href="#">delete</a>   </td> </tr>`);
+const button = getElement('#save');
+button.addEventListener('click', () => {
+    const action = getElement('#form-modal').getAttribute('data-action');
+    if (action === 'create') {
+        const data = handleValue('getValue', '#form-modal', { names: ['name', 'description'] });
+        HttpService.post('/admin/author/create', data).then((response) => {
+            if (response.success) {
+                loggerSuccess(response.message);
+                listAuthor();
+                handleValue('resetValue', '#form-modal', { names: ['name', 'description'] });
+            } else {
+                loggerError(response.message);
+            }
+        });
+    } else {
+        const data = handleValue('getValue', '#form-modal', { names: ['name', 'description'] });
+        data.authorOId = getElement('#form-modal').getAttribute('data-authorOId');
+        HttpService.post('/admin/author/update', data).then((response) => {
+            if (response.success) {
+                $('#form-modal').modal('hide');
+                loggerSuccess(response.message);
+                listAuthor();
+            } else {
+                loggerError(response.message);
+            }
+        });
+    }
+});
+
+let initPagination = null;
+
+function listAuthor(page = 1) {
+    HttpService.get('/admin/author/list', { page })
+        .then((response) => {
+            if (response.success) {
+                const { data } = response;
+                const startNo = countNo(data.page, data.limit);
+                initPagination(data);
+                $('#author-table>tbody').empty();
+                data.docs.map((item, idx) => {
+                    $('#author-table>tbody').append(`<tr>
+                            <td> ${idx + startNo} </td>
+                            <td> ${item.name} </td>
+                            <td> ${item.description} </td>
+                            <td>
+                                <button type="button" onclick="showInfo('${item._id}')"
+                                    data-toggle="modal" data-target="#form-modal" class="btn btn-icon btn-info btn-rounded">
+                                    <i class="mdi mdi-lead-pencil"></i>
+                                </button>
+                                <button type="button" onclick="onDelete('${item._id}')"     
+                                    class="btn btn-icon btn-danger btn-rounded">
+                                    <i class="mdi mdi-close-circle"></i>
+                                </button>
+                            </td> 
+                        </tr>`);
+                });
+            }
+        });
+}
+initPagination = initPaginationTemplate(listAuthor);
+listAuthor();
+
+function onDelete(authorOId) {
+    swal({
+        title: 'Bạn có chắc muốn xóa?',
+        text: 'Sau khi xóa, dữ liệu sẽ bị mất!',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+    }).then((ok) => {
+        if (ok) {
+            HttpService.post('/admin/author/delete', { authorOId }).then((response) => {
+                if (response.success) {
+                    loggerSuccess(response.message);
+                    listAuthor();
+                } else {
+                    loggerError(response.message);
+                }
             });
-            console.log(response.data.data);
         }
-    })
-    .catch((error) => {
-        console.log(error);
     });
+}
+
+function showInfo(authorOId) {
+    HttpService.get('/admin/author/info', { authorOId })
+        .then((response) => {
+            if (response.success) {
+                const story = response.data;
+                getElement('#form-modal').setAttribute('data-action', 'update');
+                getElement('#form-modal').setAttribute('data-authorOId', story._id);
+                handleValue('setValue', '#form-modal', {
+                    data: [
+                        { name: 'name', value: story.name },
+                        { name: 'description', value: story.description },
+                    ],
+                });
+            }
+        });
+}

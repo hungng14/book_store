@@ -42,6 +42,20 @@ class AuthorService extends CrudService {
         if (data.name) conditions.name = data.name;
         const result = await this.collectionCurrent().findOne(conditions).lean();
         return result;
+    };
+    async getInfo(data) {
+        try {
+            const conditions = {
+                _id: data.authorOId,
+                isDeleted: false,
+            };
+            console.log(conditions);    
+            const result = await super.getInfo(conditions);
+            if (isEmpty(result)) return responseError(1010);
+            return responseSuccess(204, result);
+        } catch (error) {
+            throw responseError(1000, error);
+        }
     }
 
     async create(data) {
