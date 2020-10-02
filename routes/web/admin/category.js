@@ -9,5 +9,4 @@ module.exports = (router) => {
     router.post('/admin/category/create', validator.createMiddleware, categoryCtl.create);
     router.post('/admin/category/update', validator.updateMiddleware, categoryCtl.update);
     router.post('/admin/category/delete', validator.checkOIdMiddleware, categoryCtl.delete);
-
 };

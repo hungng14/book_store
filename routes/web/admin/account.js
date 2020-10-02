@@ -1,22 +1,17 @@
-const userCtl = require('../../../controllers/account');
-const {
-    createMiddleware,
-    updateMiddleware,
-    getInfoMiddleware,
-    updateStatusMiddleware,
-    deleteMiddleware,
-} = require('../../../middlewares/account');
-const {
-    fileFilterImage, storage, handleUpload, uploadFile,
-} = require('../../../utils/shared');
+const accountCtl = require('../../../controllers/account');
+const validators = require('../../../middlewares/account');
+// const {
+//     fileFilterImage, storage, handleUpload, uploadFile,
+// } = require('../../../utils/shared');
 
-const uploadFileUser = uploadFile(storage('users'), fileFilterImage, 'image');
+// const uploadFileUser = uploadFile(storage('users'), fileFilterImage, 'image');
 
 module.exports = (router) => {
-    router.get('/admin/account', userCtl.view);
-    router.post('/admin/account/list', userCtl.list);
-    // router.post('/api/wb/user/list', user_con.list);
-    // router.post('/api/wb/user/create', handleUpload(uploadFileUser), createMiddleware, user_con.create);
-    // router.post('/api/wb/user/get_info', getInfoMiddleware, user_con.getInfo);
-    // // router.post('/api/wb/user/update', handleUpload(uploadFileUser), updateMiddleware, user_con.update);
+    router.get('/admin/account/admin', accountCtl.viewAdmin);
+    router.get('/admin/account/member', accountCtl.viewMember);
+    router.get('/admin/account/list', accountCtl.list);
+    router.post('/admin/account/create', validators.createAdminMiddleware, accountCtl.createAdmin);
+    router.get('/admin/account/info', validators.checkQueOIdMiddleware, accountCtl.getInfo);
+    router.post('/admin/account/update', validators.updateAdminMiddleware, accountCtl.update);
+    router.post('/admin/account/delete', validators.checkOIdMiddleware, accountCtl.delete);
 };
