@@ -32,6 +32,15 @@ class AuthorController extends BaseController {
         }
     }
 
+    async listActive(req, res) {
+        try {
+            const result = await authorService.listActive(req.query);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'author');
+        }
+    }
+
     async update(req, res) {
         try {
             const result = await authorService.updateOne(req.body);

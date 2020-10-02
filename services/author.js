@@ -26,6 +26,15 @@ class AuthorService extends CrudService {
         }
     }
 
+    async listActive(data) {
+        try {
+            const result = await super.listActive(data, '_id name');
+            return responseSuccess(202, result);
+        } catch (error) {
+            throw responseError(1000, error);
+        }
+    }
+
     async findOne(data) {
         const conditions = {
             isDeleted: false,

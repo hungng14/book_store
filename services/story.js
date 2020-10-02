@@ -16,7 +16,11 @@ class StoryService extends CrudService {
                 limit: +data.limit || 10,
                 page: +data.page || 1,
                 sort: { [data.sortKey || '_id']: data.sortOrder || -1 },
-                select: 'code name status state description source profileImage createdDate',
+                select: 'code name status state description source profileImage createdDate authorOId categoryOId',
+                populate: [
+                    this.populateModel('author', '-_id name'),
+                    this.populateModel('category', '-_id name'),
+                ],
             };
             const result = await super.listWithPagination(query, options);
             if (!isEmpty(result)) return responseSuccess(202, result);
@@ -31,7 +35,15 @@ class StoryService extends CrudService {
             isDeleted: false,
         };
         if (data.code) conditions.code = data.code;
-        const result = await this.collectionCurrent().findOne(conditions).lean();
+        if (data.storyOId) conditions._id = data.storyOId;
+        const promise = this.collectionCurrent().findOne(conditions);
+        if (data.usePopulate) {
+            promise.populate([
+                this.populateModel('author', '-_id name'),
+                this.populateModel('category', '-_id name'),
+            ]);
+        }
+        const result = await promise.lean();
         return result;
     }
 
@@ -100,6 +112,20 @@ class StoryService extends CrudService {
             const result = await super.updateOne(conditions, set);
             if (isEmpty(result)) return responseError(1009);
             return responseSuccess(205);
+        } catch (error) {
+            throw responseError(1000, error);
+        }
+    }
+
+    async getInfo(data) {
+        try {
+            const conditions = {
+                _id: data.storyOId,
+                isDeleted: false,
+            };
+            const result = await super.getInfo(conditions);
+            if (isEmpty(result)) return responseError(1010);
+            return responseSuccess(204, result);
         } catch (error) {
             throw responseError(1000, error);
         }

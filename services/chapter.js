@@ -16,7 +16,7 @@ class ChapterService extends CrudService {
                 limit: +data.limit || 1,
                 page: +data.page || 1,
                 sort: { [data.sortKey || '_id']: data.sortOrder || -1 },
-                select: 'chapterNumber title content',
+                select: data.fieldsSelected || 'chapterNumber title content',
             };
             const result = await super.listWithPagination(query, options);
             if (!isEmpty(result)) return responseSuccess(202, result);
@@ -30,19 +30,21 @@ class ChapterService extends CrudService {
         const conditions = {
             isDeleted: false,
         };
-        if (data.storyOId) conditions.code = data.storyOId;
-        if (data.chapterNumber) conditions.code = data.chapterNumber;
-        if (data.title) conditions.code = data.title;
+        if (data.storyOId) conditions.storyOId = data.storyOId;
+        if (data.chapterNumber) conditions.chapterNumber = data.chapterNumber;
+        if (data.title) conditions.title = data.title;
         const result = await this.collectionCurrent().findOne(conditions).lean();
         return result;
     }
 
     async create(data) {
         try {
+            console.log(data);
             const existChapterNumber = await this.findOne({
                 storyOId: data.storyOId,
                 chapterNumber: data.chapterNumber,
             });
+            console.log(existChapterNumber)
             if (existChapterNumber) return responseError(1142);
             const existTitle = await this.findOne({
                 storyOId: data.storyOId,
@@ -92,6 +94,7 @@ class ChapterService extends CrudService {
             if ('chapterNumber' in data) set.chapterNumber = data.chapterNumber;
             if ('title' in data) set.title = data.title;
             if ('storyOId' in data) set.storyOId = data.storyOId;
+            if ('content' in data) set.content = data.content;
             const result = await super.updateOne(conditions, set);
             if (isEmpty(result)) return responseError(1007);
             return responseSuccess(203);
@@ -112,6 +115,20 @@ class ChapterService extends CrudService {
             const result = await super.updateOne(conditions, set);
             if (isEmpty(result)) return responseError(1009);
             return responseSuccess(205);
+        } catch (error) {
+            throw responseError(1000, error);
+        }
+    }
+
+    async getInfo(data) {
+        try {
+            const conditions = {
+                _id: data.chapterOId,
+                isDeleted: false,
+            };
+            const result = await super.getInfo(conditions);
+            if (isEmpty(result)) return responseError(1010);
+            return responseSuccess(204, result);
         } catch (error) {
             throw responseError(1000, error);
         }

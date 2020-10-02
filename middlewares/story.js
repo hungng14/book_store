@@ -8,7 +8,7 @@ const {
 } = require('./validators/story');
 
 const { responseError } = require('../utils/shared');
-const { checkBodyValidator } = require('./validators/_utils');
+const { checkBodyValidator, checkQueryValidator } = require('./validators/_utils');
 
 class ValidatorMiddleware {
     createMiddleware(req, res, next) {
@@ -29,6 +29,12 @@ class ValidatorMiddleware {
         return next();
     }
 
+    checkQueStoryOIdMiddleware(req, res, next) {
+        const errorValidator = checkQueryValidator(req, storyOIdValidator);
+        if (errorValidator) return res.json(responseError(1001, errorValidator));
+        return next();
+    }
+
     createChapterMiddleware(req, res, next) {
         const errorValidator = checkBodyValidator(req, createChapterValidator);
         if (errorValidator) return res.json(responseError(1001, errorValidator));
@@ -43,6 +49,12 @@ class ValidatorMiddleware {
 
     checkChapteOIdMiddleware(req, res, next) {
         const errorValidator = checkBodyValidator(req, chapterOIdValidator);
+        if (errorValidator) return res.json(responseError(1001, errorValidator));
+        return next();
+    }
+
+    checkQueChapteOIdMiddleware(req, res, next) {
+        const errorValidator = checkQueryValidator(req, chapterOIdValidator);
         if (errorValidator) return res.json(responseError(1001, errorValidator));
         return next();
     }

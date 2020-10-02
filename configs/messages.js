@@ -1,63 +1,64 @@
 module.exports.messagesSuccess = {
 /** common */
     200: 'Success!',
-    201: 'Create success',
-    202: 'Get list success!',
-    203: 'Update success',
-    204: 'Get info success',
-    205: 'Delete success',
-    206: 'Update status success',
-    207: 'Remove success',
-    208: 'Sign in success',
-    209: 'Register success',
-    210: 'Refresh token success',
+    201: 'Thêm mới thành công',
+    202: 'Hiển thị danh sách thành công!',
+    203: 'Cập nhật thành công',
+    204: 'Hiển thị thông tin thành công',
+    205: 'Xóa thành công',
+    206: 'Cập nhật trạng thái thành công',
+    207: 'Xóa thành công',
+    208: 'Đăng nhập thành công',
+    209: 'Đăng ký thành công',
+    210: 'Refresh token thành công',
     /** user */
     // 101: 'Username is invalid',
 };
 
 module.exports.messagesError = {
 /** common error */
-    1000: 'Error occurred!',
-    1001: 'Params error!',
-    1002: 'Token invalid!',
-    1003: 'File upload is not image!',
-    1004: 'Refresh token error!',
-    1005: 'Token expired!',
-    1006: 'Error occurred when creating',
-    1007: 'Error occurred when updating',
-    1008: 'Error occurred when showing list',
-    1009: 'Error occurred when deleting',
+    1000: 'Có lỗi xảy ra!',
+    1001: 'Dữ liệu truyền lên không hợp lệ!',
+    1002: 'Token không đúng!',
+    1003: 'File tải lên phải là hình ảnh!',
+    1004: 'Refresh token lỗi!',
+    1005: 'Token quá hạn!',
+    1006: 'Có lỗi xảy ra khi thêm mới',
+    1007: 'Có lỗi xảy ra khi cập nhật',
+    1008: 'Có lỗi xảy ra khi hiển thị danh sách',
+    1009: 'Có lỗi xảy ra khi xóa',
+    1010: 'Có lỗi xảy ra khi hiển thị thông tin',
+    1011: 'Upload file lỗi',
     /** user from 1050 to 1100 */
-    1050: 'Create user error',
-    1051: 'Get list user error',
-    1052: 'Username has exist already',
-    1053: 'Username has exist already',
-    1054: 'Update user error',
-    1055: 'Get info user error',
-    1056: 'Delete user error',
-    1057: 'Update status user error',
-    1058: 'Remove user error',
-    1059: 'Username is invalid',
-    1060: 'Password is invalid',
-    1061: 'Account is not active',
-    1062: 'Register error',
-    1063: 'Can\'t not sign in with this account',
-    1064: 'Confirm password invalid',
-    1065: 'Username or Password invalid',
-
-    /** company from 1101 to 1120 */
-    1101: 'Company code not correct',
-    1102: 'Not found company',
+    1050: 'Thêm mới người dùng lỗi',
+    1051: 'Hiển thị danh sách người dùng lỗi',
+    1052: 'Tên đăng nhập đã tồn tại',
+    1053: 'Tên đăng nhập đã tồn tại',
+    1054: 'Cập nhật người dùng lỗi',
+    1055: 'Hiển thị thông tin người dùng lỗi',
+    1056: 'Có lỗi khi xóa người dùng',
+    1057: 'Cập nhật trạng thái lỗi',
+    1058: 'Có lỗi khi xóa người dùng',
+    1059: 'Tên đăng nhập không đúng',
+    1060: 'Mật khẩu không đúng',
+    1061: 'Tài khoản chưa hoạt động',
+    1062: 'Đăng ký lỗi',
+    1063: 'Không thể đăng nhập bằng tài khoản này',
+    1064: 'Xác nhận mật khẩu không đúng',
+    1065: 'Tên đăng nhập hoặc mật khẩu không đúng',
 
     /** author from 1121 to 1130 */
-    1121: 'Author name has already exist',
+    1121: 'Tên tác giả đã tồn tại',
 
     /** category from 1131 to 1140 */
-    1131: 'Category name has already exist',
+    1131: 'Tên thể loại đã tồn tại',
 
-    /** story from 1131 to 1140 */
-    1141: 'Story code has already exist',
-    1142: 'Chapter number has already exist',
-    1143: 'Chapter title has already exist',
+    /** story from 1141 to 1150 */
+    1141: 'Mã sach/truyện đã tồn tại',
+    1142: 'Chương sách/truyện đã tồn tại',
+    1143: 'Tiêu đề chương đã tồn tại',
+
+    /** story from 1151 to 1160 */
+    1151: 'Thông tin trang web đã tồn tại',
 
 };

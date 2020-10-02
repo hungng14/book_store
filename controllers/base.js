@@ -1,7 +1,16 @@
 const path = require('path');
-const { writeLog } = require('../logs/config_log');
-const { generatorTime } = require('../utils/shared');
-const { TITLE_WEB_ADMIN, TITLE_WEB_MEMBER } = require('../constants/constants');
+const {
+    writeLog,
+} = require('../logs/config_log');
+const {
+    generatorTime,
+} = require('../utils/shared');
+const {
+    TITLE_WEB_ADMIN,
+    TITLE_WEB_MEMBER,
+    STATUS,
+} = require('../constants/constants');
+const informationService = require('../services/information');
 
 class BaseController {
     resJsonSuccess(res, result = {}) {
@@ -27,10 +36,29 @@ class BaseController {
         return res.render(`admin/${params.path}`, params);
     }
 
-    renderPageUser(req, res, params) {
+    async renderPageUser(req, res, params) {
+        let infoWeb = await informationService.findOne({
+            status: STATUS.Active,
+        });
+        if (infoWeb) {
+            infoWeb = {
+                logo: infoWeb.logo,
+                facebookLink: infoWeb.facebookLink,
+                email: infoWeb.email,
+                description: infoWeb.description,
+            };
+        } else {
+            infoWeb = {
+                logo: '/assets/images/logo.jpg',
+                facebookLink: 'https://facebook.com/truyencuaban',
+                email: 'truyencuaban@gmail.com',
+                description: 'Truyen là website đọc truyện convert online cập nhật liên tục và nhanh nhất các truyện tiên hiệp, kiếm hiệp, huyền ảo được các thành viên liên tục đóng góp rất nhiều truyện hay và nổi bật',
+            };
+        }
         const commonProp = {
             title: TITLE_WEB_MEMBER,
             layout: path.join(__dirname, '../views/user/layouts/main'),
+            infoWeb,
         };
         Object.assign(params, commonProp);
         return res.render(`user/${params.path}`, params);

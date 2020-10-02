@@ -6,4 +6,5 @@ module.exports = (router) => {
     require('./category')(router);
     require('./author')(router);
     require('./story')(router);
+    require('./information')(router);
 };
