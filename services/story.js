@@ -35,7 +35,15 @@ class StoryService extends CrudService {
             isDeleted: false,
         };
         if (data.code) conditions.code = data.code;
-        const result = await this.collectionCurrent().findOne(conditions).lean();
+        if (data.storyOId) conditions._id = data.storyOId;
+        const promise = this.collectionCurrent().findOne(conditions);
+        if (data.usePopulate) {
+            promise.populate([
+                this.populateModel('author', '-_id name'),
+                this.populateModel('category', '-_id name'),
+            ]);
+        }
+        const result = await promise.lean();
         return result;
     }
 

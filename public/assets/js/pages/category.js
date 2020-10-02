@@ -15,19 +15,11 @@ button.addEventListener('click', () => {
         const data = handleValue('getValue', '#form-modal', { names: ['name', 'description'] });
         HttpService.post('/admin/category/create', data).then((response) => {
             if (response.success) {
-                swal(
-                    'Success',
-                    response.message,
-                    'success',
-                );
+                loggerSuccess(response.message);
                 listCategory();
                 handleValue('resetValue', '#form-modal', { names: ['name', 'description'] });
             } else {
-                swal(
-                    'Error',
-                    response.message,
-                    'error',
-                );
+                loggerError(response.message);
             }
         });
     } else {
@@ -36,18 +28,10 @@ button.addEventListener('click', () => {
         HttpService.post('/admin/category/update', data).then((response) => {
             if (response.success) {
                 $('#form-modal').modal('hide');
-                swal(
-                    'Success',
-                    response.message,
-                    'success',
-                );
+                loggerSuccess(response.message);
                 listCategory();
             } else {
-                swal(
-                    'Error',
-                    response.message,
-                    'error',
-                );
+                loggerError(response.message);
             }
         });
     }
@@ -70,8 +54,14 @@ function listCategory(page = 1) {
                             <td> ${item.createdAt} </td>
                             <td> ${item.status} </td>
                             <td>
-                                <button type="button" onclick="showInfo('${item._id}')" data-toggle="modal" data-target="#form-modal" class="btn btn-icon btn-info btn-rounded"><i class="mdi mdi-lead-pencil"></i></button>
-                                <button type="button" onclick="onDelete('${item._id}')" class="btn btn-icon btn-danger btn-rounded"><i class="mdi mdi-close-circle"></i></button>
+                                <button type="button" onclick="showInfo('${item._id}')"
+                                    data-toggle="modal" data-target="#form-modal" class="btn btn-icon btn-info btn-rounded">
+                                    <i class="mdi mdi-lead-pencil"></i>
+                                </button>
+                                <button type="button" onclick="onDelete('${item._id}')"     
+                                    class="btn btn-icon btn-danger btn-rounded">
+                                    <i class="mdi mdi-close-circle"></i>
+                                </button>
                             </td> 
                         </tr>`);
                 });
@@ -92,18 +82,10 @@ function onDelete(categoryOId) {
         if (ok) {
             HttpService.post('/admin/category/delete', { categoryOId }).then((response) => {
                 if (response.success) {
-                    swal(
-                        'Success',
-                        'Xóa thành công',
-                        'success',
-                    );
+                    loggerSuccess(response.message);
                     listCategory();
                 } else {
-                    swal(
-                        'Error',
-                        response.message,
-                        'error',
-                    );
+                    loggerError(response.message);
                 }
             });
         }

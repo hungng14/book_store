@@ -16,20 +16,12 @@ button.addEventListener('click', () => {
             { names: ['username', 'firstname', 'lastname', 'password', 'confirmPassword', 'email', 'mobile'] });
         HttpService.post('/admin/account/create', data).then((response) => {
             if (response.success) {
-                swal(
-                    'Success',
-                    response.message,
-                    'success',
-                );
+                loggerSuccess(response.message);
                 listAccountAdmin();
                 handleValue('resetValue', '#form-modal',
                     { names: ['username', 'firstname', 'lastname', 'password', 'confirmPassword', 'email', 'mobile'] });
             } else {
-                swal(
-                    'Error',
-                    response.message,
-                    'error',
-                );
+                loggerError(response.message);
             }
         });
     } else {
@@ -39,19 +31,11 @@ button.addEventListener('click', () => {
         HttpService.post('/admin/account/update', data).then((response) => {
             if (response.success) {
                 $('#form-modal').modal('hide');
-                swal(
-                    'Success',
-                    response.message,
-                    'success',
-                );
+                loggerSuccess(response.message);
                 handleValue('resetValue', '#form-modal', { names: ['username', 'firstname', 'lastname', 'email', 'mobile'] });
                 listAccountAdmin();
             } else {
-                swal(
-                    'Error',
-                    response.message,
-                    'error',
-                );
+                loggerError(response.message);
             }
         });
     }
@@ -106,18 +90,10 @@ function onDelete(accountOId) {
         if (ok) {
             HttpService.post('/admin/account/delete', { accountOId }).then((response) => {
                 if (response.success) {
-                    swal(
-                        'Success',
-                        'Xóa thành công',
-                        'success',
-                    );
+                    loggerSuccess(response.message);
                     listAccountAdmin();
                 } else {
-                    swal(
-                        'Error',
-                        response.message,
-                        'error',
-                    );
+                    loggerError(response.message);
                 }
             });
         }

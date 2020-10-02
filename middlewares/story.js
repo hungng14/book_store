@@ -29,7 +29,7 @@ class ValidatorMiddleware {
         return next();
     }
 
-    checkQueOIdMiddleware(req, res, next) {
+    checkQueStoryOIdMiddleware(req, res, next) {
         const errorValidator = checkQueryValidator(req, storyOIdValidator);
         if (errorValidator) return res.json(responseError(1001, errorValidator));
         return next();
@@ -49,6 +49,12 @@ class ValidatorMiddleware {
 
     checkChapteOIdMiddleware(req, res, next) {
         const errorValidator = checkBodyValidator(req, chapterOIdValidator);
+        if (errorValidator) return res.json(responseError(1001, errorValidator));
+        return next();
+    }
+
+    checkQueChapteOIdMiddleware(req, res, next) {
+        const errorValidator = checkQueryValidator(req, chapterOIdValidator);
         if (errorValidator) return res.json(responseError(1001, errorValidator));
         return next();
     }

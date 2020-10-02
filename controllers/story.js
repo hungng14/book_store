@@ -1,6 +1,7 @@
 const BaseController = require('./base');
 const storyService = require('../services/story');
 const chapterService = require('../services/chapter');
+const { isEmpty } = require('../utils/shared');
 
 class StoryController extends BaseController {
     constructor() {
@@ -10,6 +11,26 @@ class StoryController extends BaseController {
     async view(req, res) {
         try {
             return super.renderPageAdmin(req, res, { path: 'story/index' });
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
+    async viewChaptersOfStory(req, res) {
+        try {
+            const { storyOId } = req.params;
+            const infoStory = await storyService.findOne({ storyOId, usePopulate: true });
+            if (isEmpty(infoStory)) return res.render('404', { layout: false });
+            return super.renderPageAdmin(req, res, {
+                path: 'story/chapters',
+                story: JSON.stringify({
+                    storyOId,
+                    name: infoStory.name,
+                    code: infoStory.code,
+                    authorName: (infoStory.author || {}).name || '',
+                    categoryName: (infoStory.category || {}).name || '',
+                }),
+            });
         } catch (error) {
             return super.resJsonError(res, error, 'story');
         }
@@ -90,6 +111,15 @@ class StoryController extends BaseController {
     async deleteChapter(req, res) {
         try {
             const result = await chapterService.deleteOne(req.body);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
+    async getInfoChapter(req, res) {
+        try {
+            const result = await chapterService.getInfo(req.query);
             return super.resJsonSuccess(res, result);
         } catch (error) {
             return super.resJsonError(res, error, 'story');
