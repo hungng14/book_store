@@ -49,5 +49,23 @@ class CategoryController extends BaseController {
             return super.resJsonError(res, error, 'category');
         }
     }
+
+    async getInfo(req, res) {
+        try {
+            const result = await categoryService.getInfo(req.query);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'category');
+        }
+    }
+
+    async delete(req, res) {
+        try {
+            const result = await categoryService.deleteOne(req.body);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'category');
+        }
+    }
 }
 module.exports = new CategoryController();

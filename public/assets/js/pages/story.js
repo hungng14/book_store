@@ -15,19 +15,11 @@ button.addEventListener('click', () => {
         const data = handleValue('getValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
         HttpService.post('/admin/story/create', data).then((response) => {
             if (response.success) {
-                swal(
-                    'Success',
-                    response.message,
-                    'success',
-                );
+                loggerSuccess(response.message);
                 listStory();
                 handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
             } else {
-                swal(
-                    'Error',
-                    response.message,
-                    'error',
-                );
+                loggerError(response.message);
             }
         });
     } else {
@@ -36,19 +28,11 @@ button.addEventListener('click', () => {
         HttpService.post('/admin/story/update', data).then((response) => {
             if (response.success) {
                 $('#form-modal').modal('hide');
-                swal(
-                    'Success',
-                    response.message,
-                    'success',
-                );
+                loggerSuccess(response.message);
                 listStory();
                 // handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
             } else {
-                swal(
-                    'Error',
-                    response.message,
-                    'error',
-                );
+                loggerError(response.message);
             }
         });
     }
@@ -74,8 +58,19 @@ function listStory(page = 1) {
                             <td> ${item.state} </td>
                             <td> ${item.status || ''} </td>
                             <td>
-                                <button type="button" onclick="showInfo('${item._id}')" data-toggle="modal" data-target="#form-modal" class="btn btn-icon btn-info btn-rounded"><i class="mdi mdi-lead-pencil"></i></button>
-                                <button type="button" onclick="onDelete('${item._id}')" class="btn btn-icon btn-danger btn-rounded"><i class="mdi mdi-close-circle"></i></button>
+                                <button type="button" onclick="showChaptersOfStory('${item._id}')"
+                                    title="Xem chi tiết các chương của truyện"
+                                    class="btn btn-icon btn-warning btn-rounded">
+                                    <i class="mdi mdi-library-books"></i>
+                                </button>
+                                <button type="button" onclick="showInfo('${item._id}')"
+                                    data-toggle="modal" data-target="#form-modal" class="btn btn-icon btn-info btn-rounded">
+                                    <i class="mdi mdi-lead-pencil"></i>
+                                </button>
+                                <button type="button" onclick="onDelete('${item._id}')" 
+                                    class="btn btn-icon btn-danger btn-rounded">
+                                    <i class="mdi mdi-close-circle"></i>
+                                </button>
                             </td> 
                         </tr>`);
                 });
@@ -84,6 +79,10 @@ function listStory(page = 1) {
 }
 initPagination = initPaginationTemplate(listStory);
 listStory();
+
+function showChaptersOfStory(storyOId) {
+    document.location.href = `/admin/story/${storyOId}/chapters`;
+}
 
 function onDelete(storyOId) {
     swal({
@@ -96,18 +95,10 @@ function onDelete(storyOId) {
         if (ok) {
             HttpService.post('/admin/story/delete', { storyOId }).then((response) => {
                 if (response.success) {
-                    swal(
-                        'Success',
-                        'Xóa thành công',
-                        'success',
-                    );
+                    loggerSuccess(response.message);
                     listStory();
                 } else {
-                    swal(
-                        'Error',
-                        response.message,
-                        'error',
-                    );
+                    loggerError(response.message);
                 }
             });
         }

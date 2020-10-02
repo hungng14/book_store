@@ -7,6 +7,7 @@ function appendOptionOfSelect(className, array = [], options = {
 }) {
     const authorElems = document.querySelectorAll(`.${className}`);
     for (let i = 0; i < authorElems.length; i += 1) {
+        authorElems[i].innerHTML = '';
         const firstOption = document.createElement('option');
         firstOption.value = options.firstValue || '';
         firstOption.textContent = options.firstText || 'Không chọn';
@@ -15,6 +16,7 @@ function appendOptionOfSelect(className, array = [], options = {
             const option = document.createElement('option');
             option.value = item[options.propValue];
             option.textContent = item[options.propText];
+            if (options.concatPropText) option.textContent += `(${item[options.concatPropText] || ''})`;
             authorElems[i].appendChild(option);
         });
     }
@@ -40,4 +42,20 @@ const handleValue = (action, rootElement, {
             getElement(`${rootElement} [name="${item.name}"]`).value = item.value;
         });
     }
+};
+
+const loggerSuccess = (msg) => {
+    swal(
+        'Success',
+        msg,
+        'success',
+    );
+};
+
+const loggerError = (msg) => {
+    swal(
+        'Error',
+        msg,
+        'error',
+    );
 };

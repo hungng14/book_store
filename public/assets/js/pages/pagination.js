@@ -24,8 +24,12 @@ function initPaginationTemplate(listCb) {
             !active && document.querySelector(`.item-${p}`).addEventListener('click', () => setPage(p));
         }
         ulPaginationElem.append('<li id="last-item"> <i class="mdi mdi-chevron-double-right"></i></li></ul>');
-        document.getElementById('first-item').addEventListener('click', () => firstPage());
-        document.getElementById('last-item').addEventListener('click', () => endPage(totalPages));
+        if (currentPage > 1) {
+            document.getElementById('first-item').addEventListener('click', () => firstPage());
+        }
+        if (currentPage < totalPages) {
+            document.getElementById('last-item').addEventListener('click', () => endPage(totalPages));
+        }
     };
     function initPaginate(dataPagination) {
         if (dataPagination.pages > 0) {
