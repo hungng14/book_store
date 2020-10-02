@@ -81,7 +81,7 @@ initPagination = initPaginationTemplate(listStory);
 listStory();
 
 function showChaptersOfStory(storyOId) {
-    document.location.href = `http://localhost:5678/admin/story/${storyOId}/chapters`;
+    document.location.href = `/admin/story/${storyOId}/chapters`;
 }
 
 function onDelete(storyOId) {
