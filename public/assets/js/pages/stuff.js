@@ -59,3 +59,13 @@ const loggerError = (msg) => {
         'error',
     );
 };
+
+const handleMsgParamsErrors = (errors = []) => {
+    let msg = '';
+    errors.map((error) => {
+        msg += `${error.msg}\n`;
+    });
+    return msg;
+};
+
+const formatDate = (dateTZ) => new Date(dateTZ).toLocaleString();

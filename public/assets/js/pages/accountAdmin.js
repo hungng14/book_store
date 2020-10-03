@@ -21,6 +21,9 @@ button.addEventListener('click', () => {
                 handleValue('resetValue', '#form-modal',
                     { names: ['username', 'firstname', 'lastname', 'password', 'confirmPassword', 'email', 'mobile'] });
             } else {
+                if (response.statusCode === 1001) {
+                    return loggerError(handleMsgParamsErrors(response.error));
+                }
                 loggerError(response.message);
             }
         });
@@ -35,6 +38,9 @@ button.addEventListener('click', () => {
                 handleValue('resetValue', '#form-modal', { names: ['username', 'firstname', 'lastname', 'email', 'mobile'] });
                 listAccountAdmin();
             } else {
+                if (response.statusCode === 1001) {
+                    return loggerError(handleMsgParamsErrors(response.error));
+                }
                 loggerError(response.message);
             }
         });
@@ -59,7 +65,7 @@ function listAccountAdmin(page = 1) {
                             <td> ${item.lastname || ''} </td>
                             <td> ${item.mobile || ''} </td>
                             <td> ${item.email || ''} </td>
-                            <td> ${item.createdAt} </td>
+                            <td> ${formatDate(item.createdAt)} </td>
                             <td> ${item.status} </td>
                             <td>
                                 <button type="button" onclick="showInfo('${item._id}')" 
@@ -93,6 +99,9 @@ function onDelete(accountOId) {
                     loggerSuccess(response.message);
                     listAccountAdmin();
                 } else {
+                    if (response.statusCode === 1001) {
+                        return loggerError(handleMsgParamsErrors(response.error));
+                    }
                     loggerError(response.message);
                 }
             });

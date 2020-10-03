@@ -39,12 +39,10 @@ class ChapterService extends CrudService {
 
     async create(data) {
         try {
-            console.log(data);
             const existChapterNumber = await this.findOne({
                 storyOId: data.storyOId,
                 chapterNumber: data.chapterNumber,
             });
-            console.log(existChapterNumber)
             if (existChapterNumber) return responseError(1142);
             const existTitle = await this.findOne({
                 storyOId: data.storyOId,
@@ -73,7 +71,7 @@ class ChapterService extends CrudService {
                     chapterNumber: data.chapterNumber,
                 });
                 if (existChapterNumber && !compareValue(existChapterNumber._id, data.chapterOId)) {
-                    return responseError(1141);
+                    return responseError(1142);
                 }
             }
             if ('title' in data) {

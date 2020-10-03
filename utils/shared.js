@@ -46,7 +46,7 @@ class Shared {
 
     isNumber(value) { return isNumber(value); }
 
-    isNumberInteger(val) { return +val % 2 === 0; }
+    isNumberInteger(val) { return Number.isInteger(val); }
 
     isMobilePhone(value) {
         if (!this.isNumber(value) || !this.isNumberInteger(value)) { return false; }
@@ -60,11 +60,11 @@ class Shared {
 
     notSpaceAllow(value) { return /^\S*$/.test(value); }
 
-    responseSuccess(status_code, data) {
+    responseSuccess(statusCode, data) {
         const response = {
             success: true,
-            status_code,
-            message: messagesSuccess[status_code] || messagesSuccess[100],
+            statusCode,
+            message: messagesSuccess[statusCode] || messagesSuccess[100],
         };
         if (data) {
             response.data = data;
@@ -72,11 +72,11 @@ class Shared {
         return response;
     }
 
-    responseError(status_code, error) {
+    responseError(statusCode, error) {
         const response = {
             success: false,
-            status_code,
-            message: messagesError[status_code] || messagesSuccess[1000],
+            statusCode,
+            message: messagesError[statusCode] || messagesSuccess[1000],
         };
         if (error) {
             response.error = error;
@@ -216,6 +216,10 @@ class Shared {
 
     joinPathFolderPublic(filePath) {
         return path.join(__dirname, `../public/${filePath}`);
+    }
+
+    cvtFirstLetterUpper(str) {
+        return (str.replace(/\s\s+/g, ' ')).split(' ').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     }
 }
 

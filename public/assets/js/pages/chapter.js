@@ -97,9 +97,12 @@ buttonSave.addEventListener('click', () => {
             if (action === 'create') {
                 handleValue('resetValue', '#form-chapter', { names: ['chapterNumber', 'title'] });
                 contentEditor.setData('');
-                listChapter(story.storyOId);
             }
+            listChapter(story.storyOId);
         } else {
+            if (response.statusCode === 1001) {
+                return loggerError(handleMsgParamsErrors(response.error));
+            }
             loggerError(response.message);
         }
     });

@@ -15,7 +15,7 @@ const lastname = validateField('lastname', true);
 const mobile = validateField('mobile', false);
 const email = validateField('email', false);
 const password = validateFieldWithMinLength('password', 8, true);
-const confirmPassword = validateFieldWithMinLength('confirmPassword', 5, true);
+const confirmPassword = validateField('confirmPassword', true);
 
 const signInValidator = {
     ...validateField('username', true),

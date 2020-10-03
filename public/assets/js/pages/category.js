@@ -19,6 +19,9 @@ button.addEventListener('click', () => {
                 listCategory();
                 handleValue('resetValue', '#form-modal', { names: ['name', 'description'] });
             } else {
+                if (response.statusCode === 1001) {
+                    return loggerError(handleMsgParamsErrors(response.error));
+                }
                 loggerError(response.message);
             }
         });
@@ -31,6 +34,9 @@ button.addEventListener('click', () => {
                 loggerSuccess(response.message);
                 listCategory();
             } else {
+                if (response.statusCode === 1001) {
+                    return loggerError(handleMsgParamsErrors(response.error));
+                }
                 loggerError(response.message);
             }
         });
@@ -51,7 +57,7 @@ function listCategory(page = 1) {
                     $('#category-table>tbody').append(`<tr>
                             <td> ${idx + startNo} </td>
                             <td> ${item.name} </td>
-                            <td> ${item.createdAt} </td>
+                            <td> ${formatDate(item.createdAt)} </td>
                             <td> ${item.status} </td>
                             <td>
                                 <button type="button" onclick="showInfo('${item._id}')"
