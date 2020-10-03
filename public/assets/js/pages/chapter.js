@@ -97,8 +97,8 @@ buttonSave.addEventListener('click', () => {
             if (action === 'create') {
                 handleValue('resetValue', '#form-chapter', { names: ['chapterNumber', 'title'] });
                 contentEditor.setData('');
-                listChapter(story.storyOId);
             }
+            listChapter(story.storyOId);
         } else {
             loggerError(response.message);
         }
