@@ -217,6 +217,10 @@ class Shared {
     joinPathFolderPublic(filePath) {
         return path.join(__dirname, `../public/${filePath}`);
     }
+
+    cvtFirstLetterUpper(str) {
+        return (str.replace(/\s\s+/g, ' ')).split(' ').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
 }
 
 const shaInstance = new Shared();

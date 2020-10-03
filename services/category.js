@@ -1,7 +1,7 @@
 const CrudService = require('./crud');
 const { STATUS } = require('../constants/constants');
 const {
-    responseError, responseSuccess, isEmpty, compareValue,
+    responseError, responseSuccess, isEmpty, compareValue, cvtFirstLetterUpper,
 } = require('../utils/shared');
 
 class CategoryService extends CrudService {
@@ -39,17 +39,18 @@ class CategoryService extends CrudService {
         const conditions = {
             isDeleted: false,
         };
-        if (data.name) conditions.name = data.name;
+        if (data.name) conditions.name = cvtFirstLetterUpper(data.name);
         const result = await this.collectionCurrent().findOne(conditions).lean();
         return result;
     }
 
     async create(data) {
         try {
-            const existName = await this.findOne({ name: data.name });
+            const name = cvtFirstLetterUpper(data.name);
+            const existName = await this.findOne({ name });
             if (existName) return responseError(1131);
             const set = {
-                name: data.name,
+                name,
                 description: data.description,
                 createdBy: data.createdBy,
                 status: STATUS.Active,
@@ -87,7 +88,7 @@ class CategoryService extends CrudService {
                 isDeleted: false,
             };
             const set = { };
-            if ('name' in data) set.name = data.name;
+            if ('name' in data) set.name = cvtFirstLetterUpper(data.name);
             if ('description' in data) set.description = data.description;
             const result = await super.updateOne(conditions, set);
             if (isEmpty(result)) return responseError(1007);
