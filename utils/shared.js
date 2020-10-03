@@ -46,7 +46,7 @@ class Shared {
 
     isNumber(value) { return isNumber(value); }
 
-    isNumberInteger(val) { return +val % 2 === 0; }
+    isNumberInteger(val) { return Number.isInteger(val); }
 
     isMobilePhone(value) {
         if (!this.isNumber(value) || !this.isNumberInteger(value)) { return false; }

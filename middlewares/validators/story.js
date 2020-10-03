@@ -3,7 +3,7 @@ const {
     validateField, validateObjectId,
 } = require('./_utils');
 
-const { isNumberInteger } = require('../../utils/shared');
+const { isNumberInteger, isNumber } = require('../../utils/shared');
 
 const storyStates = Object.values(STORY_STATES);
 
@@ -11,18 +11,18 @@ const savedChapterValidator = {
     chapterNumber: {
         notEmpty: true,
         custom: {
-            options: (val) => isNumberInteger(val) && +val >= 0,
-            errorMessage: 'chapterNumber must be number integer and greater than or equal 0',
+            options: (val) => isNumber(val) && isNumberInteger(+val) && +val >= 0,
+            errorMessage: 'Số thứ tự chương phải là số nguyên và lớn hơn 0',
         },
-        errorMessage: 'chapterNumber is required',
+        errorMessage: 'Số thứ tự chương không được để trống',
     },
     title: {
         notEmpty: true,
-        errorMessage: 'title is required',
+        errorMessage: 'Tiêu đề không được để trống',
     },
     content: {
         notEmpty: true,
-        errorMessage: 'content is required',
+        errorMessage: 'Nội dung không được để trống',
     },
 };
 
@@ -33,7 +33,7 @@ const savedValidator = {
     ...validateObjectId('authorOId', false),
     ...validateField('state', true, {
         options: (val) => storyStates.includes(val),
-        errorMessage: `state must be value in [${storyStates}]`,
+        errorMessage: `Tình trạng sách phải là giá trị trong [${storyStates}]`,
     }),
     ...validateField('source', false),
     ...validateField('profileImage', false),
