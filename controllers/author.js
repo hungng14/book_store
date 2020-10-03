@@ -49,5 +49,25 @@ class AuthorController extends BaseController {
             return super.resJsonError(res, error, 'author');
         }
     }
+
+    async getInfo(req, res) {
+        try {
+            const result = await authorService.getInfo(req.query);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'author');
+        }
+    }
+
+    async delete(req, res) {
+        try {
+            const result = await authorService.deleteOne(req.body);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'author   ');
+        }
+    }
+        
+
 }
 module.exports = new AuthorController();
