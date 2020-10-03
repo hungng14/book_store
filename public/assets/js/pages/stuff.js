@@ -67,3 +67,5 @@ const handleMsgParamsErrors = (errors = []) => {
     });
     return msg;
 };
+
+const formatDate = (dateTZ) => new Date(dateTZ).toLocaleString();

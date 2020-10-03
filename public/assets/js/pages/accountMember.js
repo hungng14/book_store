@@ -18,7 +18,7 @@ function listAccountMember(page = 1) {
                             <td> ${item.lastname || ''} </td>
                             <td> ${item.mobile || ''} </td>
                             <td> ${item.email || ''} </td>
-                            <td> ${item.createdAt} </td>
+                            <td> ${formatDate(item.createdAt)} </td>
                             <td> ${item.status} </td>
                         </tr>`);
                 });

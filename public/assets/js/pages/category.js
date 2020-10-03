@@ -57,7 +57,7 @@ function listCategory(page = 1) {
                     $('#category-table>tbody').append(`<tr>
                             <td> ${idx + startNo} </td>
                             <td> ${item.name} </td>
-                            <td> ${item.createdAt} </td>
+                            <td> ${formatDate(item.createdAt)} </td>
                             <td> ${item.status} </td>
                             <td>
                                 <button type="button" onclick="showInfo('${item._id}')"

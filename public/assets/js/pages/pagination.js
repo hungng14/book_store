@@ -32,7 +32,7 @@ function initPaginationTemplate(listCb) {
         }
     };
     function initPaginate(dataPagination) {
-        if (dataPagination.pages > 0) {
+        if (dataPagination.pages > 1) {
             if (dataPagination.pages > 5) {
                 let to = null;
                 let from = null;
