@@ -7,6 +7,9 @@ signInButton.addEventListener('click', () => {
             if (response.success) {
                 loggerSuccess(response.message);
             } else {
+                if (response.statusCode === 1001) {
+                    return loggerError(handleMsgParamsErrors(response.error));
+                }
                 loggerError(response.message);
             }
         });
@@ -20,6 +23,9 @@ signUpButton.addEventListener('click', () => {
             if (response.success) {
                 loggerSuccess(response.message);
             } else {
+                if (response.statusCode === 1001) {
+                    return loggerError(handleMsgParamsErrors(response.error));
+                }
                 loggerError(response.message);
             }
         });

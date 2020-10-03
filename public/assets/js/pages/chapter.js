@@ -100,6 +100,9 @@ buttonSave.addEventListener('click', () => {
             }
             listChapter(story.storyOId);
         } else {
+            if (response.statusCode === 1001) {
+                return loggerError(handleMsgParamsErrors(response.error));
+            }
             loggerError(response.message);
         }
     });

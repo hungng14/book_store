@@ -19,6 +19,9 @@ button.addEventListener('click', () => {
                 listStory();
                 handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
             } else {
+                if (response.statusCode === 1001) {
+                    return loggerError(handleMsgParamsErrors(response.error));
+                }
                 loggerError(response.message);
             }
         });
@@ -32,6 +35,9 @@ button.addEventListener('click', () => {
                 listStory();
                 // handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
             } else {
+                if (response.statusCode === 1001) {
+                    return loggerError(handleMsgParamsErrors(response.error));
+                }
                 loggerError(response.message);
             }
         });
@@ -98,6 +104,9 @@ function onDelete(storyOId) {
                     loggerSuccess(response.message);
                     listStory();
                 } else {
+                    if (response.statusCode === 1001) {
+                        return loggerError(handleMsgParamsErrors(response.error));
+                    }
                     loggerError(response.message);
                 }
             });

@@ -10,7 +10,7 @@ class Utils {
                     options: (value) => isObjectId(value),
                     errorMessage: `${fieldName} must is ObjectId`,
                 },
-                errorMessage: `${fieldName} is required`,
+                errorMessage: `${fieldName} không được để trống`,
             },
         };
     }
@@ -21,9 +21,9 @@ class Utils {
                 [required ? 'notEmpty' : 'optional']: true,
                 custom: {
                     options: (value) => [10, 20, 40].includes(+value),
-                    errorMessage: `status must is value in [${[10, 20, 40]}]`,
+                    errorMessage: `Trạng thái phải là một trong các giá trị [${[10, 20, 40]}]`,
                 },
-                errorMessage: 'status is required',
+                errorMessage: 'Trạng thái không được trống',
             },
         };
     }
@@ -33,7 +33,7 @@ class Utils {
             email: {
                 [required ? 'notEmpty' : 'optional']: true,
                 isEmail: true,
-                errorMessage: 'email is required',
+                errorMessage: 'Email không đúng định dạng',
             },
         };
     }
@@ -46,7 +46,7 @@ class Utils {
                     options: (value) => isMobilePhone(value),
                     errorMessage: 'mobile incorrect',
                 },
-                errorMessage: 'mobile is required',
+                errorMessage: 'Số điện thoại không được để trống',
             },
         };
     }
@@ -55,7 +55,7 @@ class Utils {
         const objValidate = {
             [fieldName]: {
                 [required ? 'notEmpty' : 'optional']: true,
-                errorMessage: `${fieldName} is required`,
+                errorMessage: `${fieldName} không được để trống`,
             },
         };
         if (!isEmpty(custom)) {
@@ -70,9 +70,9 @@ class Utils {
                 [required ? 'notEmpty' : 'optional']: true,
                 isLength: {
                     options: { min: minLength },
-                    errorMessage: `${fieldName} should be at least ${minLength} chars long`,
+                    errorMessage: `${fieldName} ít nhất phải ${minLength} ký tự`,
                 },
-                errorMessage: `${fieldName} required`,
+                errorMessage: `${fieldName} không được để trống`,
             },
         };
         if (!isEmpty(custom)) {
@@ -88,9 +88,9 @@ class Utils {
                 isInt: true,
                 custom: {
                     options: (value) => ROLES.includes(+value),
-                    errorMessage: `role must be value in [${ROLES}]`,
+                    errorMessage: `Vai tròng phải là giá trị trong [${ROLES}]`,
                 },
-                errorMessage: 'role is required',
+                errorMessage: 'Vai trò không được để trống',
             },
         };
     }
