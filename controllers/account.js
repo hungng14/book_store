@@ -1,5 +1,14 @@
 const BaseController = require('./base');
 const accountService = require('../services/account');
+// const gTTS = require('gtts'); 
+      
+// var speech = '<p>Đẳng cấp của tiền đạo người Uruguay sẽ giúp Quỷ đỏ nâng cấp hàng công. Với cựu cầu thủ PSG, đội chủ sân Old Trafford sẽ "thiên biến vạn hóa" tuyến đầu của mình.</p>'; 
+// var gtts = new gTTS(speech, 'vi'); 
+  
+// gtts.save('Voice.mp3', function (err, result){ 
+//     if(err) { throw new Error(err); } 
+//     console.log("Text to speech converted!"); 
+// }); 
 
 class AccountController extends BaseController {
     constructor() {
