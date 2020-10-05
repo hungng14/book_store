@@ -42,9 +42,14 @@ const savedValidator = {
 
 const storyOIdValidator = validateObjectId('storyOId', true);
 const chapterOIdValidator = validateObjectId('chapterOId', true);
-
+const validateProfileImage = (required = false) => ({
+    profileImage: {
+        [required ? 'notEmpty' : 'optional']: true,
+        errorMessage: 'profileImage không được để trống và phải là hình ảnh',
+    },
+});
 module.exports = {
-    createValidator: savedValidator,
+    createValidator: { ...savedValidator, ...validateProfileImage(true) },
     storyOIdValidator,
     updateValidator: { ...savedValidator, ...storyOIdValidator },
     createChapterValidator: { ...savedChapterValidator, ...storyOIdValidator },

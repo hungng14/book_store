@@ -1,6 +1,7 @@
 const BaseController = require('./base');
 const storyService = require('../services/story');
 const chapterService = require('../services/chapter');
+const bookmarkService = require('../services/bookmark');
 const viewStatisticService = require('../services/viewStatistic');
 const { isEmpty } = require('../utils/shared');
 const { STATUS } = require('../constants/constants');
@@ -144,8 +145,17 @@ class StoryController extends BaseController {
                 categoryName: (infoStory.category || {}).name || '',
                 name: infoStory.name,
                 code: infoStory.code,
+                profileImage: infoStory.profileImage,
                 description: infoStory.description,
             };
+            const { infoMember } = req.session;
+            if (!isEmpty(infoMember)) {
+                const findBookmark = await bookmarkService.findOne({
+                    accountOId: infoMember.accountOId,
+                    storyOId,
+                });
+                data.bookmarked = !!(findBookmark && findBookmark.status === STATUS.Active);
+            }
             return super.renderPageUser(req, res, {
                 path: 'story/info',
                 infoStory: data,

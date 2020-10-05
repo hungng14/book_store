@@ -7,19 +7,34 @@ const {
     chapterOIdValidator,
 } = require('./validators/story');
 
-const { responseError } = require('../utils/shared');
+const { responseError, isEmpty, deleteFile } = require('../utils/shared');
 const { checkBodyValidator, checkQueryValidator } = require('./validators/_utils');
 
 class ValidatorMiddleware {
     createMiddleware(req, res, next) {
+        if (!isEmpty(req.file)) {
+            req.body.fullProfileImageUrl = req.file.path;
+            req.body.profileImage = req.file.path;
+        } else {
+            delete req.body.profileImage;
+        }
         const errorValidator = checkBodyValidator(req, createValidator);
-        if (errorValidator) return res.json(responseError(1001, errorValidator));
+        if (errorValidator) {
+            if (req.file.path) deleteFile(req.file.path);
+            return res.json(responseError(1001, errorValidator));
+        }
         return next();
     }
 
     updateMiddleware(req, res, next) {
+        if (!isEmpty(req.file)) {
+            req.body.fullProfileImageUrl = req.file.path;
+        }
         const errorValidator = checkBodyValidator(req, updateValidator);
-        if (errorValidator) return res.json(responseError(1001, errorValidator));
+        if (errorValidator) {
+            if (req.file.path) deleteFile(req.file.path);
+            return res.json(responseError(1001, errorValidator));
+        }
         return next();
     }
 

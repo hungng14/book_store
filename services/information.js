@@ -1,29 +1,8 @@
-const sharp = require('sharp');
-const path = require('path');
 const CrudService = require('./crud');
 const { STATUS } = require('../constants/constants');
 const {
-    responseError, responseSuccess, isEmpty, sliceString, deleteFile, joinPathFolderPublic,
+    responseError, responseSuccess, isEmpty, deleteFile, joinPathFolderPublic, resizeImage,
 } = require('../utils/shared');
-
-const processLogo = (fullLogoUrl) => {
-    const set = {};
-    const dirnameSaved = path.dirname(fullLogoUrl);
-    const extname = path.extname(fullLogoUrl);
-    const replacePath = fullLogoUrl.split('\\').join('/');
-    const filePathSaved = sliceString(replacePath, '/uploads');
-    set.fullSizeLogo = filePathSaved;
-    const pathSavedLogo = `${dirnameSaved}\\logo${extname}`;
-    const urlLogo = pathSavedLogo.split('\\').join('/');
-    set.logo = sliceString(urlLogo, '/uploads');
-    sharp(fullLogoUrl)
-        .resize(100, 100)
-        .toFile(pathSavedLogo, (err) => {
-            // eslint-disable-next-line no-console
-            if (err) { console.log(err); }
-        });
-    return set;
-};
 
 class InformationService extends CrudService {
     constructor() {
@@ -47,9 +26,9 @@ class InformationService extends CrudService {
                 description: data.description,
                 status: STATUS.Active,
             };
-            const newLogo = processLogo(data.fullLogoUrl);
-            set.fullSizeLogo = newLogo.fullSizeLogo;
-            set.logo = newLogo.logo;
+            const newLogo = resizeImage(data.fullLogoUrl, 'logo');
+            set.fullSizeLogo = newLogo.fullSizeImage;
+            set.logo = newLogo.resizeImage;
             if ('email' in data) set.email = data.email;
             if ('mobile' in data) set.mobile = data.mobile;
             if ('facebookLink' in data) set.facebookLink = data.facebookLink;
@@ -71,9 +50,9 @@ class InformationService extends CrudService {
             const options = { new: true };
             if (data.fullLogoUrl) {
                 options.new = false;
-                const newLogo = processLogo(data.fullLogoUrl);
-                set.fullSizeLogo = newLogo.fullSizeLogo;
-                set.logo = newLogo.logo;
+                const newLogo = resizeImage(data.fullLogoUrl, 'logo');
+                set.fullSizeLogo = newLogo.fullSizeImage;
+                set.logo = newLogo.resizeImage;
             }
             if ('description' in data) set.description = data.description;
             if ('email' in data) set.email = data.email;

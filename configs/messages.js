@@ -61,6 +61,7 @@ module.exports.messagesError = {
     /** story from 1151 to 1160 */
     1151: 'Thông tin trang web đã tồn tại',
 
-    /** view static from 1161 to 1170 */
+    /** bookmark from 1161 to 1170 */
+    1161: 'Sách này đã được đánh dấu',
 
 };

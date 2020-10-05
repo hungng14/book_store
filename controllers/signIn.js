@@ -81,7 +81,6 @@ class SignInController extends BaseController {
     }
 
     logoutMember(req, res) {
-        console.log(req.session)
         res.clearCookie('_tk_')
         return res.redirect(req.session.pathCurrent || '/');
     }

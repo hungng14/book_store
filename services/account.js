@@ -41,15 +41,23 @@ class AccountService extends CrudService {
             };
             const payloadRefreshToken = { ...payload };
             const propSignJWT = data.roleType === ROLES.ADMIN ? 'signAdmin' : 'signMember';
-            console.log(propSignJWT)
             const token = await configJWT[propSignJWT]({ ...payload, roleType: account.roleType }, process.env.TOKEN_LIFE);
-            console.log('token', token)
-            const objRefreshTK = await configJWT[propSignJWT](payloadRefreshToken, process.env.REFRESH_TOKEN_LIFE || '7 days');
-            const result = {
-                infoToken: token,
-                refreshToken: objRefreshTK.token,
-                ...payload,
-            };
+            const dataRefreshTk = await configJWT[propSignJWT](payloadRefreshToken, process.env.REFRESH_TOKEN_LIFE || '7 days');
+            let result = {};
+            if (propSignJWT === 'signMember') {
+                result = {
+                    infoToken: token,
+                    refreshToken: dataRefreshTk.token,
+                    ...payload,
+                };
+            } else {
+                result = {
+                    token,
+                    refreshToken: dataRefreshTk,
+                    ...payload,
+                };
+            }
+
             return responseSuccess(208, result);
         } catch (error) {
             const { name } = error;
