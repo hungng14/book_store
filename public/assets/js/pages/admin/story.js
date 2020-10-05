@@ -119,7 +119,17 @@ function listStory(page = 1) {
                             <td> ${(item.category || {}).name || ''}</td>
                             <td> ${(item.author || {}).name || ''}</td>
                             <td> ${item.state} </td>
-                            <td> ${item.status || ''} </td>
+                            <td> 
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        ${item.status || ''}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" onclick="onUpdateStatus('Active', '${item._id}')" href="#">Active</a>
+                                        <a class="dropdown-item" onclick="onUpdateStatus('Inactive', '${item._id}')" href="#">Inactive</a>
+                                    </div>
+                                </div>
+                             </td>
                             <td>
                                 <button type="button" onclick="showChaptersOfStory('${item._id}')"
                                     title="Xem chi tiết các chương của truyện"
@@ -167,6 +177,20 @@ function onDelete(storyOId) {
                     loggerError(response.message);
                 }
             });
+        }
+    });
+}
+
+function onUpdateStatus(status, storyOId) {
+    HttpService.post('/admin/story/update-status', { status, storyOId }).then((response) => {
+        if (response.success) {
+            loggerSuccess(response.message);
+            listStory();
+        } else {
+            if (response.statusCode === 1001) {
+                return loggerError(handleMsgParamsErrors(response.error));
+            }
+            loggerError(response.message);
         }
     });
 }

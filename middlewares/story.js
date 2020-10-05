@@ -5,6 +5,7 @@ const {
     createChapterValidator,
     updateChapterValidator,
     chapterOIdValidator,
+    updateStatusValidator,
 } = require('./validators/story');
 
 const { responseError, isEmpty, deleteFile } = require('../utils/shared');
@@ -40,6 +41,12 @@ class ValidatorMiddleware {
 
     checkOIdMiddleware(req, res, next) {
         const errorValidator = checkBodyValidator(req, storyOIdValidator);
+        if (errorValidator) return res.json(responseError(1001, errorValidator));
+        return next();
+    }
+
+    updateStatusMiddleware(req, res, next) {
+        const errorValidator = checkBodyValidator(req, updateStatusValidator);
         if (errorValidator) return res.json(responseError(1001, errorValidator));
         return next();
     }

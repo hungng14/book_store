@@ -86,7 +86,7 @@ function listStoryTopView() {
                         </div>
                     </div>
                     <div class="book-item-action">
-                        <a href="/story/${item._id}/${chapterNumber}">Đọc tiếp</a>
+                        <a href="/story/${story._id}/${chapterNumber}">Đọc tiếp</a>
                     </div>
                 </div>`;
                 });
@@ -121,7 +121,7 @@ function listBookmarked() {
                             </div>
                         </div>
                         <div class="book-item-action">
-                            <a href="/story/${item._id}/${chapterNumber}">Đọc tiếp</a>
+                            <a href="/story/${story._id}/${chapterNumber}">Đọc tiếp</a>
                         </div>
                     </div>`;
                 });
