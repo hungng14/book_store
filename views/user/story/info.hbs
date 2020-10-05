@@ -31,7 +31,7 @@
   }
 </style>
 <div class="content">
-  <div class="wrapper-content">
+  <div class="wrapper-content" data-storyOId="{{storyOId}}">
     <div class="block-details">
       <div class="wrapper-img-profile">
         <img src="https://static.cdnno.com/poster/ta-su-huynh-that-su-qua-vung-vang/300.jpg?t=1585210205" alt="">
@@ -45,52 +45,32 @@
           <span>4.94/5 (48 đánh giá)</span>
         </div>
         <div class="actions">
-          <button class="btn btn-rounded btn-gradient-info">Đọc truyện</button>
+          <a class="btn btn-rounded btn-gradient-info" href="/story/{{storyOId}}/0">Đọc truyện</a>
           <button class="btn btn-rounded btn-gradient-success">Đánh dấu</button>
         </div>
       </div>
     </div>
     <div class="block-menu-actions mt-5 mb-5">
       <div class="tab">
-        <button class="tablinks" data-href="#introduce">Giới thiệu</button>
-        <button class="tablinks active" data-href="#chapters">Danh sách chương</button>
+        <button class="tablinks active" data-href="#introduce">Giới thiệu</button>
+        <button class="tablinks" data-href="#chapters">Danh sách chương</button>
       </div>
 
-      <div class="tabcontent" id="introduce">
-        <h3>London</h3>
-        <p>Đây là giới thiệu</p>
+      <div class="tabcontent active" id="introduce">
+        {{#compilehtml infoStory.description}} {{/compilehtml}}
       </div>
 
-      <div class="tabcontent active" id="chapters">
+      <div class="tabcontent" id="chapters">
         <h3>Danh sách chương</h3>
         <div class="wrapper-chapters">
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-          <div class="item-chapter"> <a href="#">Chương 1</a> </div>
         </div>
+        <div class="block-pagination"></div>
       </div>
     </div>
   </div>
 </div>
-
+<script src="/assets/js/pages/pagination.js"></script>
+<script src="/assets/js/pages/user/story.js"></script>
 <script>
 
   document.querySelectorAll('.tablinks').forEach((btnTab) => {

@@ -9,7 +9,6 @@ function listStoryUpdateNewest() {
         fieldsSelected: '_id name chapterNewest profileImage',
     })
         .then((response) => {
-            console.log(response);
             if (response.success) {
                 $('#books-new-updated').empty();
                 response.data.map((item) => {
@@ -25,7 +24,7 @@ function listStoryUpdateNewest() {
                               </div>
                           </div>
                           <div class="book-item-action">
-                              <a href="#">Đọc tiếp</a>
+                              <a href="/story/${item._id}/${(item.chapterNewest || {}).chapterNumber}">Đọc tiếp</a>
                           </div>
                       </div>`);
                 });

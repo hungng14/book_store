@@ -21,7 +21,7 @@ class StoryController extends BaseController {
         try {
             const { storyOId } = req.params;
             const infoStory = await storyService.findOne({ storyOId, usePopulate: true });
-            if (isEmpty(infoStory)) return res.render('404', { layout: false });
+            if (isEmpty(infoStory)) return super.renderPage404(res);
             return super.renderPageAdmin(req, res, {
                 path: 'story/chapters',
                 story: JSON.stringify({
@@ -129,26 +129,25 @@ class StoryController extends BaseController {
 
     async viewInfoUser(req, res) {
         try {
-            console.log(req.params);
             const { storyOId } = req.params;
-            if (!storyOId) return res.render('404');
+            if (!storyOId) return super.renderPage404(res);
             const infoStory = await storyService.findOne({
                 _id: storyOId,
                 status: STATUS.Active,
                 usePopulate: true,
             });
-            if (!infoStory) return res.render('404');
-            console.log(infoStory);
+            if (!infoStory) return super.renderPage404(res);
             const data = {
                 authorName: (infoStory.author || {}).name || '',
                 categoryName: (infoStory.category || {}).name || '',
                 name: infoStory.name,
                 code: infoStory.code,
+                description: infoStory.description,
             };
-            console.log(data);
             return super.renderPageUser(req, res, {
                 path: 'story/info',
                 infoStory: data,
+                storyOId,
             });
         } catch (error) {
             return super.resJsonError(res, error, 'story');
@@ -158,7 +157,21 @@ class StoryController extends BaseController {
     async viewChapter(req, res) {
         try {
             console.log(req.params);
-            return super.renderPageUser(req, res, { path: 'story/chapter' });
+            const infoChapter = await chapterService.findOne({
+                storyOId: req.params.storyOId,
+                chapterNumber: +req.params.chapterNumber,
+            });
+            if (!infoChapter) return super.renderPage404(res);
+            console.log(infoChapter)
+            return super.renderPageUser(req, res, {
+                path: 'story/chapter',
+                infoChapter: {
+                    content: infoChapter.content,
+                    chapterNumber: infoChapter.chapterNumber,
+                    title: infoChapter.title,
+                    storyOId: req.params.storyOId,
+                },
+            });
         } catch (error) {
             return super.resJsonError(res, error, 'story');
         }

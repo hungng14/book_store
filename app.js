@@ -9,6 +9,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const expressValidator = require('express-validator');
 const bodyParser = require('body-parser');
+const hbsHelpers = require('./helpers/index');
 const indexRouter = require('./routes/index');
 const { mongoose } = require('./models/_plugins');
 
@@ -21,7 +22,7 @@ app.engine('hbs', hbs({
     defaultLayout: 'main',
     partialsDir: `${__dirname}/views`,
     layoutsDir: `${__dirname}/views/admin/layouts/`,
-    // helpers,
+    helpers: hbsHelpers,
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');

@@ -36,6 +36,10 @@ class BaseController {
         return res.render(`admin/${params.path}`, params);
     }
 
+    renderPage404(res) {
+        return res.render('404', { layout: false });
+    }
+
     async renderPageUser(req, res, params) {
         let infoWeb = await informationService.findOne({
             status: STATUS.Active,
