@@ -79,6 +79,12 @@ class SignInController extends BaseController {
         req.logout();
         return res.redirect('/admin/sign-in');
     }
+
+    logoutMember(req, res) {
+        console.log(req.session)
+        res.clearCookie('_tk_')
+        return res.redirect(req.session.pathCurrent || '/');
+    }
 }
 
 module.exports = new SignInController();

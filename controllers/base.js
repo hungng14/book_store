@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const path = require('path');
 const {
     writeLog,
@@ -11,6 +12,7 @@ const {
     STATUS,
 } = require('../constants/constants');
 const informationService = require('../services/information');
+const JWT = require('../configs/jwt');
 
 class BaseController {
     resJsonSuccess(res, result = {}) {
@@ -41,6 +43,20 @@ class BaseController {
     }
 
     async renderPageUser(req, res, params) {
+        const tokenMember = req.cookies._tk_;
+        req.session.pathCurrent = req.url;
+        const infoMember = {};
+        if (tokenMember) {
+            const decodeInfoMember = await JWT.verifyMember(tokenMember);
+            if (decodeInfoMember) {
+                infoMember.isLoggedIn = true;
+                infoMember.accountOId = decodeInfoMember.accountOId;
+                infoMember.username = decodeInfoMember.username;
+                infoMember.firstname = decodeInfoMember.firstname;
+                infoMember.lastname = decodeInfoMember.lastname;
+            }
+        }
+
         let infoWeb = await informationService.findOne({
             status: STATUS.Active,
         });
@@ -63,6 +79,7 @@ class BaseController {
             title: TITLE_WEB_MEMBER,
             layout: path.join(__dirname, '../views/user/layouts/main'),
             infoWeb,
+            infoMember,
         };
         Object.assign(params, commonProp);
         return res.render(`user/${params.path}`, params);

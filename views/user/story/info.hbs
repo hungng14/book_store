@@ -46,7 +46,9 @@
         </div>
         <div class="actions">
           <a class="btn btn-rounded btn-gradient-info" href="/story/{{storyOId}}/0">Đọc truyện</a>
+          {{#if infoMember.isLoggedIn}}
           <button class="btn btn-rounded btn-gradient-success">Đánh dấu</button>
+          {{/if}}
         </div>
       </div>
     </div>
