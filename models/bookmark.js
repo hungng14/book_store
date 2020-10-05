@@ -13,8 +13,20 @@ const BookmarkSchema = new Schema(
         chapterOId: { type: ObjectId, ref: 'chapter' },
         ...fieldsCommon(),
     },
-    { ...optionsSchemaCommon({ collection: 'bookmark' }) },
+    { ...optionsSchemaCommon({ collection: 'bookmark' }), toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 BookmarkSchema.plugin(mongoose_paginate);
+BookmarkSchema.virtual('story', {
+    ref: 'story',
+    localField: 'storyOId',
+    foreignField: '_id',
+    justOne: true,
+});
+BookmarkSchema.virtual('chapter', {
+    ref: 'chapter',
+    localField: 'chapterOId',
+    foreignField: '_id',
+    justOne: true,
+});
 const Bookmark = mongoose.model('bookmark', BookmarkSchema);
 module.exports = Bookmark;

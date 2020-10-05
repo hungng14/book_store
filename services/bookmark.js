@@ -1,7 +1,7 @@
 const CrudService = require('./crud');
 const { STATUS } = require('../constants/constants');
 const {
-    responseError, responseSuccess, isEmpty, compareValue, cvtFirstLetterUpper,
+    responseError, responseSuccess, isEmpty,
 } = require('../utils/shared');
 
 class BookmarkService extends CrudService {
@@ -72,36 +72,31 @@ class BookmarkService extends CrudService {
         }
     }
 
-    async getInfo(data) {
+    async listActive(data) {
         try {
-            const conditions = {
-                _id: data.categoryOId,
-                isDeleted: false,
-            };
-            const result = await super.getInfo(conditions);
-            if (isEmpty(result)) return responseError(1010);
-            return responseSuccess(204, result);
-        } catch (error) {
-            throw responseError(1000, error);
-        }
-    }
-
-    async updateOne(data) {
-        try {
-            const findName = await this.findOne(data);
-            if (findName && !compareValue(findName._id, data.categoryOId)) {
-                return responseError(1131);
+            const options = {};
+            if (data.sortKey || data.sortOrder) {
+                options.sort = {
+                    [data.sortKey || '_id']: +data.sortOrder || -1,
+                };
+                delete data.sortKey;
+                delete data.sortOrder;
             }
-            const conditions = {
-                _id: data.categoryOId,
-                isDeleted: false,
-            };
-            const set = { };
-            if ('name' in data) set.name = cvtFirstLetterUpper(data.name);
-            if ('description' in data) set.description = data.description;
-            const result = await super.updateOne(conditions, set);
-            if (isEmpty(result)) return responseError(1007);
-            return responseSuccess(203);
+            if (data.limit) {
+                options.limit = data.limit;
+                delete data.limit;
+            }
+            const fields = '_id accountOId storyOId';
+            const populate = [
+                {
+                    ...this.populateModel('story', '_id name'),
+                    populate: this.populateModel('chapter', '_id chapterNumber title'),
+                },
+                this.populateModel('chapter', '_id title chapterNumber'),
+            ];
+            console.log(data);
+            const result = await super.listActive(data, fields, populate, options);
+            return responseSuccess(202, result);
         } catch (error) {
             throw responseError(1000, error);
         }
