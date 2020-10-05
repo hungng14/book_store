@@ -173,6 +173,23 @@ class StoryService extends CrudService {
             throw responseError(1000, error);
         }
     }
+
+    async updateStatus(data) {
+        try {
+            const conditions = {
+                _id: data.storyOId,
+                isDeleted: false,
+            };
+            const set = {
+                status: data.status,
+            };
+            const result = await super.updateOne(conditions, set);
+            if (isEmpty(result)) return responseError(1009);
+            return responseSuccess(206);
+        } catch (error) {
+            throw responseError(1000, error);
+        }
+    }
 }
 
 module.exports = new StoryService();

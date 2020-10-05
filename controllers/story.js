@@ -207,5 +207,14 @@ class StoryController extends BaseController {
             return super.resJsonError(res, error, 'story');
         }
     }
+
+    async updateStatus(req, res) {
+        try {
+            const result = await storyService.updateStatus(req.body);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
 }
 module.exports = new StoryController();

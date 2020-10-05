@@ -1,4 +1,4 @@
-const { STORY_STATES } = require('../../constants/constants');
+const { STORY_STATES, STATUS } = require('../../constants/constants');
 const {
     validateField, validateObjectId,
 } = require('./_utils');
@@ -40,6 +40,11 @@ const savedValidator = {
     ...validateField('description', false),
 };
 
+const statusValidator = validateField('status', true, {
+    options: (val) => [STATUS.Active, STATUS.Inactive].includes(val),
+    errorMessage: 'Trạng thái phải là giá trị Active hoặc Inactive',
+})
+
 const storyOIdValidator = validateObjectId('storyOId', true);
 const chapterOIdValidator = validateObjectId('chapterOId', true);
 const validateProfileImage = (required = false) => ({
@@ -55,4 +60,5 @@ module.exports = {
     createChapterValidator: { ...savedChapterValidator, ...storyOIdValidator },
     updateChapterValidator: { ...savedChapterValidator, ...chapterOIdValidator, ...storyOIdValidator },
     chapterOIdValidator,
+    updateStatusValidator: { ...statusValidator, ...storyOIdValidator},
 };
