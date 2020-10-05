@@ -67,5 +67,11 @@ StorySchema.virtual('chapter', {
     foreignField: 'storyOId',
     justOne: true,
 });
+StorySchema.virtual('bookmark', {
+    ref: 'bookmark',
+    localField: '_id',
+    foreignField: 'storyOId',
+    justOne: true,
+});
 const Story = mongoose.model('story', StorySchema);
 module.exports = Story;

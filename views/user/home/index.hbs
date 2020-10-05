@@ -17,9 +17,10 @@
     </div>
     <div class="divider"></div>
     <div class="story-section">
+        {{#if infoMember.isLoggedIn}}
         <div class="wrapper-book-items">
             <div class="book-items-title">
-                <h3>Sách đang đọc</h3>
+                <h3>Sách đã đánh dấu</h3>
             </div>
             <div class="book-items book-reading-list">
                 <div class="book-item">
@@ -120,6 +121,7 @@
                 </div>
             </div>
         </div>
+        {{/if}}
         <div class="wrapper-book-items">
             <div class="book-items-title">
                 <h3>Sách mới cập nhật</h3>
