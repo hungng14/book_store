@@ -62,7 +62,7 @@ class ViewStatisticService extends CrudService {
             const fields = '_id count storyOId';
             const populate = [];
             populate.push({
-                ...this.populateModel('story', '_id name'),
+                ...this.populateModel('story', '_id name profileImage'),
                 populate: this.populateModel('chapter', '_id chapterNumber title'),
             });
             delete data.fieldsSelected;

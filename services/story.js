@@ -59,7 +59,7 @@ class StoryService extends CrudService {
                 createdBy: data.createdBy,
                 status: STATUS.New,
             };
-            const resResize = resizeImage(data.fullProfileImageUrl);
+            const resResize = resizeImage(data.fullProfileImageUrl, null, 200, 200);
             set.fullSizeLogo = resResize.fullSizeImage;
             set.profileImage = resResize.resizeImage;
             if ('authorOId' in data) set.authorOId = data.authorOId;
@@ -89,9 +89,9 @@ class StoryService extends CrudService {
             };
             const set = { };
             const options = { new: true };
-            if (data.fullLogoUrl) {
+            if (data.fullProfileImageUrl) {
                 options.new = false;
-                const resResize = resizeImage(data.fullProfileImageUrl);
+                const resResize = resizeImage(data.fullProfileImageUrl, null, 200, 200);
                 set.profileImage = resResize.resizeImage;
             }
             if ('name' in data) set.name = data.name;
@@ -105,7 +105,7 @@ class StoryService extends CrudService {
             if ('shortDescription' in data) set.shortDescription = data.shortDescription;
             const result = await super.updateOne(conditions, set, options);
             if (isEmpty(result)) return responseError(1007);
-            if (!options.new) {
+            if (!options.new && result.profileImage) {
                 const urlFullSizeImg = result.profileImage.replace('1.', '.');
                 deleteFile(joinPathFolderPublic(urlFullSizeImg));
                 deleteFile(joinPathFolderPublic(result.profileImage));

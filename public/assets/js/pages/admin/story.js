@@ -62,7 +62,6 @@ button.addEventListener('click', () => {
                 handleValue('resetValue', '#form-modal',
                     { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription', 'image', 'tmpImage'] });
                 descriptionEditor.setData('');
-
             } else {
                 if (response.statusCode === 1001) {
                     return loggerError(handleMsgParamsErrors(response.error));
@@ -75,7 +74,16 @@ button.addEventListener('click', () => {
             { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription'] });
         data.storyOId = getElement('#form-modal').getAttribute('data-storyOId');
         data.description = descriptionEditor.getData();
-        HttpService.post('/admin/story/update', data).then((response) => {
+        const file = document.querySelector('#form-modal form').image.files[0];
+        if (file) {
+            data.image = file;
+        }
+
+        const formData = new FormData();
+        for (const prop in data) {
+            formData.append(prop, data[prop]);
+        }
+        HttpService.post('/admin/story/update', formData).then((response) => {
             if (response.success) {
                 $('#form-modal').modal('hide');
                 loggerSuccess(response.message);

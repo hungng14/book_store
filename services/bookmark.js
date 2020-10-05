@@ -89,12 +89,11 @@ class BookmarkService extends CrudService {
             const fields = '_id accountOId storyOId';
             const populate = [
                 {
-                    ...this.populateModel('story', '_id name'),
+                    ...this.populateModel('story', '_id name profileImage'),
                     populate: this.populateModel('chapter', '_id chapterNumber title'),
                 },
                 this.populateModel('chapter', '_id title chapterNumber'),
             ];
-            console.log(data);
             const result = await super.listActive(data, fields, populate, options);
             return responseSuccess(202, result);
         } catch (error) {

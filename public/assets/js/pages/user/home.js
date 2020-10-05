@@ -14,7 +14,7 @@ function listStoryNewest() {
                 let template = '';
                 response.data.map((item) => {
                     template += `<a href="/story/${item._id}"><div class="wrapper-item-slider">
-                        <img src="https://truyencv.com/images/poster/do-de-cua-ta-deu-la-trum-phan-dien-poster-1578750543-200x300.jpg"
+                        <img src="${item.profileImage}"
                             alt="">
                         <div class="wrapper-item-detail">
                             <h3 class="wrapper-item-title">${item.name}</h3>
@@ -44,7 +44,7 @@ function listStoryUpdateNewest() {
                     $('#books-new-updated').append(`
                       <div class="book-item">
                           <div class="book-item-detail">
-                              <img src="https://truyencv.com/images/poster/cuc-vo-poster-1541267221-200x300.jpg" alt="">
+                              <img src="${item.profileImage || ''}" alt="">
                               <div class="detail">
                                   <h3 class="book-item-title">
                                     <a href="/story/${item._id}">${item.name}</a>
@@ -73,13 +73,14 @@ function listStoryTopView() {
                 const elmBookReads = getElement('.book-reads');
                 let template = '';
                 response.data.map((item) => {
-                    const chapterNumber = ((item.story || {}).chapter || {}).chapterNumber || 0;
+                    const story = item.story || {};
+                    const chapterNumber = (story.chapter || {}).chapterNumber || 0;
                     template += `<div class="book-item">
                     <div class="book-item-detail">
-                        <img src="https://truyencv.com/images/poster/cuc-vo-poster-1541267221-200x300.jpg" alt="">
+                        <img src="${story.profileImage || ''}" alt="">
                         <div class="detail">
                             <h3 class="book-item-title">
-                                <a href="/story/${(item.story || {})._id || ''}">${(item.story || {}).name || ''}</a>
+                                <a href="/story/${story._id || ''}">${story.name || ''}</a>
                             </h3>
                             <p class="book-item-chapter-crt">Chương ${chapterNumber}</p>
                         </div>
@@ -106,14 +107,15 @@ function listBookmarked() {
             if (response.success) {
                 let template = '';
                 response.data.map((item) => {
-                    const chapterNumber = (item.chapter || (item.story || {}).chapter || {}).chapterNumber || 0;
+                    const story = item.story || {};
+                    const chapterNumber = (item.chapter || story.chapter || {}).chapterNumber || 0;
                     template += `
                     <div class="book-item">
                         <div class="book-item-detail">
-                            <img src="https://truyencv.com/images/poster/cuc-vo-poster-1541267221-200x300.jpg" alt="">
+                            <img src="${story.profileImage || ''}" alt="">
                             <div class="detail">
                                 <h3 class="book-item-title">
-                                    <a href="/story/${(item.story || {})._id || ''}">${(item.story || {}).name || ''}</a>
+                                    <a href="/story/${story._id || ''}">${story.name || ''}</a>
                                 </h3>
                                 <p class="book-item-chapter-crt">Chương ${chapterNumber}</p>
                             </div>

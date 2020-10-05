@@ -145,6 +145,7 @@ class StoryController extends BaseController {
                 categoryName: (infoStory.category || {}).name || '',
                 name: infoStory.name,
                 code: infoStory.code,
+                profileImage: infoStory.profileImage,
                 description: infoStory.description,
             };
             const { infoMember } = req.session;

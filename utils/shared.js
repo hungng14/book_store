@@ -224,7 +224,7 @@ class Shared {
         return (str.replace(/\s\s+/g, ' ')).split(' ').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     }
 
-    resizeImage(fullUrlImage, fileName) {
+    resizeImage(fullUrlImage, fileName, width = 100, height = 100) {
         const set = {};
         const dirnameSaved = path.dirname(fullUrlImage);
         const extname = path.extname(fullUrlImage);
@@ -236,7 +236,7 @@ class Shared {
         const urlResize = pathResizeSaved.split('\\').join('/');
         set.resizeImage = this.sliceString(urlResize, '/uploads');
         sharp(fullUrlImage)
-            .resize(100, 100)
+            .resize(width, height)
             .toFile(pathResizeSaved, (err) => {
             // eslint-disable-next-line no-console
                 if (err) { console.log(err); }
