@@ -10,7 +10,7 @@ const BookmarkSchema = new Schema(
             type: ObjectId, ref: 'account', required: true, index: true,
         },
         storyOId: { type: ObjectId, required: true, ref: 'story' },
-        chapterOId: { type: ObjectId, required: true, ref: 'chapter' },
+        chapterOId: { type: ObjectId, ref: 'chapter' },
         ...fieldsCommon(),
     },
     { ...optionsSchemaCommon({ collection: 'bookmark' }) },

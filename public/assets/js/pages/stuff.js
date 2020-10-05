@@ -23,6 +23,7 @@ function appendOptionOfSelect(className, array = [], options = {
 }
 
 const getElement = (element) => document.querySelector(element);
+const getAllElement = (element) => document.querySelectorAll(element);
 const handleValue = (action, rootElement, {
     names = [],
     data = [{ name: '', value: '' }],

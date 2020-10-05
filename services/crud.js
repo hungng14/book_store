@@ -12,13 +12,13 @@ class CrudService extends BaseService {
         this.bookmarkCollection = models.BookmarkModel;
         this.categoryCollection = models.CategoryModel;
         this.chapterCollection = models.ChapterModel;
-        this.commentReplyCollection = models.CommentReplyModel;
+        this.comment_replyCollection = models.CommentReplyModel;
         this.commentCollection = models.CommentModel;
         this.historyCollection = models.HistoryModel;
         this.ratingCollection = models.RatingModel;
         this.storyCollection = models.StoryModel;
-        this.viewStatisticCollection = models.ViewStatisticModel;
-        this.viewStatisticDetailCollection = models.ViewStatisticDetailModel;
+        this.view_statisticCollection = models.ViewStatisticModel;
+        this.view_statistic_detailCollection = models.ViewStatisticDetailModel;
         this.informationCollection = models.InformationModel;
     }
 
@@ -37,13 +37,15 @@ class CrudService extends BaseService {
         }
     }
 
-    listActive(query = {}, fields, populate) {
+    listActive(query = {}, fields, populate, options = {}) {
         try {
             const { collectionName } = this;
-            Object.assign(query, { status: STATUS.Active });
+            Object.assign(query, { status: STATUS.Active, isDeleted: false });
             const promise = this[`${collectionName}Collection`].find(query);
             if (fields) promise.select(fields);
             if (populate) promise.populate(populate);
+            if (options.limit) promise.limit(+options.limit);
+            if (options.sort) promise.sort(options.sort);
             return this.promise(promise);
         } catch (error) {
             throw error;

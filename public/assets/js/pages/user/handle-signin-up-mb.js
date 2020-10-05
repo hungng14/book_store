@@ -5,7 +5,10 @@ signInButton.addEventListener('click', () => {
     HttpService.post('/sign-in', data)
         .then((response) => {
             if (response.success) {
+                const {infoToken} = response.data;
                 loggerSuccess(response.message);
+                document.cookie = `_tk_=${infoToken.token}; expires=${new Date(infoToken.exp)}`;
+                document.location.reload();
             } else {
                 if (response.statusCode === 1001) {
                     return loggerError(handleMsgParamsErrors(response.error));

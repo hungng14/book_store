@@ -19,5 +19,11 @@ const ChapterSchema = new Schema(
     { ...optionsSchemaCommon({ collection: 'chapter' }) },
 );
 ChapterSchema.plugin(mongoose_paginate);
+ChapterSchema.virtual('story', {
+    ref: 'story',
+    localField: 'storyOId',
+    foreignField: '_id',
+    justOne: true,
+});
 const Chapter = mongoose.model('chapter', ChapterSchema);
 module.exports = Chapter;

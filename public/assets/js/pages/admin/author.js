@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 const scope = {};
 getElement('#btn-show-modal-create').addEventListener('click', () => {
     getElement('#form-modal').setAttribute('data-action', 'create');

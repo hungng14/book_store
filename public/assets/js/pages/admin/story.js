@@ -1,23 +1,58 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
+let descriptionEditor = null;
+
+// eslint-disable-next-line no-undef
+ClassicEditor
+    .create(document.querySelector('#description'), {
+        minHeight: '300px',
+        toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+        heading: {
+            options: [
+                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                {
+                    model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1',
+                },
+                {
+                    model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2',
+                },
+                {
+                    model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3',
+                },
+                {
+                    model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4',
+                },
+                {
+                    model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5',
+                },
+            ],
+        },
+    })
+    .then((editor) => {
+        descriptionEditor = editor;
+    });
+
 const scope = {};
 getElement('#btn-show-modal-create').addEventListener('click', () => {
     getElement('#form-modal').setAttribute('data-action', 'create');
     getElement('#form-modal').removeAttribute('data-storyOId');
-    handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
+    handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription'] });
 });
 
 const button = getElement('#save');
 button.addEventListener('click', () => {
     const action = getElement('#form-modal').getAttribute('data-action');
     if (action === 'create') {
-        const data = handleValue('getValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
+        const data = handleValue('getValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId'] });
+        data.description = descriptionEditor.getData();
         HttpService.post('/admin/story/create', data).then((response) => {
             if (response.success) {
                 loggerSuccess(response.message);
                 listStory();
-                handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
+                handleValue('resetValue', '#form-modal',
+                    { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription'] });
+                descriptionEditor.setData('');
             } else {
                 if (response.statusCode === 1001) {
                     return loggerError(handleMsgParamsErrors(response.error));
@@ -26,14 +61,18 @@ button.addEventListener('click', () => {
             }
         });
     } else {
-        const data = handleValue('getValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
+        const data = handleValue('getValue', '#form-modal',
+            { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription'] });
         data.storyOId = getElement('#form-modal').getAttribute('data-storyOId');
+        data.description = descriptionEditor.getData();
         HttpService.post('/admin/story/update', data).then((response) => {
             if (response.success) {
                 $('#form-modal').modal('hide');
                 loggerSuccess(response.message);
                 listStory();
-                // handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
+                handleValue('resetValue', '#form-modal',
+                    { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription'] });
+                descriptionEditor.setData('');
             } else {
                 if (response.statusCode === 1001) {
                     return loggerError(handleMsgParamsErrors(response.error));
@@ -151,15 +190,16 @@ function showInfo(storyOId) {
                 const story = response.data;
                 getElement('#form-modal').setAttribute('data-action', 'update');
                 getElement('#form-modal').setAttribute('data-storyOId', story._id);
+                descriptionEditor.setData(story.description);
                 handleValue('setValue', '#form-modal', {
                     data: [
                         { name: 'code', value: story.code },
                         { name: 'name', value: story.name },
                         { name: 'authorOId', value: story.authorOId },
                         { name: 'categoryOId', value: story.categoryOId },
-                        { name: 'description', value: story.description },
                         { name: 'source', value: story.source },
                         { name: 'state', value: story.state },
+                        { name: 'shortDescription', value: story.shortDescription || '' },
                     ],
                 });
             }

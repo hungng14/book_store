@@ -1,7 +1,9 @@
 const BaseController = require('./base');
 const storyService = require('../services/story');
 const chapterService = require('../services/chapter');
+const viewStatisticService = require('../services/viewStatistic');
 const { isEmpty } = require('../utils/shared');
+const { STATUS } = require('../constants/constants');
 
 class StoryController extends BaseController {
     constructor() {
@@ -20,7 +22,7 @@ class StoryController extends BaseController {
         try {
             const { storyOId } = req.params;
             const infoStory = await storyService.findOne({ storyOId, usePopulate: true });
-            if (isEmpty(infoStory)) return res.render('404', { layout: false });
+            if (isEmpty(infoStory)) return super.renderPage404(res);
             return super.renderPageAdmin(req, res, {
                 path: 'story/chapters',
                 story: JSON.stringify({
@@ -120,6 +122,76 @@ class StoryController extends BaseController {
     async getInfoChapter(req, res) {
         try {
             const result = await chapterService.getInfo(req.query);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
+    async viewInfoUser(req, res) {
+        try {
+            const { storyOId } = req.params;
+            if (!storyOId) return super.renderPage404(res);
+            const infoStory = await storyService.findOne({
+                _id: storyOId,
+                status: STATUS.Active,
+                usePopulate: true,
+            });
+            if (!infoStory) return super.renderPage404(res);
+            viewStatisticService.create({ storyOId });
+            const data = {
+                authorName: (infoStory.author || {}).name || '',
+                categoryName: (infoStory.category || {}).name || '',
+                name: infoStory.name,
+                code: infoStory.code,
+                description: infoStory.description,
+            };
+            return super.renderPageUser(req, res, {
+                path: 'story/info',
+                infoStory: data,
+                storyOId,
+            });
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
+    async viewChapter(req, res) {
+        try {
+            const infoChapter = await chapterService.findOne({
+                storyOId: req.params.storyOId,
+                chapterNumber: +req.params.chapterNumber,
+                usePopulate: true,
+            });
+            if (!infoChapter) return super.renderPage404(res);
+            const infoFirstChapter = await chapterService.findOne({
+                storyOId: req.params.storyOId,
+                sort: { chapterNumber: 1 },
+            });
+            const infoLastChapter = await chapterService.findOne({
+                storyOId: req.params.storyOId,
+                sort: { chapterNumber: -1 },
+            });
+            return super.renderPageUser(req, res, {
+                path: 'story/chapter',
+                infoChapter: {
+                    isNotFirstChapter: infoChapter.chapterNumber > infoFirstChapter.chapterNumber,
+                    isNotLastChapter: infoChapter.chapterNumber < infoLastChapter.chapterNumber,
+                    content: infoChapter.content,
+                    chapterNumber: infoChapter.chapterNumber,
+                    title: infoChapter.title,
+                    storyOId: req.params.storyOId,
+                    storyName: (infoChapter.story || {}).name || '',
+                },
+            });
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
+    async listActive(req, res) {
+        try {
+            const result = await storyService.listActive(req.query);
             return super.resJsonSuccess(res, result);
         } catch (error) {
             return super.resJsonError(res, error, 'story');

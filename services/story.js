@@ -36,6 +36,7 @@ class StoryService extends CrudService {
         };
         if (data.code) conditions.code = data.code;
         if (data.storyOId) conditions._id = data.storyOId;
+        if (data.status) conditions.status = data.status;
         const promise = this.collectionCurrent().findOne(conditions);
         if (data.usePopulate) {
             promise.populate([
@@ -64,6 +65,7 @@ class StoryService extends CrudService {
             if ('source' in data) set.source = data.source;
             if ('description' in data) set.description = data.description;
             if ('profileImage' in data) set.profileImage = data.profileImage;
+            if ('shortDescription' in data) set.shortDescription = data.shortDescription;
             const result = await super.create(set);
             if (!isEmpty(result)) return responseSuccess(201);
             return responseError(1006);
@@ -91,6 +93,7 @@ class StoryService extends CrudService {
             if ('state' in data) set.state = data.state;
             if ('source' in data) set.source = data.source;
             if ('description' in data) set.description = data.description;
+            if ('shortDescription' in data) set.shortDescription = data.shortDescription;
             if ('profileImage' in data) set.profileImage = data.profileImage;
             const result = await super.updateOne(conditions, set);
             if (isEmpty(result)) return responseError(1007);
@@ -126,6 +129,33 @@ class StoryService extends CrudService {
             const result = await super.getInfo(conditions);
             if (isEmpty(result)) return responseError(1010);
             return responseSuccess(204, result);
+        } catch (error) {
+            throw responseError(1000, error);
+        }
+    }
+
+    async listActive(data) {
+        try {
+            const options = {};
+            if (data.sortKey || data.sortOrder) {
+                options.sort = {
+                    [data.sortKey || '_id']: +data.sortOrder || -1,
+                };
+                delete data.sortKey;
+                delete data.sortOrder;
+            }
+            if (data.limit) {
+                options.limit = data.limit;
+                delete data.limit;
+            }
+            const fields = data.fieldsSelected || '_id name';
+            const populate = [];
+            if (fields.includes('chapterNewest')) {
+                populate.push(this.populateModel('chapterNewest', '_id chapterNumber title', {}, { sort: { chapterNumber: -1 } }));
+            }
+            delete data.fieldsSelected;
+            const result = await super.listActive(data, fields, populate, options);
+            return responseSuccess(202, result);
         } catch (error) {
             throw responseError(1000, error);
         }

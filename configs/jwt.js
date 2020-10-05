@@ -11,7 +11,11 @@ class JWT {
         return new Promise((resolve, reject) => {
             jwt.sign(payload, this.secretMember, { expiresIn, mutatePayload: true }, (err, token) => {
                 if (err) throw reject(err);
-                return resolve(token);
+                return resolve({
+                    token,
+                    iat: payload.iat * 1000,
+                    exp: payload.exp * 1000,
+                });
             });
         });
     }
@@ -38,7 +42,7 @@ class JWT {
     async verifyMember(token) {
         return new Promise((resolve, reject) => {
             jwt.verify(token, this.secretMember, (err, decoded) => {
-                if (err) return reject(err);
+                if (err) return null;
                 return resolve(decoded);
             });
         });

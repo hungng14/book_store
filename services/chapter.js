@@ -33,7 +33,15 @@ class ChapterService extends CrudService {
         if (data.storyOId) conditions.storyOId = data.storyOId;
         if (data.chapterNumber) conditions.chapterNumber = data.chapterNumber;
         if (data.title) conditions.title = data.title;
-        const result = await this.collectionCurrent().findOne(conditions).lean();
+        const promise = this.collectionCurrent().findOne(conditions);
+        if (data.usePopulate) {
+            const populate = this.populateModel('story', '-_id name');
+            promise.populate(populate);
+        }
+        if (data.sort) {
+            promise.sort(data.sort);
+        }
+        const result = await promise.lean();
         return result;
     }
 
