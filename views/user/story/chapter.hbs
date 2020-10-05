@@ -65,17 +65,24 @@
   .block-arrows {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
-  .block-arrows a.item-arrow {
+  .block-arrows span.item-arrow {
     text-decoration: none;
     color: rgb(89, 87, 87);
     transition: .3s;
     font-size: 1.3em;
+    cursor: pointer;
   }
 
-  .block-arrows a.item-arrow:hover {
+  .block-arrows span.item-arrow:not(.disabled):hover {
     color: #000;
+  }
+
+  .block-arrows span.item-arrow.disabled {
+    cursor: not-allowed;
+    color: rgb(220 218 218);
   }
 
   .read-content p {
@@ -147,17 +154,34 @@
         </ul>
       </div>
     </div>
-    <div class="block-chapter-content">
+    <div class="block-chapter-content" data-chapterNumber="{{infoChapter.chapterNumber}}"
+      data-storyOId="{{infoChapter.storyOId}}">
       <div class="chapter-content">
         <div class="block-arrows">
-          <a href="" class="item-arrow item-arrow-left">
+          {{#if infoChapter.isNotFirstChapter}}
+          <span class="item-arrow item-arrow-left">
             <i class="mdi mdi-arrow-left-bold-circle"></i>
             Chương trước
-          </a>
-          <a href="" class="item-arrow item-arrow-right">
+          </span>
+          {{else}}
+          <span class="item-arrow disabled">
+            <i class="mdi mdi-arrow-left-bold-circle"></i>
+            Chương trước
+          </span>
+          {{/if}}
+          <h2>{{infoChapter.storyName}}</h2>
+
+          {{#if infoChapter.isNotLastChapter}}
+          <span class="item-arrow item-arrow-right">
             Chương sau
             <i class="mdi mdi-arrow-right-bold-circle"></i>
-          </a>
+          </span>
+          {{else}}
+          <span class="item-arrow disabled">
+            Chương sau
+            <i class="mdi mdi-arrow-right-bold-circle"></i>
+          </span>
+          {{/if}}
         </div>
         <div class="block-content mb-5 mt-5">
           <div class="title-chapter mb-5">
@@ -168,16 +192,32 @@
           </div>
         </div>
         <div class="block-arrows">
-          <a class="item-arrow item-arrow-left">
+          {{#if infoChapter.isNotFirstChapter}}
+          <span class="item-arrow item-arrow-left">
             <i class="mdi mdi-arrow-left-bold-circle"></i>
             Chương trước
-          </a>
-          <a class="item-arrow item-arrow-right">
+          </span>
+          {{else}}
+          <span class="item-arrow disabled">
+            <i class="mdi mdi-arrow-left-bold-circle"></i>
+            Chương trước
+          </span>
+          {{/if}}
+          {{#if infoChapter.isNotLastChapter}}
+          <span class="item-arrow item-arrow-right">
             Chương sau
             <i class="mdi mdi-arrow-right-bold-circle"></i>
-          </a>
+          </span>
+          {{else}}
+          <span class="item-arrow disabled">
+            Chương sau
+            <i class="mdi mdi-arrow-right-bold-circle"></i>
+          </span>
+          {{/if}}
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script src="/assets/js/pages/user/chapter.js"></script>

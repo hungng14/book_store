@@ -156,20 +156,30 @@ class StoryController extends BaseController {
 
     async viewChapter(req, res) {
         try {
-            console.log(req.params);
             const infoChapter = await chapterService.findOne({
                 storyOId: req.params.storyOId,
                 chapterNumber: +req.params.chapterNumber,
+                usePopulate: true,
             });
             if (!infoChapter) return super.renderPage404(res);
-            console.log(infoChapter)
+            const infoFirstChapter = await chapterService.findOne({
+                storyOId: req.params.storyOId,
+                sort: { chapterNumber: 1 },
+            });
+            const infoLastChapter = await chapterService.findOne({
+                storyOId: req.params.storyOId,
+                sort: { chapterNumber: -1 },
+            });
             return super.renderPageUser(req, res, {
                 path: 'story/chapter',
                 infoChapter: {
+                    isNotFirstChapter: infoChapter.chapterNumber > infoFirstChapter.chapterNumber,
+                    isNotLastChapter: infoChapter.chapterNumber < infoLastChapter.chapterNumber,
                     content: infoChapter.content,
                     chapterNumber: infoChapter.chapterNumber,
                     title: infoChapter.title,
                     storyOId: req.params.storyOId,
+                    storyName: (infoChapter.story || {}).name || '',
                 },
             });
         } catch (error) {
