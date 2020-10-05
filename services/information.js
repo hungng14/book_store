@@ -26,7 +26,7 @@ class InformationService extends CrudService {
                 description: data.description,
                 status: STATUS.Active,
             };
-            const newLogo = resizeImage(data.fullLogoUrl);
+            const newLogo = resizeImage(data.fullLogoUrl, 'logo');
             set.fullSizeLogo = newLogo.fullSizeImage;
             set.logo = newLogo.resizeImage;
             if ('email' in data) set.email = data.email;
@@ -50,7 +50,7 @@ class InformationService extends CrudService {
             const options = { new: true };
             if (data.fullLogoUrl) {
                 options.new = false;
-                const newLogo = resizeImage(data.fullLogoUrl);
+                const newLogo = resizeImage(data.fullLogoUrl, 'logo');
                 set.fullSizeLogo = newLogo.fullSizeImage;
                 set.logo = newLogo.resizeImage;
             }

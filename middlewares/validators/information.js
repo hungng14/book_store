@@ -13,7 +13,7 @@ const informationOIdValidator = validateObjectId('informationOId', true);
 const validateLogo = (required = false) => ({
     logo: {
         [required ? 'notEmpty' : 'optional']: true,
-        errorMessage: 'logo is required and must be an image',
+        errorMessage: 'logo không được để trống và phải là hình ảnh',
     },
 });
 

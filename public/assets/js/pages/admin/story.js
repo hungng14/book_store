@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
@@ -46,13 +48,21 @@ button.addEventListener('click', () => {
     if (action === 'create') {
         const data = handleValue('getValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId'] });
         data.description = descriptionEditor.getData();
-        HttpService.post('/admin/story/create', data).then((response) => {
+        const file = document.querySelector('#form-modal form').image.files[0];
+        data.image = file;
+        const formData = new FormData();
+        for (const prop in data) {
+            formData.append(prop, data[prop]);
+        }
+
+        HttpService.post('/admin/story/create', formData).then((response) => {
             if (response.success) {
                 loggerSuccess(response.message);
                 listStory();
                 handleValue('resetValue', '#form-modal',
-                    { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription'] });
+                    { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription', 'image', 'tmpImage'] });
                 descriptionEditor.setData('');
+
             } else {
                 if (response.statusCode === 1001) {
                     return loggerError(handleMsgParamsErrors(response.error));

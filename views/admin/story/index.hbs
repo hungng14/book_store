@@ -65,6 +65,18 @@
                             <label for="source" class="col-form-label">Nguồn</label>
                             <input type="text" class="form-control" id="source" name="source">
                         </div>
+                        <div class="form-group">
+                            <label class="col-form-label">File upload</label>
+                            <input type="file" name="image" class="file-upload-default">
+                            <div class="input-group col-xs-12">
+                                <input type="text" class="form-control file-upload-info" disabled
+                                    placeholder="Upload Image" name="tmpImage">
+                                <span class="input-group-append">
+                                    <button class="file-upload-browse btn btn-gradient-primary"
+                                        type="button">Upload</button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -83,8 +95,6 @@
                             <label for="recipient-name" class="col-form-label">Tên tác giả</label>
                             <select name="authorOId" class="form-control authors"></select>
                         </div>
-                    </div>
-                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="short-description" class="col-form-label">Mô tả ngắn</label>
                             <textarea class="form-control" name="shortDescription" id="short-description"></textarea>
@@ -109,3 +119,4 @@
 <script defer src="/assets/js/pages/stuff.js"></script>
 <script defer src="/assets/js/pages/pagination.js"></script>
 <script defer src="/assets/js/pages/admin/story.js"></script>
+<script src="/assets/js/file-upload.js"></script>

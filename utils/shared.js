@@ -224,14 +224,15 @@ class Shared {
         return (str.replace(/\s\s+/g, ' ')).split(' ').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     }
 
-    resizeImage(fullUrlImage) {
+    resizeImage(fullUrlImage, fileName) {
         const set = {};
         const dirnameSaved = path.dirname(fullUrlImage);
         const extname = path.extname(fullUrlImage);
         const replacePath = fullUrlImage.split('\\').join('/');
         const filePathSaved = this.sliceString(replacePath, '/uploads');
         set.fullSizeImage = filePathSaved;
-        const pathResizeSaved = `${dirnameSaved}\\logo${extname}`;
+        fileName = fileName || path.parse(fullUrlImage).name + 1;
+        const pathResizeSaved = `${dirnameSaved}\\${fileName}${extname}`;
         const urlResize = pathResizeSaved.split('\\').join('/');
         set.resizeImage = this.sliceString(urlResize, '/uploads');
         sharp(fullUrlImage)
@@ -243,6 +244,5 @@ class Shared {
         return set;
     }
 }
-
 const shaInstance = new Shared();
 module.exports = shaInstance;
