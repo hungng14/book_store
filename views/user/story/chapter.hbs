@@ -1,0 +1,378 @@
+<style>
+  .root {
+    background: #eee;
+  }
+
+  .wrapper-content {
+    position: relative;
+  }
+
+  .block-chapter-content {
+    display: flex;
+    justify-content: center;
+  }
+
+  .chapter-content {
+    position: relative;
+    padding: 30px 40px;
+    background: #fff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    max-width: 860px;
+  }
+
+  .block-actions {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
+  .block-settings {
+    display: block;
+    width: 80px;
+    background: #fff;
+    top: 160px;
+    border-radius: 10px;
+    height: max-content;
+  }
+
+  .st-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .st-item-menu {
+    text-align: center;
+  }
+
+  .st-item-menu a {
+    font-size: 1.5em;
+    color: rgb(89, 87, 87);
+    transition: .3s;
+  }
+
+  .st-item-menu a:hover {
+    color: #000;
+  }
+
+  .block-arrows {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .block-arrows a.item-arrow {
+    text-decoration: none;
+    color: rgb(89, 87, 87);
+    transition: .3s;
+    font-size: 1.3em;
+  }
+
+  .block-arrows a.item-arrow:hover {
+    color: #000;
+  }
+
+  .read-content p {
+    font-size: 20px;
+  }
+
+  .wrapper-chapters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .item-chapter {
+    width: 300px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    ;
+  }
+</style>
+
+<div class="content">
+  <div class="wrapper-content">
+    <div class="block-actions">
+      <div class="block-settings">
+        <ul class="st-menu">
+          <li class="st-item-menu item-sl-chapters">
+            <a href="#" title="Đánh dấu">
+              <i class="mdi mdi-bookmark-outline"></i>
+            </a>
+          </li>
+          <li class="st-item-menu item-sl-chapters">
+            <a href="#" title="Danh sách chương">
+              <i class="mdi mdi-menu"></i>
+            </a>
+            {{!-- <div class="wrapper-chapters">
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
+            </div> --}}
+          </li>
+          <li class="st-item-menu item-sl-showing">
+            <a href="#" title="Cài đặt hiển thị">
+              <i class="mdi mdi-settings"></i>
+            </a>
+          </li>
+          <li class="st-item-menu item-sl-view-info">
+            <a href="#" title="Thông tin truyện">
+              <i class="mdi mdi-arrow-left"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="block-chapter-content">
+      <div class="chapter-content">
+        <div class="block-arrows">
+          <a href="" class="item-arrow item-arrow-left">
+            <i class="mdi mdi-arrow-left-bold-circle"></i>
+            Chương trước
+          </a>
+          <a href="" class="item-arrow item-arrow-right">
+            Chương sau
+            <i class="mdi mdi-arrow-right-bold-circle"></i>
+          </a>
+        </div>
+        <div class="block-content mb-5 mt-5">
+          <div class="title-chapter mb-5">
+            <h2>Chương 1: : Ai dám động đến em gái ta!</h2>
+          </div>
+          <div class="read-content">
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+            <p>Trong trận đấu giữa Arsenal và Sheffield United tại vòng 4 Premier League, tiền đạo Nicolas Pepe đã thể
+              hiện
+              một màn trình diễn khá ấn tượng khi đóng góp tích cực vào lối chơi chung, đồng thời ghi bàn thắng đầu tiên
+              ở
+              mùa giải mới, qua đó giúp Pháo thủ nâng tỷ số lên 2-0 trước khi David McGoldrick lập công rút ngắn tỷ số
+              cho
+              đội khách.
+
+              Bản hợp đồng trị giá 80 triệu euro từng nhận được rất nhiều kỳ vọng kể từ khi cập bến Emirates vào mùa hè
+              năm
+              ngoái, song phong độ thất thường đã khiến anh dần chìm vào quên lãng. Mặc dù vậy, HLV Mikel Arteta vẫn sẵn
+              sàng trao cơ hội cho Pepe nếu như ngôi sao 25 tuổi biết cách tạo tác động tương tự như những gì đã làm ở
+              màn
+              đụng độ vừa qua.</p>
+          </div>
+        </div>
+        <div class="block-arrows">
+          <a href="" class="item-arrow item-arrow-left">
+            <i class="mdi mdi-arrow-left-bold-circle"></i>
+            Chương trước
+          </a>
+          <a href="" class="item-arrow item-arrow-right">
+            Chương sau
+            <i class="mdi mdi-arrow-right-bold-circle"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -36,6 +36,7 @@ class StoryService extends CrudService {
         };
         if (data.code) conditions.code = data.code;
         if (data.storyOId) conditions._id = data.storyOId;
+        if (data.status) conditions.status = data.status;
         const promise = this.collectionCurrent().findOne(conditions);
         if (data.usePopulate) {
             promise.populate([
@@ -127,6 +128,35 @@ class StoryService extends CrudService {
             if (isEmpty(result)) return responseError(1010);
             return responseSuccess(204, result);
         } catch (error) {
+            throw responseError(1000, error);
+        }
+    }
+
+    async listActive(data) {
+        try {
+            console.log(data);
+            const options = {};
+            if (data.sortKey || data.sortOrder) {
+                options.sort = {
+                    [data.sortKey || '_id']: +data.sortOrder || -1,
+                };
+                delete data.sortKey;
+                delete data.sortOrder;
+            }
+            if (data.limit) {
+                options.limit = data.limit;
+                delete data.limit;
+            }
+            const fields = data.fieldsSelected || '_id name';
+            const populate = [];
+            if (fields.includes('chapterNewest')) {
+                populate.push(this.populateModel('chapterNewest', '_id chapterNumber title', {}, { sort: { chapterNumber: -1 } }));
+            }
+            delete data.fieldsSelected;
+            const result = await super.listActive(data, fields, populate, options);
+            return responseSuccess(202, result);
+        } catch (error) {
+            console.log(error);
             throw responseError(1000, error);
         }
     }

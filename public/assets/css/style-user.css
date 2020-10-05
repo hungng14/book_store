@@ -187,6 +187,13 @@ body {
 .book-item-title{
     font-size: 1em;
 }
+.book-item-title a{
+    text-decoration: none;
+    font-size: 1em;
+    color: #343a40;
+    font-weight: 600;
+    line-height: 1.2;
+}
 
 .book-item{
     position: relative;

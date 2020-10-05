@@ -43,5 +43,22 @@ StorySchema.virtual('category', {
     foreignField: '_id',
     justOne: true,
 });
+StorySchema.virtual('totalChapter', {
+    ref: 'chapter',
+    localField: '_id',
+    foreignField: 'storyOId',
+    count: true,
+});
+StorySchema.virtual('chapters', {
+    ref: 'chapter',
+    localField: '_id',
+    foreignField: 'storyOId',
+});
+StorySchema.virtual('chapterNewest', {
+    ref: 'chapter',
+    localField: '_id',
+    foreignField: 'storyOId',
+    justOne: true,
+});
 const Story = mongoose.model('story', StorySchema);
 module.exports = Story;

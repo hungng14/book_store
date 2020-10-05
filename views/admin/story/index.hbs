@@ -13,7 +13,8 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Danh sách truyện</h4>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#form-modal" id="btn-show-modal-create">Thêm
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#form-modal"
+                        id="btn-show-modal-create">Thêm
                         mới</button>
                     </p>
                     <table class="table table-bordered" id="story-table">
@@ -40,9 +41,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modal-label">Thêm mới thể loại</h5>
@@ -51,38 +51,44 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="book-code" class="col-form-label">Mã sách</label>
-                        <input type="text" class="form-control" name="code" id="book-code">
+                <form class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="book-code" class="col-form-label">Mã sách</label>
+                            <input type="text" class="form-control" name="code" id="book-code">
+                        </div>
+                        <div class="form-group">
+                            <label for="book-name" class="col-form-label">Tên sách</label>
+                            <input type="text" class="form-control" name="name" id="book-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="source" class="col-form-label">Nguồn</label>
+                            <input type="text" class="form-control" id="source" name="source">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="book-name" class="col-form-label">Tên sách</label>
-                        <input type="text" class="form-control" name="name" id="book-name">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="state" class="col-form-label">Tình trạng</label>
+                            <select name="state" class="form-control">
+                                <option value="">Không chọn</option>
+                                <option value="FULL">Đã full</option>
+                                <option value="NOT FULL">Cập nhật thêm</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Tên thể loại</label>
+                            <select name="categoryOId" class="form-control categories"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Tên tác giả</label>
+                            <select name="authorOId" class="form-control authors"></select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="source" class="col-form-label">Nguồn</label>
-                        <input type="text" class="form-control" id="source" name="source">
-                    </div>
-                    <div class="form-group">
-                        <label for="state" class="col-form-label">Tình trạng</label>
-                        <select name="state" class="form-control">
-                            <option value="">Không chọn</option>
-                            <option value="FULL">Đã full</option>
-                            <option value="NOT FULL">Cập nhật thêm</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Tên thể loại</label>
-                        <select name="categoryOId" class="form-control categories"></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Tên tác giả</label>
-                        <select name="authorOId" class="form-control authors"></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="description" class="col-form-label">Mô tả</label>
-                        <textarea class="form-control" name="description" id="description"></textarea>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="description" class="col-form-label">Mô tả</label>
+                            <textarea class="form-control" name="description" id="description"></textarea>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -93,6 +99,7 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
 <script defer src="/assets/js/pages/stuff.js"></script>
 <script defer src="/assets/js/pages/pagination.js"></script>
 <script defer src="/assets/js/pages/story.js"></script>

@@ -2,6 +2,7 @@ const BaseController = require('./base');
 const storyService = require('../services/story');
 const chapterService = require('../services/chapter');
 const { isEmpty } = require('../utils/shared');
+const { STATUS } = require('../constants/constants');
 
 class StoryController extends BaseController {
     constructor() {
@@ -122,6 +123,53 @@ class StoryController extends BaseController {
             const result = await chapterService.getInfo(req.query);
             return super.resJsonSuccess(res, result);
         } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
+    async viewInfoUser(req, res) {
+        try {
+            console.log(req.params);
+            const { storyOId } = req.params;
+            if (!storyOId) return res.render('404');
+            const infoStory = await storyService.findOne({
+                _id: storyOId,
+                status: STATUS.Active,
+                usePopulate: true,
+            });
+            if (!infoStory) return res.render('404');
+            console.log(infoStory);
+            const data = {
+                authorName: (infoStory.author || {}).name || '',
+                categoryName: (infoStory.category || {}).name || '',
+                name: infoStory.name,
+                code: infoStory.code,
+            };
+            console.log(data);
+            return super.renderPageUser(req, res, {
+                path: 'story/info',
+                infoStory: data,
+            });
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
+    async viewChapter(req, res) {
+        try {
+            console.log(req.params);
+            return super.renderPageUser(req, res, { path: 'story/chapter' });
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
+    async listActive(req, res) {
+        try {
+            const result = await storyService.listActive(req.query);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            console.log(error);
             return super.resJsonError(res, error, 'story');
         }
     }

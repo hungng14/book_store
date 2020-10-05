@@ -37,13 +37,15 @@ class CrudService extends BaseService {
         }
     }
 
-    listActive(query = {}, fields, populate) {
+    listActive(query = {}, fields, populate, options = {}) {
         try {
             const { collectionName } = this;
-            Object.assign(query, { status: STATUS.Active });
+            Object.assign(query, { status: STATUS.Active, isDeleted: false });
             const promise = this[`${collectionName}Collection`].find(query);
             if (fields) promise.select(fields);
             if (populate) promise.populate(populate);
+            if (options.limit) promise.limit(+options.limit);
+            if (options.sort) promise.sort(options.sort);
             return this.promise(promise);
         } catch (error) {
             throw error;
