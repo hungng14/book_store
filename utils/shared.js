@@ -4,6 +4,7 @@ const isNumber = require('is-number');
 const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
+const sharp = require('sharp');
 const multer = require('multer');
 const moment = require('moment');
 require('moment/locale/vi');
@@ -20,6 +21,7 @@ class Shared {
         this.convertStrToArr = this.convertStrToArr.bind(this);
         this.responseError = this.responseError.bind(this);
         this.handleUpload = this.handleUpload.bind(this);
+        this.resizeImage = this.resizeImage.bind(this);
     }
 
     logError(message) {
@@ -220,6 +222,25 @@ class Shared {
 
     cvtFirstLetterUpper(str) {
         return (str.replace(/\s\s+/g, ' ')).split(' ').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
+
+    resizeImage(fullUrlImage) {
+        const set = {};
+        const dirnameSaved = path.dirname(fullUrlImage);
+        const extname = path.extname(fullUrlImage);
+        const replacePath = fullUrlImage.split('\\').join('/');
+        const filePathSaved = this.sliceString(replacePath, '/uploads');
+        set.fullSizeImage = filePathSaved;
+        const pathResizeSaved = `${dirnameSaved}\\logo${extname}`;
+        const urlResize = pathResizeSaved.split('\\').join('/');
+        set.resizeImage = this.sliceString(urlResize, '/uploads');
+        sharp(fullUrlImage)
+            .resize(100, 100)
+            .toFile(pathResizeSaved, (err) => {
+            // eslint-disable-next-line no-console
+                if (err) { console.log(err); }
+            });
+        return set;
     }
 }
 
