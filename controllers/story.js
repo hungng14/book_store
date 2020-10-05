@@ -1,6 +1,7 @@
 const BaseController = require('./base');
 const storyService = require('../services/story');
 const chapterService = require('../services/chapter');
+const viewStatisticService = require('../services/viewStatistic');
 const { isEmpty } = require('../utils/shared');
 const { STATUS } = require('../constants/constants');
 
@@ -137,6 +138,7 @@ class StoryController extends BaseController {
                 usePopulate: true,
             });
             if (!infoStory) return super.renderPage404(res);
+            viewStatisticService.create({ storyOId });
             const data = {
                 authorName: (infoStory.author || {}).name || '',
                 categoryName: (infoStory.category || {}).name || '',
@@ -192,7 +194,6 @@ class StoryController extends BaseController {
             const result = await storyService.listActive(req.query);
             return super.resJsonSuccess(res, result);
         } catch (error) {
-            console.log(error);
             return super.resJsonError(res, error, 'story');
         }
     }

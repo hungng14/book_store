@@ -65,6 +65,7 @@ class StoryService extends CrudService {
             if ('source' in data) set.source = data.source;
             if ('description' in data) set.description = data.description;
             if ('profileImage' in data) set.profileImage = data.profileImage;
+            if ('shortDescription' in data) set.shortDescription = data.shortDescription;
             const result = await super.create(set);
             if (!isEmpty(result)) return responseSuccess(201);
             return responseError(1006);
@@ -92,6 +93,7 @@ class StoryService extends CrudService {
             if ('state' in data) set.state = data.state;
             if ('source' in data) set.source = data.source;
             if ('description' in data) set.description = data.description;
+            if ('shortDescription' in data) set.shortDescription = data.shortDescription;
             if ('profileImage' in data) set.profileImage = data.profileImage;
             const result = await super.updateOne(conditions, set);
             if (isEmpty(result)) return responseError(1007);
@@ -134,7 +136,6 @@ class StoryService extends CrudService {
 
     async listActive(data) {
         try {
-            console.log(data);
             const options = {};
             if (data.sortKey || data.sortOrder) {
                 options.sort = {
@@ -156,7 +157,6 @@ class StoryService extends CrudService {
             const result = await super.listActive(data, fields, populate, options);
             return responseSuccess(202, result);
         } catch (error) {
-            console.log(error);
             throw responseError(1000, error);
         }
     }

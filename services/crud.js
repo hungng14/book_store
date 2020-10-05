@@ -12,13 +12,13 @@ class CrudService extends BaseService {
         this.bookmarkCollection = models.BookmarkModel;
         this.categoryCollection = models.CategoryModel;
         this.chapterCollection = models.ChapterModel;
-        this.commentReplyCollection = models.CommentReplyModel;
+        this.comment_replyCollection = models.CommentReplyModel;
         this.commentCollection = models.CommentModel;
         this.historyCollection = models.HistoryModel;
         this.ratingCollection = models.RatingModel;
         this.storyCollection = models.StoryModel;
-        this.viewStatisticCollection = models.ViewStatisticModel;
-        this.viewStatisticDetailCollection = models.ViewStatisticDetailModel;
+        this.view_statisticCollection = models.ViewStatisticModel;
+        this.view_statistic_detailCollection = models.ViewStatisticDetailModel;
         this.informationCollection = models.InformationModel;
     }
 

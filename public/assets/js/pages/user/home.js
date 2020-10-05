@@ -1,6 +1,35 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
+function listStoryNewest() {
+    HttpService.get('/story/list-active', {
+        limit: 3,
+        sortKey: 'createdAt',
+        sortOrder: -1,
+        fieldsSelected: '_id name shortDescription chapterNewest profileImage',
+    })
+        .then((response) => {
+            if (response.success) {
+                const elmWraItSlider = getElement('.wrapper-items-slider');
+                let template = '';
+                response.data.map((item) => {
+                    template += `<a href="/story/${item._id}"><div class="wrapper-item-slider">
+                        <img src="https://truyencv.com/images/poster/do-de-cua-ta-deu-la-trum-phan-dien-poster-1578750543-200x300.jpg"
+                            alt="">
+                        <div class="wrapper-item-detail">
+                            <h3 class="wrapper-item-title">${item.name}</h3>
+                            <p class="wrapper-item-description">
+                                ${item.shortDescription || ''}
+                            </p>
+                        </div>
+                    </div></a>`;
+                });
+                elmWraItSlider.innerHTML = template;
+            }
+        });
+}
+listStoryNewest();
+
 function listStoryUpdateNewest() {
     HttpService.get('/story/list-active', {
         limit: 10,
@@ -32,3 +61,32 @@ function listStoryUpdateNewest() {
         });
 }
 listStoryUpdateNewest();
+
+function listStoryTopView() {
+    HttpService.get('/view-statistic/list', {
+        limit: 10,
+        sortKey: 'count',
+        sortOrder: -1,
+    })
+        .then((response) => {
+            console.log(response)
+            if (response.success) {
+                // const elmWraItSlider = getElement('.wrapper-items-slider');
+                // let template = '';
+                // response.data.map((item) => {
+                //     template += `<a href="/story/${item._id}"><div class="wrapper-item-slider">
+                //         <img src="https://truyencv.com/images/poster/do-de-cua-ta-deu-la-trum-phan-dien-poster-1578750543-200x300.jpg"
+                //             alt="">
+                //         <div class="wrapper-item-detail">
+                //             <h3 class="wrapper-item-title">${item.name}</h3>
+                //             <p class="wrapper-item-description">
+                //                 ${item.shortDescription || ''}
+                //             </p>
+                //         </div>
+                //     </div></a>`;
+                // });
+                // elmWraItSlider.innerHTML = template;
+            }
+        });
+}
+listStoryTopView();

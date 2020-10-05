@@ -17,6 +17,15 @@ ClassicEditor
                 {
                     model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2',
                 },
+                {
+                    model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3',
+                },
+                {
+                    model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4',
+                },
+                {
+                    model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5',
+                },
             ],
         },
     })
@@ -24,12 +33,11 @@ ClassicEditor
         descriptionEditor = editor;
     });
 
-
 const scope = {};
 getElement('#btn-show-modal-create').addEventListener('click', () => {
     getElement('#form-modal').setAttribute('data-action', 'create');
     getElement('#form-modal').removeAttribute('data-storyOId');
-    handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
+    handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription'] });
 });
 
 const button = getElement('#save');
@@ -42,7 +50,8 @@ button.addEventListener('click', () => {
             if (response.success) {
                 loggerSuccess(response.message);
                 listStory();
-                handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'description'] });
+                handleValue('resetValue', '#form-modal',
+                    { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription'] });
                 descriptionEditor.setData('');
             } else {
                 if (response.statusCode === 1001) {
@@ -52,7 +61,8 @@ button.addEventListener('click', () => {
             }
         });
     } else {
-        const data = handleValue('getValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId'] });
+        const data = handleValue('getValue', '#form-modal',
+            { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription'] });
         data.storyOId = getElement('#form-modal').getAttribute('data-storyOId');
         data.description = descriptionEditor.getData();
         HttpService.post('/admin/story/update', data).then((response) => {
@@ -60,7 +70,8 @@ button.addEventListener('click', () => {
                 $('#form-modal').modal('hide');
                 loggerSuccess(response.message);
                 listStory();
-                handleValue('resetValue', '#form-modal', { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId'] });
+                handleValue('resetValue', '#form-modal',
+                    { names: ['code', 'name', 'source', 'state', 'categoryOId', 'authorOId', 'shortDescription'] });
                 descriptionEditor.setData('');
             } else {
                 if (response.statusCode === 1001) {
@@ -188,6 +199,7 @@ function showInfo(storyOId) {
                         { name: 'categoryOId', value: story.categoryOId },
                         { name: 'source', value: story.source },
                         { name: 'state', value: story.state },
+                        { name: 'shortDescription', value: story.shortDescription || '' },
                     ],
                 });
             }

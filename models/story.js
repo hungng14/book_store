@@ -16,6 +16,7 @@ const StorySchema = new Schema(
         ageLimitOId: { type: ObjectId, ref: 'age_limit' },
         profileImage: { type: String },
         source: { type: String },
+        shortDescription: { type: String },
         description: { type: String },
         state: { type: String, default: STORY_STATES.FULL, enum: Object.values(STORY_STATES) },
         ...fieldsCommon(),
@@ -55,6 +56,12 @@ StorySchema.virtual('chapters', {
     foreignField: 'storyOId',
 });
 StorySchema.virtual('chapterNewest', {
+    ref: 'chapter',
+    localField: '_id',
+    foreignField: 'storyOId',
+    justOne: true,
+});
+StorySchema.virtual('chapter', {
     ref: 'chapter',
     localField: '_id',
     foreignField: 'storyOId',
