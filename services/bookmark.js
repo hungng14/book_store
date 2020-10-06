@@ -12,11 +12,19 @@ class BookmarkService extends CrudService {
     async list(data) {
         try {
             const query = { isDeleted: false };
+            const populate = [
+                {
+                    ...this.populateModel('story', '_id name profileImage'),
+                    populate: this.populateModel('chapter', '_id chapterNumber title'),
+                },
+                this.populateModel('chapter', '_id title chapterNumber'),
+            ];
             const options = {
                 limit: +data.limit || 10,
                 page: +data.page || 1,
                 sort: { [data.sortKey || '_id']: data.sortOrder || -1 },
-                select: 'name description status createdAt',
+                select: 'storyOId status createdAt',
+                populate,
             };
             const result = await super.listWithPagination(query, options);
             if (!isEmpty(result)) return responseSuccess(202, result);

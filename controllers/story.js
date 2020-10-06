@@ -19,6 +19,14 @@ class StoryController extends BaseController {
         }
     }
 
+    async viewListUser(req, res) {
+        try {
+            return super.renderPageUser(req, res, { path: 'story/list' });
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
     async viewChaptersOfStory(req, res) {
         try {
             const { storyOId } = req.params;
