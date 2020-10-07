@@ -37,7 +37,6 @@ class StoryService extends CrudService {
         if (data.code) conditions.code = data.code;
         if (data.storyOId) conditions._id = data.storyOId;
         if (data.status) conditions.status = data.status;
-        console.log(conditions)
         const promise = this.collectionCurrent().findOne(conditions);
         if (data.usePopulate) {
             promise.populate([
