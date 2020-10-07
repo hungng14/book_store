@@ -142,7 +142,7 @@ class StoryController extends BaseController {
             const { storyOId } = req.params;
             if (!storyOId) return super.renderPage404(res);
             const infoStory = await storyService.findOne({
-                _id: storyOId,
+                storyOId,
                 status: STATUS.Active,
                 usePopulate: true,
             });
