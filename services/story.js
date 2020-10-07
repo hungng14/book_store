@@ -61,7 +61,7 @@ class StoryService extends CrudService {
             };
             const resResize = resizeImage(data.fullProfileImageUrl, null, 200, 200);
             set.fullSizeLogo = resResize.fullSizeImage;
-            set.profileImage = resResize.resizeImage;
+            set.profileImage = resResize.fullSizeImage;
             if ('authorOId' in data) set.authorOId = data.authorOId;
             if ('ageLimitOId' in data) set.ageLimitOId = data.ageLimitOId;
             if ('state' in data) set.state = data.state;
@@ -92,7 +92,7 @@ class StoryService extends CrudService {
             if (data.fullProfileImageUrl) {
                 options.new = false;
                 const resResize = resizeImage(data.fullProfileImageUrl, null, 200, 200);
-                set.profileImage = resResize.resizeImage;
+                set.profileImage = resResize.fullSizeImage;
             }
             if ('name' in data) set.name = data.name;
             if ('code' in data) set.code = data.code;
