@@ -18,8 +18,18 @@
     .nav-custom .navbar-dropdown a:hover {
         color: #000 !important;
     }
-    #dropdown-item-logout{
+
+    #dropdown-item-logout {
         cursor: pointer;
+    }
+
+    a.logo {
+        text-decoration: none;
+    }
+
+    a.logo h1 {
+        font-size: 3em;
+        color: #f7fbb8;
     }
 </style>
 
@@ -28,8 +38,9 @@
         <div class="hd-box">
             <div class="hd-menu-left">
                 <ul class="hd-nav-menu">
-                    <li><a href="/">
-                            <img height="100" width="100" src="{{infoWeb.logo}}" alt="">
+                    <li><a href="/" class="logo">
+                            <h1>EEB</h1>
+                            {{!-- <img height="100" width="100" src="{{infoWeb.logo}}" alt=""> --}}
                         </a></li>
                     <li><a href="#about">Danh mục</a></li>
                     <li><a href="/stories">Thể loại</a></li>
