@@ -19,6 +19,14 @@ class StoryController extends BaseController {
         }
     }
 
+    async viewListUser(req, res) {
+        try {
+            return super.renderPageUser(req, res, { path: 'story/list' });
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
     async viewChaptersOfStory(req, res) {
         try {
             const { storyOId } = req.params;
@@ -134,7 +142,7 @@ class StoryController extends BaseController {
             const { storyOId } = req.params;
             if (!storyOId) return super.renderPage404(res);
             const infoStory = await storyService.findOne({
-                _id: storyOId,
+                storyOId,
                 status: STATUS.Active,
                 usePopulate: true,
             });

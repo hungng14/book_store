@@ -77,7 +77,7 @@ function listStoryTopView() {
                     const chapterNumber = (story.chapter || {}).chapterNumber || 0;
                     template += `<div class="book-item">
                     <div class="book-item-detail">
-                        <img src="${story.profileImage || ''}" alt="">
+                        <img src="${story.profileImage || '/assets/images/book_logo.png'}" alt="">
                         <div class="detail">
                             <h3 class="book-item-title">
                                 <a href="/story/${story._id || ''}">${story.name || ''}</a>
@@ -112,7 +112,7 @@ function listBookmarked() {
                     template += `
                     <div class="book-item">
                         <div class="book-item-detail">
-                            <img src="${story.profileImage || ''}" alt="">
+                            <img src="${story.profileImage || '/assets/images/book_logo.png'}" alt="">
                             <div class="detail">
                                 <h3 class="book-item-title">
                                     <a href="/story/${story._id || ''}">${story.name || ''}</a>

@@ -18,6 +18,9 @@ button.addEventListener('click', () => {
                 listAuthor();
                 handleValue('resetValue', '#form-modal', { names: ['name', 'description'] });
             } else {
+                if (response.statusCode === 1001) {
+                    return loggerError(handleMsgParamsErrors(response.error));
+                }
                 loggerError(response.message);
             }
         });
@@ -30,6 +33,9 @@ button.addEventListener('click', () => {
                 loggerSuccess(response.message);
                 listAuthor();
             } else {
+                if (response.statusCode === 1001) {
+                    return loggerError(handleMsgParamsErrors(response.error));
+                }
                 loggerError(response.message);
             }
         });
