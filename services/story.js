@@ -21,15 +21,34 @@ class StoryService extends CrudService {
                 });
                 query.categoryOId = { $in: categoriesOId };
             }
+            if (data.searchBookNameOrCategory) {
+                const regex = regexSearch(data.searchBookNameOrCategory);
+                const categoriesOId = await this.categoryCollection.distinct('_id', {
+                    name: regex,
+                    status: STATUS.Active,
+                    isDeleted: false,
+                });
+                query.$or = [
+                    { name: regex },
+                    { categoryOId: { $in: categoriesOId } },
+                ];
+            }
+            const populate = [
+                this.populateModel('author', '-_id name'),
+                this.populateModel('category', '-_id name'),
+            ];
+            if (data.showView) {
+                populate.push(this.populateModel('views', '-_id count'));
+            }
+            if (data.showChapter) {
+                populate.push(this.populateModel('chapter', '-_id title chapterNumber'));
+            }
             const options = {
                 limit: +data.limit || 10,
                 page: +data.page || 1,
                 sort: { [data.sortKey || '_id']: data.sortOrder || -1 },
                 select: 'code name status state source profileImage createdAt authorOId categoryOId shortDescription',
-                populate: [
-                    this.populateModel('author', '-_id name'),
-                    this.populateModel('category', '-_id name'),
-                ],
+                populate,
             };
             const result = await super.listWithPagination(query, options);
             if (!isEmpty(result)) return responseSuccess(202, result);
