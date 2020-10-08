@@ -102,6 +102,11 @@
                     <li class="item-nav list-category">
                         <a href="#">Thể loại</a>
                         <ul class="sub-nav">
+                            {{#categories}}
+                                <li>
+                                    <a href="/stories?q={{this}}">{{this}}</a>
+                                </li>
+                            {{/categories}}
                         </ul>
                     </li>
                 </ul>

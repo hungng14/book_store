@@ -56,13 +56,9 @@
       <div class="box-selection">
         <h3 class="title">Thể loại</h3>
         <div class="list-btn-actions">
-          <button type="button" class="btn btn-outline-info btn-sm">Trinh thám</button>
-          <button type="button" class="btn btn-outline-info btn-sm">Kinh dị</button>
-          <button type="button" class="btn btn-outline-info btn-sm">Ngôn tình</button>
-          <button type="button" class="btn btn-outline-info btn-sm">Kiếm hiệp</button>
-          <button type="button" class="btn btn-outline-info btn-sm">Dị giới</button>
-          <button type="button" class="btn btn-outline-info btn-sm">Dị Năng</button>
-          <button type="button" class="btn btn-outline-info btn-sm">Xuyên không</button>
+          {{#each categories}}
+            <button type="button" class="btn btn-outline-info btn-sm" data-name="{{this}}">{{this}}</button>
+          {{/each}}
         </div>
       </div>
     </div>

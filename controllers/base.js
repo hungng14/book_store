@@ -12,6 +12,7 @@ const {
     STATUS,
 } = require('../constants/constants');
 const informationService = require('../services/information');
+const categoryService = require('../services/category');
 
 class BaseController {
     resJsonSuccess(res, result = {}) {
@@ -46,6 +47,8 @@ class BaseController {
         let infoWeb = await informationService.findOne({
             status: STATUS.Active,
         });
+        const resCategory = await categoryService.listActive();
+        const categories = resCategory.success ? resCategory.data : [];
         if (infoWeb) {
             infoWeb = {
                 logo: infoWeb.logo,
@@ -66,6 +69,7 @@ class BaseController {
             layout: path.join(__dirname, '../views/user/layouts/main'),
             infoWeb,
             infoMember: req.session.infoMember,
+            categories: categories.map((item) => item.name),
         };
         Object.assign(params, commonProp);
         return res.render(`user/${params.path}`, params);
