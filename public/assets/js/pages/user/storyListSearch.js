@@ -14,9 +14,7 @@ function listSearch(page = 1) {
         showChapter: true,
     })
         .then((response) => {
-          console.log(response)
             if (response.success) {
-              
                 const { data } = response;
                 initPagination(data);
                 $('.wrapper-list-books').empty();
