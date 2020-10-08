@@ -49,6 +49,16 @@
   .book-detail-right h4 a:hover {
     color: #000;
   }
+
+  .block-ld {
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    width: 100%;
+  }
+   .block-ld.hide{
+     display: none;
+   }
 </style>
 <div class="content">
   <div class="wrapper-content d-flex">
@@ -56,156 +66,27 @@
       <div class="box-selection">
         <h3 class="title">Thể loại</h3>
         <div class="list-btn-actions">
+          <a href="/stories" style="margin-bottom: 3px;"
+            class="btn btn-outline-info btn-sm {{#ifEquals '' ../searchCategory}}btn-info{{/ifEquals}}"
+            data-name="All">Tất cả</a>
           {{#each categories}}
-            <button type="button" class="btn btn-outline-info btn-sm" data-name="{{this}}">{{this}}</button>
+          <a href="/stories?q={{this}}" style="margin-bottom: 3px;"
+            class="btn btn-outline-info btn-sm {{#ifEquals this ../searchCategory}}btn-info{{/ifEquals}}"
+            data-name="{{this}}">{{this}}</a>
           {{/each}}
         </div>
       </div>
     </div>
-    <div class="col-md-9">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="book-detail d-flex">
-            <div class="book-detail-left profile-img">
-              <img
-                src="https://truyencv.com/images/poster/cai-nay-dai-lao-co-chu-t-cau-tha-poster-1590026536-100x140.jpg"
-                alt="">
-            </div>
-            <div class="book-detail-right">
-              <h4><a href="">Cái Này Đại Lão Có Chút Cẩu Thả</a></h4>
-              <p class="text-muted small">Kinh dị</p>
-              <p class="description">
-                Làm một tên xuyên qua nhân sĩ, Lâm Xuyên tại xuyên qua ban đầu trải qua, nói ra có chút bi thảm, vừa mới
-                xuyên qua liền bị chẩn đoán được bệnh
-              </p>
-              <p class="text-muted">
-                <i class="mdi mdi-eye" aria-hidden="true" style="margin-left: 10px;"></i> 24k
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="book-detail d-flex">
-            <div class="book-detail-left profile-img">
-              <img
-                src="https://truyencv.com/images/poster/cai-nay-dai-lao-co-chu-t-cau-tha-poster-1590026536-100x140.jpg"
-                alt="">
-            </div>
-            <div class="book-detail-right">
-              <h4><a href="">Cái Này Đại Lão Có Chút Cẩu Thả</a></h4>
-              <p class="text-muted small">Kinh dị</p>
-              <p class="description">
-                Làm một tên xuyên qua nhân sĩ, Lâm Xuyên tại xuyên qua ban đầu trải qua, nói ra có chút bi thảm, vừa mới
-                xuyên qua liền bị chẩn đoán được bệnh
-              </p>
-              <p class="text-muted">
-                <i class="mdi mdi-eye" aria-hidden="true" style="margin-left: 10px;"></i> 24k
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="book-detail d-flex">
-            <div class="book-detail-left profile-img">
-              <img
-                src="https://truyencv.com/images/poster/cai-nay-dai-lao-co-chu-t-cau-tha-poster-1590026536-100x140.jpg"
-                alt="">
-            </div>
-            <div class="book-detail-right">
-              <h4><a href="">Cái Này Đại Lão Có Chút Cẩu Thả</a></h4>
-              <p class="text-muted small">Kinh dị</p>
-              <p class="description">
-                Làm một tên xuyên qua nhân sĩ, Lâm Xuyên tại xuyên qua ban đầu trải qua, nói ra có chút bi thảm, vừa mới
-                xuyên qua liền bị chẩn đoán được bệnh
-              </p>
-              <p class="text-muted">
-                <i class="mdi mdi-eye" aria-hidden="true" style="margin-left: 10px;"></i> 24k
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="book-detail d-flex">
-            <div class="book-detail-left profile-img">
-              <img
-                src="https://truyencv.com/images/poster/cai-nay-dai-lao-co-chu-t-cau-tha-poster-1590026536-100x140.jpg"
-                alt="">
-            </div>
-            <div class="book-detail-right">
-              <h4><a href="">Cái Này Đại Lão Có Chút Cẩu Thả</a></h4>
-              <p class="text-muted small">Kinh dị</p>
-              <p class="description">
-                Làm một tên xuyên qua nhân sĩ, Lâm Xuyên tại xuyên qua ban đầu trải qua, nói ra có chút bi thảm, vừa mới
-                xuyên qua liền bị chẩn đoán được bệnh
-              </p>
-              <p class="text-muted">
-                <i class="mdi mdi-eye" aria-hidden="true" style="margin-left: 10px;"></i> 24k
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="book-detail d-flex">
-            <div class="book-detail-left profile-img">
-              <img
-                src="https://truyencv.com/images/poster/cai-nay-dai-lao-co-chu-t-cau-tha-poster-1590026536-100x140.jpg"
-                alt="">
-            </div>
-            <div class="book-detail-right">
-              <h4><a href="">Cái Này Đại Lão Có Chút Cẩu Thả</a></h4>
-              <p class="text-muted small">Kinh dị</p>
-              <p class="description">
-                Làm một tên xuyên qua nhân sĩ, Lâm Xuyên tại xuyên qua ban đầu trải qua, nói ra có chút bi thảm, vừa mới
-                xuyên qua liền bị chẩn đoán được bệnh
-              </p>
-              <p class="text-muted">
-                <i class="mdi mdi-eye" aria-hidden="true" style="margin-left: 10px;"></i> 24k
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="book-detail d-flex">
-            <div class="book-detail-left profile-img">
-              <img
-                src="https://truyencv.com/images/poster/cai-nay-dai-lao-co-chu-t-cau-tha-poster-1590026536-100x140.jpg"
-                alt="">
-            </div>
-            <div class="book-detail-right">
-              <h4><a href="">Cái Này Đại Lão Có Chút Cẩu Thả</a></h4>
-              <p class="text-muted small">Kinh dị</p>
-              <p class="description">
-                Làm một tên xuyên qua nhân sĩ, Lâm Xuyên tại xuyên qua ban đầu trải qua, nói ra có chút bi thảm, vừa mới
-                xuyên qua liền bị chẩn đoán được bệnh
-              </p>
-              <p class="text-muted">
-                <i class="mdi mdi-eye" aria-hidden="true" style="margin-left: 10px;"></i> 24k
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="book-detail d-flex">
-            <div class="book-detail-left profile-img">
-              <img
-                src="https://truyencv.com/images/poster/cai-nay-dai-lao-co-chu-t-cau-tha-poster-1590026536-100x140.jpg"
-                alt="">
-            </div>
-            <div class="book-detail-right">
-              <h4><a href="">Cái Này Đại Lão Có Chút Cẩu Thả</a></h4>
-              <p class="text-muted small">Kinh dị</p>
-              <p class="description">
-                Làm một tên xuyên qua nhân sĩ, Lâm Xuyên tại xuyên qua ban đầu trải qua, nói ra có chút bi thảm, vừa mới
-                xuyên qua liền bị chẩn đoán được bệnh
-              </p>
-              <p class="text-muted">
-                <i class="mdi mdi-eye" aria-hidden="true" style="margin-left: 10px;"></i> 24k
-              </p>
-            </div>
-          </div>
-        </div>
+    <div class="col-md-9 position-relative">
+      <div class="block-ld hide">
+        <img src="/assets/images/loading.gif" alt="">
+      </div>
+      <div class="row book-list">
       </div>
       <div class="block-pagination"></div>
     </div>
   </div>
 </div>
+
+<script src="/assets/js/pages/pagination.js"></script>
+<script src="/assets/js/pages/user/stories.js"></script>

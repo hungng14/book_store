@@ -1,7 +1,7 @@
 const CrudService = require('./crud');
 const { STATUS } = require('../constants/constants');
 const {
-    responseError, responseSuccess, isEmpty, compareValue, resizeImage, deleteFile, joinPathFolderPublic,
+    responseError, responseSuccess, isEmpty, compareValue, resizeImage, deleteFile, joinPathFolderPublic, regexSearch,
 } = require('../utils/shared');
 
 class StoryService extends CrudService {
@@ -12,11 +12,20 @@ class StoryService extends CrudService {
     async list(data) {
         try {
             const query = { isDeleted: false };
+            if (data.status) query.status = data.status;
+            if (data.searchCategory) {
+                const categoriesOId = await this.categoryCollection.distinct('_id', {
+                    name: regexSearch(data.searchCategory),
+                    status: STATUS.Active,
+                    isDeleted: false,
+                });
+                query.categoryOId = { $in: categoriesOId };
+            }
             const options = {
                 limit: +data.limit || 10,
                 page: +data.page || 1,
                 sort: { [data.sortKey || '_id']: data.sortOrder || -1 },
-                select: 'code name status state description source profileImage createdDate authorOId categoryOId',
+                select: 'code name status state source profileImage createdAt authorOId categoryOId shortDescription',
                 populate: [
                     this.populateModel('author', '-_id name'),
                     this.populateModel('category', '-_id name'),
