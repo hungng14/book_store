@@ -3,6 +3,7 @@ const viewStatisticCtl = require('../../../controllers/viewStatistic');
 
 module.exports = (router) => {
     router.get('/stories', storyCtl.viewListUser);
+    router.get('/stories/list', storyCtl.list);
     router.get('/story/list-active', storyCtl.listActive);
     router.get('/story/:storyOId', storyCtl.viewInfoUser);
     router.get('/story/:storyOId/:chapterNumber', storyCtl.viewChapter);

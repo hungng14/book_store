@@ -22,6 +22,7 @@ class Shared {
         this.responseError = this.responseError.bind(this);
         this.handleUpload = this.handleUpload.bind(this);
         this.resizeImage = this.resizeImage.bind(this);
+        this.regexSearch = this.regexSearch.bind(this);
     }
 
     logError(message) {
@@ -242,6 +243,14 @@ class Shared {
                 if (err) { console.log(err); }
             });
         return set;
+    }
+
+    escapeRegExp(string) {
+        return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    }
+
+    regexSearch(str) {
+        return new RegExp(this.escapeRegExp(str), 'ig');
     }
 }
 const shaInstance = new Shared();

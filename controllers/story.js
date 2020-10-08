@@ -21,7 +21,7 @@ class StoryController extends BaseController {
 
     async viewListUser(req, res) {
         try {
-            return super.renderPageUser(req, res, { path: 'story/list' });
+            return super.renderPageUser(req, res, { path: 'story/list', searchCategory: req.query.q || ''});
         } catch (error) {
             return super.resJsonError(res, error, 'story');
         }

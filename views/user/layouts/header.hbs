@@ -31,6 +31,51 @@
         font-size: 3em;
         color: #f7fbb8;
     }
+
+    .item-nav {
+        position: relative;
+    }
+
+    .sub-nav {
+        position: absolute;
+        margin: 0;
+        width: 500px;
+        float: none;
+        display: list-item;
+        -webkit-box-shadow: 3px 8px 14px -2px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 3px 8px 14px -2px rgba(0, 0, 0, 0.75);
+        box-shadow: 3px 8px 14px -2px rgba(0, 0, 0, 0.75);
+        flex-wrap: wrap;
+        background: #fff;
+        z-index: 1000;
+        padding: 10px 0;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    .sub-nav {
+        display: flex;
+        justify-content: space-around;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    .sub-nav li {
+        width: 120px;
+        text-align: center;
+    }
+
+    .sub-nav li a {
+        color: #000;
+    }
+
+    .item-nav:hover>.sub-nav {
+
+        visibility: visible;
+        opacity: 1;
+    }
 </style>
 
 <header class="page-hd">
@@ -42,8 +87,28 @@
                             <h1>EEB</h1>
                             {{!-- <img height="100" width="100" src="{{infoWeb.logo}}" alt=""> --}}
                         </a></li>
-                    <li><a href="#about">Danh mục</a></li>
-                    <li><a href="/stories">Thể loại</a></li>
+                    <li class="item-nav">
+                        <a href="#">Danh mục</a>
+                        <ul class="sub-nav">
+                            <li>
+                                <a href="#">The loai 1</a>
+                            </li>
+                            <li>
+                                <a href="#">The loai 1</a>
+                            </li>
+                        </ul>
+                    
+                    </li>
+                    <li class="item-nav list-category">
+                        <a href="#">Thể loại</a>
+                        <ul class="sub-nav">
+                            {{#categories}}
+                                <li>
+                                    <a href="/stories?q={{this}}">{{this}}</a>
+                                </li>
+                            {{/categories}}
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -106,3 +171,5 @@
         document.location.reload();
     })
 </script>
+
+<script src="/assets/js/pages/user/header.js"></script>
