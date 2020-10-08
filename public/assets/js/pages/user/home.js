@@ -64,7 +64,7 @@ listStoryUpdateNewest();
 
 function listStoryTopView() {
     HttpService.get('/view-statistic/list', {
-        limit: 1,
+        limit: 10,
         sortKey: 'count',
         sortOrder: -1,
     })

@@ -40,9 +40,12 @@
         <h3>{{infoStory.name}}</h3>
         <p>Thể loại: {{infoStory.categoryName}}</p>
         <p>Tác giả: {{infoStory.authorName}}</p>
+        <p class="text-muted">
+          <span>Trạng thái: {{infoStory.state}}</span>
+        </p>
         <div class="vote">
           {{!-- <span>*****</span> --}}
-          <span>4.94/5 (48 đánh giá)</span>
+          {{!-- <span>4.94/5 (48 đánh giá)</span> --}}
         </div>
         <div class="actions">
           <a class="btn btn-rounded btn-gradient-info" href="/story/{{storyOId}}/0">Đọc truyện</a>

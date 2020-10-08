@@ -155,6 +155,7 @@ class StoryController extends BaseController {
                 code: infoStory.code,
                 profileImage: infoStory.profileImage,
                 description: infoStory.description,
+                state: infoStory.state,
             };
             const { infoMember } = req.session;
             if (!isEmpty(infoMember)) {
