@@ -24,6 +24,7 @@ function listStories(page = 1) {
         page,
         status: 'Active',
         limit: 20,
+        showView: true,
         searchCategory: getParamSearch(),
     })
         .then((response) => {
@@ -47,7 +48,8 @@ function listStories(page = 1) {
                           ${item.shortDescription || ''}
                         </p>
                         <p class="text-muted">
-                          <i class="mdi mdi-eye" aria-hidden="true" style="margin-left: 10px;"></i> 24k
+                          <span><i class="mdi mdi-library" aria-hidden="true"></i> NOT FULL</span>
+                          <span><i class="mdi mdi-eye" aria-hidden="true" style="margin-left: 10px;"></i> ${(item.views || {}).count || 0}</span>
                         </p>
                       </div>
                     </div>

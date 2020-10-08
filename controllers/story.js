@@ -21,7 +21,15 @@ class StoryController extends BaseController {
 
     async viewListUser(req, res) {
         try {
-            return super.renderPageUser(req, res, { path: 'story/list', searchCategory: req.query.q || ''});
+            return super.renderPageUser(req, res, { path: 'story/list', searchCategory: req.query.q || '' });
+        } catch (error) {
+            return super.resJsonError(res, error, 'story');
+        }
+    }
+
+    async viewStoriesSearch(req, res) {
+        try {
+            return super.renderPageUser(req, res, { path: 'story/list-search', search: req.query.q || '' });
         } catch (error) {
             return super.resJsonError(res, error, 'story');
         }
@@ -155,6 +163,7 @@ class StoryController extends BaseController {
                 code: infoStory.code,
                 profileImage: infoStory.profileImage,
                 description: infoStory.description,
+                state: infoStory.state,
             };
             const { infoMember } = req.session;
             if (!isEmpty(infoMember)) {
