@@ -27,4 +27,5 @@ module.exports = (router) => {
     require('./home')(router);
     require('./story')(router);
     require('./bookmark')(router);
+    require('./category')(router);
 };
