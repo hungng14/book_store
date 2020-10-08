@@ -76,6 +76,27 @@
         visibility: visible;
         opacity: 1;
     }
+
+    .wr-search {
+        position: relative;
+        width: 200px;
+    }
+
+    .btn-search {
+        height: 44px;
+        outline: none;
+        border: none;
+        top: 0.5px;
+        right: 2px;
+        position: absolute;
+        background: transparent;
+        padding-top: 2px;
+    }
+
+    .btn-search img {
+        height: 22px;
+        width: 20px;
+    }
 </style>
 
 <header class="page-hd">
@@ -103,9 +124,9 @@
                         <a href="/stories">Thể loại</a>
                         <ul class="sub-nav">
                             {{#categories}}
-                                <li>
-                                    <a href="/stories?q={{this}}">{{this}}</a>
-                                </li>
+                            <li>
+                                <a href="/stories?q={{this}}">{{this}}</a>
+                            </li>
                             {{/categories}}
                         </ul>
                     </li>
@@ -116,8 +137,11 @@
             <div class="hd-menu-right">
                 <ul class="hd-nav-menu">
                     <li>
-                        <div>
-                            <input type="text" placeholder="Tên truyện hoặc thể loại">
+                        <div class="wr-search">
+                            <input class="form-control" type="text" placeholder="Tên truyện hoặc thể loại">
+                            <button class="btn-search" id="btn-search">
+                                <img src="/assets/images/search-icon.svg" alt="">
+                            </button>
                         </div>
                     </li>
                     {{#if infoMember.isLoggedIn}}
