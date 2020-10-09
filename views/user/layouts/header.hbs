@@ -111,7 +111,7 @@
             <div class="hd-menu-left">
                 <ul class="hd-nav-menu">
                     <li><a href="/" class="logo">
-                            <h1>EEB</h1>
+                            <h1>EEBook</h1>
                             {{!-- <img height="100" width="100" src="{{infoWeb.logo}}" alt=""> --}}
                         </a></li>
                     {{!-- <li class="item-nav">
@@ -194,23 +194,4 @@
 </header>
 
 {{> user/signInMember/index}}
-
-<script>
-    getElement('#dropdown-item-logout').addEventListener('click', () => {
-        document.cookie = '_tk_=;';
-        document.location.reload();
-    })
-</script>
-
 <script src="/assets/js/pages/user/header.js"></script>
-<script>
-    const profileDropdown = getElement('#profileDropdown');
-    const dropdown = getElement('.dropdown-menu.navbar-dropdown');
-    profileDropdown.addEventListener('click', () => {
-        if(dropdown.classList.contains('open')){
-            dropdown.classList.remove('open');
-        }else{
-            dropdown.classList.add('open');
-        }
-    })
-</script>
