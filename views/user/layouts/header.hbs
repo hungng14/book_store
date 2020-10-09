@@ -97,6 +97,12 @@
         height: 22px;
         width: 20px;
     }
+
+    .navbar-dropdown.dropdown-menu.open{
+        position: absolute;
+        float: left;
+        display: block;
+    }
 </style>
 
 <header class="page-hd">
@@ -197,3 +203,14 @@
 </script>
 
 <script src="/assets/js/pages/user/header.js"></script>
+<script>
+    const profileDropdown = getElement('#profileDropdown');
+    const dropdown = getElement('.dropdown-menu.navbar-dropdown');
+    profileDropdown.addEventListener('click', () => {
+        if(dropdown.classList.contains('open')){
+            dropdown.classList.remove('open');
+        }else{
+            dropdown.classList.add('open');
+        }
+    })
+</script>

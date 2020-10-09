@@ -13,13 +13,13 @@ function listStoryNewest() {
                 const elmWraItSlider = getElement('.wrapper-items-slider');
                 let template = '';
                 response.data.map((item) => {
-                    template += `<a href="/story/${item._id}"><div class="wrapper-item-slider">
+                    template += `<div class="wrapper-item-slider">
                         <img src="${item.profileImage}"
                             alt="">
                         <div class="wrapper-item-detail">
-                            <h3 class="wrapper-item-title">${item.name}</h3>
+                            <h3 class="wrapper-item-title"><a href="/story/${item._id}">${item.name}</a></h3>
                         </div>
-                    </div></a>`;
+                    </div>`;
                 });
                 elmWraItSlider.innerHTML = template;
             }
