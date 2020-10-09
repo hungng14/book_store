@@ -1,7 +1,7 @@
 let initPagination = null;
 
 function listBookmark(page = 1) {
-    HttpService.get('/bookmark/list', { page })
+    HttpService.get('/bookmark/list', { page, status: 'Active' })
         .then((response) => {
             if (response.success) {
                 const { data } = response;
