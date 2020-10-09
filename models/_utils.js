@@ -10,6 +10,7 @@ const RatingModel = require('./rating');
 const StoryModel = require('./story');
 const ViewStatisticModel = require('./view_statistic');
 const ViewStatisticDetailModel = require('./view_statistic_detail');
+const InformationModel = require('./information');
 
 module.exports = {
     AccountModel,
@@ -24,4 +25,5 @@ module.exports = {
     StoryModel,
     ViewStatisticModel,
     ViewStatisticDetailModel,
+    InformationModel,
 };

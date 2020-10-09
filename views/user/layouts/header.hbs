@@ -1,0 +1,197 @@
+<style>
+    .nav-custom .dropdown-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-custom .dropdown-toggle .nav-profile-img img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    .nav-custom .navbar-dropdown a {
+        color: rgb(38, 37, 37);
+    }
+
+    .nav-custom .navbar-dropdown a:hover {
+        color: #000 !important;
+    }
+
+    #dropdown-item-logout {
+        cursor: pointer;
+    }
+
+    a.logo {
+        text-decoration: none;
+    }
+
+    a.logo h1 {
+        font-size: 3em;
+        color: #f7fbb8;
+    }
+
+    .item-nav {
+        position: relative;
+    }
+
+    .sub-nav {
+        position: absolute;
+        margin: 0;
+        width: 500px;
+        float: none;
+        display: list-item;
+        -webkit-box-shadow: 3px 8px 14px -2px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 3px 8px 14px -2px rgba(0, 0, 0, 0.75);
+        box-shadow: 3px 8px 14px -2px rgba(0, 0, 0, 0.75);
+        flex-wrap: wrap;
+        background: #fff;
+        z-index: 1000;
+        padding: 10px 0;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    .sub-nav {
+        display: flex;
+        justify-content: space-around;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    .sub-nav li {
+        width: 120px;
+        text-align: center;
+    }
+
+    .sub-nav li a {
+        color: #000;
+    }
+
+    .item-nav:hover>.sub-nav {
+
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .wr-search {
+        position: relative;
+        width: 200px;
+    }
+
+    .btn-search {
+        height: 44px;
+        outline: none;
+        border: none;
+        top: 0.5px;
+        right: 2px;
+        position: absolute;
+        background: transparent;
+        padding-top: 2px;
+    }
+
+    .btn-search img {
+        height: 22px;
+        width: 20px;
+    }
+
+    .navbar-dropdown.dropdown-menu.open{
+        position: absolute;
+        float: left;
+        display: block;
+    }
+</style>
+
+<header class="page-hd">
+    <div class="container header-ur">
+        <div class="hd-box">
+            <div class="hd-menu-left">
+                <ul class="hd-nav-menu">
+                    <li><a href="/" class="logo">
+                            <h1>EEBook</h1>
+                            {{!-- <img height="100" width="100" src="{{infoWeb.logo}}" alt=""> --}}
+                        </a></li>
+                    {{!-- <li class="item-nav">
+                        <a href="#">Danh mục</a>
+                        <ul class="sub-nav">
+                            <li>
+                                <a href="#">The loai 1</a>
+                            </li>
+                            <li>
+                                <a href="#">The loai 1</a>
+                            </li>
+                        </ul>
+                    
+                    </li> --}}
+                    <li class="item-nav list-category">
+                        <a href="/stories">Thể loại</a>
+                        <ul class="sub-nav">
+                            {{#categories}}
+                            <li>
+                                <a href="/stories?q={{this}}">{{this}}</a>
+                            </li>
+                            {{/categories}}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="hd-box">
+            <div class="hd-menu-right">
+                <ul class="hd-nav-menu">
+                    <li>
+                        <div class="wr-search">
+                            <input class="form-control" type="text" placeholder="Tên truyện hoặc thể loại">
+                            <button class="btn-search" id="btn-search">
+                                <img src="/assets/images/search-icon.svg" alt="">
+                            </button>
+                        </div>
+                    </li>
+                    {{#if infoMember.isLoggedIn}}
+                    <li>
+                        <ul class="navbar-nav navbar-nav-right nav-custom">
+                            <li class="nav-item nav-profile dropdown">
+                                <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <div class="nav-profile-img">
+                                        <img src="/assets/images/faces/face1.jpg" height="40" width="40" alt="image">
+                                        <span class="availability-status online"></span>
+                                    </div>
+                                    <div class="nav-profile-text">
+                                        <p class="mb-1 text-black">{{infoUser.firstname}} {{infoUser.lastname}}</p>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="mdi mdi-account-box mr-2 text-success"></i> Trang cá nhân </a>
+                                    <a class="dropdown-item" href="/bookmark">
+                                        <i class="mdi mdi-bookmark-plus mr-2 text-success"></i> Quản lý truyện </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" id="dropdown-item-logout">
+                                        <i class="mdi mdi-logout mr-2 text-primary"></i> Đăng xuất </a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </li>
+                    {{else}}
+                    <li>
+                        <span>
+                            <i class="mdi mdi-account-circle mdi-icon-user"></i>
+                        </span>
+                    </li>
+                    <li><a href="javascript:;" id="link-sign-in">Đăng nhập</a></li>
+                    <li><a href="javascript:;" id="link-sign-up">Đăng ký</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+{{> user/signInMember/index}}
+<script src="/assets/js/pages/user/header.js"></script>

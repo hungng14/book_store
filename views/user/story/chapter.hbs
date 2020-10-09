@@ -1,0 +1,344 @@
+<style>
+  .root {
+    background: #eee;
+  }
+
+  .wrapper-content {
+    position: relative;
+  }
+
+  .block-chapter-content {
+    display: flex;
+    justify-content: center;
+  }
+
+  .chapter-content {
+    position: relative;
+    padding: 30px 40px;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    max-width: 860px;
+  }
+
+  .bg-white-selected {
+    background: #fff;
+    color: #000;
+  }
+
+  .bg-black-selected {
+    background: #1d1d1d;
+    color: #fdfdfd;
+  }
+
+  .block-actions {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
+  .block-settings {
+    display: block;
+    width: 80px;
+    background: #fff;
+    top: 160px;
+    border-radius: 10px;
+    height: max-content;
+  }
+
+  .st-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .st-item-menu {
+    text-align: center;
+  }
+
+  .st-item-menu a {
+    font-size: 1.5em;
+    color: rgb(89, 87, 87);
+    transition: .3s;
+  }
+
+  .st-item-menu a:hover {
+    color: #000;
+  }
+
+  .block-arrows {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .block-arrows span.item-arrow {
+    text-decoration: none;
+    color: rgb(89, 87, 87);
+    transition: .3s;
+    font-size: 1.3em;
+    cursor: pointer;
+  }
+
+  .block-arrows span.item-arrow:not(.disabled):hover {
+    color: #000;
+  }
+
+  .block-arrows span.item-arrow.disabled {
+    cursor: not-allowed;
+    color: rgb(220 218 218);
+  }
+
+  .read-content p {
+    font-size: 20px;
+  }
+
+  .popover-actions {
+    margin: 0;
+    position: absolute;
+    background: #fff;
+    width: 500px;
+    padding: 30px 10px 10px 10px;
+    border-radius: 10px;
+    left: 80px;
+    top: 0;
+    -webkit-box-shadow: 2px 2px 10px 3px rgba(130, 130, 130, 1);
+    -moz-box-shadow: 2px 2px 10px 3px rgba(130, 130, 130, 1);
+    box-shadow: 2px 2px 10px 3px rgba(130, 130, 130, 1);
+  }
+
+  .dropdown-chapters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  .popover-actions {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .popover-actions.open {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .item-chapter {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+  }
+
+  .item-chapter a {
+    display: block;
+  }
+
+  .title-options {
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .item-options {
+    display: flex;
+  }
+
+  .name-option {
+    font-size: 18px;
+    font-weight: 500;
+    width: 150px;
+  }
+
+  .wrapper-options-bg {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .item-bg {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .item-bg.active::after {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 14px;
+    border: solid #b78a28;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: -3px;
+    margin: auto;
+  }
+
+  .item-bg-rounded {
+    border-radius: 50%;
+  }
+
+  .item-bg-black {
+    background: #000;
+    border: 1px solid #000;
+  }
+
+  .item-bg-white {
+    background: #fff;
+    border: 1px solid rgb(145, 145, 145);
+  }
+
+  button.close-popover {
+    position: absolute;
+    right: 10px;
+    outline: none;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    top: 0;
+  }
+</style>
+
+<div class="content">
+  <div class="wrapper-content">
+    <div class="block-actions" style="z-index: 2;">
+      <div class="block-settings">
+        <ul class="st-menu">
+          <li class="st-item-menu">
+            <a href="#" title="Play audio" id="play-audio">
+              <i class="mdi mdi-play-circle"></i>
+            </a>
+          </li>
+          <li class="st-item-menu">
+            <a href="javascript:;" title="Stop audio" id="stop-audio">
+              <i class="mdi mdi-stop-circle"></i>
+            </a>
+          </li>
+          {{!-- <li class="st-item-menu">
+            <a href="javascript:;" title="Đánh dấu">
+              <i class="mdi mdi-bookmark-outline"></i>
+            </a>
+          </li> --}}
+          <li class="st-item-menu position-relative">
+            <a href="javascript:;" title="Danh sách chương" id="show-chapters">
+              <i class="mdi mdi-menu"></i>
+            </a>
+            <div class="popover-actions wrapper-chapters">
+              <button type="button" class="close-popover"><i class="mdi mdi-close-circle"></i></button>
+              <ul class="dropdown-chapters">
+              </ul>
+              <div class="block-pagination"></div>
+            </div>
+
+          </li>
+          <li class="st-item-menu position-relative">
+            <a href="javascript:;" title="Cài đặt hiển thị" id="settings">
+              <i class="mdi mdi-settings"></i>
+            </a>
+            <div class="popover-actions wrapper-settings">
+              <button type="button" class="close-popover"><i class="mdi mdi-close-circle"></i></button>
+              <div class="title-options">
+                Cài đặt
+              </div>
+              <div class="pover-options">
+                <div class="item-options">
+                  <span class="name-option">
+                    Màu nền
+                  </span>
+                  <span class="content-option wrapper-options-bg">
+                    <div class="item-bg item-bg-black item-bg-rounded" data-background="black"></div>
+                    <div class="item-bg item-bg-white item-bg-rounded active" data-background="white"></div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="st-item-menu item-sl-view-info">
+            <a href="/story/{{infoChapter.storyOId}}" title="Thông tin truyện">
+              <i class="mdi mdi-arrow-left"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="block-chapter-content" style="z-index: 1;" data-chapterNumber="{{infoChapter.chapterNumber}}"
+      data-storyOId="{{infoChapter.storyOId}}">
+      <div class="chapter-content bg-white-selected">
+        <div class="block-arrows">
+          {{#if infoChapter.isNotFirstChapter}}
+          <span class="item-arrow item-arrow-left">
+            <i class="mdi mdi-arrow-left-bold-circle"></i>
+            Chương trước
+          </span>
+          {{else}}
+          <span class="item-arrow disabled">
+            <i class="mdi mdi-arrow-left-bold-circle"></i>
+            Chương trước
+          </span>
+          {{/if}}
+          <h2>{{infoChapter.storyName}}</h2>
+
+          {{#if infoChapter.isNotLastChapter}}
+          <span class="item-arrow item-arrow-right">
+            Chương sau
+            <i class="mdi mdi-arrow-right-bold-circle"></i>
+          </span>
+          {{else}}
+          <span class="item-arrow disabled">
+            Chương sau
+            <i class="mdi mdi-arrow-right-bold-circle"></i>
+          </span>
+          {{/if}}
+        </div>
+        <div class="block-content mb-5 mt-5">
+          <div class="title-chapter mb-5">
+            <h2>Chương {{infoChapter.chapterNumber}}: {{infoChapter.title}}!</h2>
+          </div>
+          <div class="read-content">
+            {{#compilehtml infoChapter.content}}{{/compilehtml}}
+          </div>
+        </div>
+        <div class="block-arrows">
+          {{#if infoChapter.isNotFirstChapter}}
+          <span class="item-arrow item-arrow-left">
+            <i class="mdi mdi-arrow-left-bold-circle"></i>
+            Chương trước
+          </span>
+          {{else}}
+          <span class="item-arrow disabled">
+            <i class="mdi mdi-arrow-left-bold-circle"></i>
+            Chương trước
+          </span>
+          {{/if}}
+          {{#if infoChapter.isNotLastChapter}}
+          <span class="item-arrow item-arrow-right">
+            Chương sau
+            <i class="mdi mdi-arrow-right-bold-circle"></i>
+          </span>
+          {{else}}
+          <span class="item-arrow disabled">
+            Chương sau
+            <i class="mdi mdi-arrow-right-bold-circle"></i>
+          </span>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=MYbwFVlB"></script>
+<script src="/assets/js/pages/pagination.js"></script>
+<script src="/assets/js/pages/user/chapter.js"></script>

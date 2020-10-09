@@ -1,4 +1,3 @@
-
 const BaseController = require('./base');
 
 class DashboardController extends BaseController {

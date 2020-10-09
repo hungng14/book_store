@@ -1,0 +1,92 @@
+<style>
+  .content {
+    padding: 40px 0;
+  }
+
+  .wrapper-content {
+    padding: 20px 0;
+    border: 1px solid #eee;
+    -webkit-box-shadow: 2px 2px 10px 3px rgba(130, 130, 130, 1);
+    -moz-box-shadow: 2px 2px 10px 3px rgba(130, 130, 130, 1);
+    box-shadow: 2px 2px 10px 3px rgba(130, 130, 130, 1);
+  }
+
+  .list-btn-actions button {
+    margin-bottom: 3px;
+  }
+
+  .book-detail {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+  }
+
+  .book-detail-left img {
+    height: 155px;
+    width: 120px;
+  }
+
+  .book-detail-right {
+    padding-left: 10px;
+  }
+
+  .book-detail-right h4 a {
+    font-size: 16px;
+    text-decoration: none;
+    color: rgb(44, 44, 44);
+    transition: .3s;
+  }
+
+  .book-detail-right h4,
+  .book-detail-right p {
+    margin-bottom: 2px;
+  }
+
+  .book-detail-right p.description {
+    font-size: 14px;
+  }
+
+  .book-detail-right h4 a:hover {
+    color: #000;
+  }
+
+  .block-ld {
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    width: 100%;
+  }
+   .block-ld.hide{
+     display: none;
+   }
+</style>
+<div class="content">
+  <div class="wrapper-content d-flex">
+    <div class="sidebar-options col-md-3">
+      <div class="box-selection">
+        <h3 class="title">Thể loại</h3>
+        <div class="list-btn-actions">
+          <a href="/stories" style="margin-bottom: 3px;"
+            class="btn btn-outline-info btn-sm {{#ifEquals '' ../searchCategory}}btn-info{{/ifEquals}}"
+            data-name="All">Tất cả</a>
+          {{#each categories}}
+          <a href="/stories?q={{this}}" style="margin-bottom: 3px;"
+            class="btn btn-outline-info btn-sm {{#ifEquals this ../searchCategory}}btn-info{{/ifEquals}}"
+            data-name="{{this}}">{{this}}</a>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9 position-relative">
+      <div class="block-ld hide">
+        <img src="/assets/images/loading.gif" alt="">
+      </div>
+      <div class="row book-list">
+      </div>
+      <div class="block-pagination"></div>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/js/pages/pagination.js"></script>
+<script src="/assets/js/pages/user/stories.js"></script>

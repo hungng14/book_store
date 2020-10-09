@@ -4,6 +4,7 @@ const isNumber = require('is-number');
 const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
+const sharp = require('sharp');
 const multer = require('multer');
 const moment = require('moment');
 require('moment/locale/vi');
@@ -18,6 +19,10 @@ class Shared {
         this.fileFilterImage = this.fileFilterImage.bind(this);
         this.storage = this.storage.bind(this);
         this.convertStrToArr = this.convertStrToArr.bind(this);
+        this.responseError = this.responseError.bind(this);
+        this.handleUpload = this.handleUpload.bind(this);
+        this.resizeImage = this.resizeImage.bind(this);
+        this.regexSearch = this.regexSearch.bind(this);
     }
 
     logError(message) {
@@ -44,7 +49,7 @@ class Shared {
 
     isNumber(value) { return isNumber(value); }
 
-    isNumberInteger(val) { return +val % 2 === 0; }
+    isNumberInteger(val) { return Number.isInteger(val); }
 
     isMobilePhone(value) {
         if (!this.isNumber(value) || !this.isNumberInteger(value)) { return false; }
@@ -58,11 +63,11 @@ class Shared {
 
     notSpaceAllow(value) { return /^\S*$/.test(value); }
 
-    responseSuccess(status_code, data) {
+    responseSuccess(statusCode, data) {
         const response = {
             success: true,
-            status_code,
-            message: messagesSuccess[status_code] || messagesSuccess[100],
+            statusCode,
+            message: messagesSuccess[statusCode] || messagesSuccess[100],
         };
         if (data) {
             response.data = data;
@@ -70,11 +75,11 @@ class Shared {
         return response;
     }
 
-    responseError(status_code, error) {
+    responseError(statusCode, error) {
         const response = {
             success: false,
-            status_code,
-            message: messagesError[status_code] || messagesSuccess[1000],
+            statusCode,
+            message: messagesError[statusCode] || messagesSuccess[1000],
         };
         if (error) {
             response.error = error;
@@ -118,18 +123,18 @@ class Shared {
         return cb(null, true);
     }
 
-    storage(...folders_saved) {
+    storage(showTime = false, ...folders_saved) {
         return multer.diskStorage({
             destination: (req, file, cb) => {
                 this.makeDir(path.join(__dirname, '../public/uploads/'));
-                const time_moment = this.time_moment();
-                let dir_path = path.join(__dirname, `../public/uploads/${time_moment}`);
+                const timeMoment = showTime ? this.generatorTime('YYYY_MM_DD HH_mm_ss') : '';
+                let dir_path = path.join(__dirname, `../public/uploads/${timeMoment}`);
                 this.makeDir(dir_path);
                 let directory_folder = '';
                 // eslint-disable-next-line array-callback-return
                 folders_saved.map((folder) => {
                     directory_folder += `${folder}/`;
-                    dir_path = path.join(__dirname, `../public/uploads/${time_moment}/${directory_folder}`);
+                    dir_path = path.join(__dirname, `../public/uploads/${timeMoment}/${directory_folder}`);
                     this.makeDir(dir_path);
                 });
                 cb(null, dir_path);
@@ -141,10 +146,9 @@ class Shared {
         });
     }
 
-    uploadFile(storage, file_filter, single_name) {
+    uploadFile(storage, fileFilter, single_name) {
         return multer({
-            storage,
-            fileFilter: file_filter,
+            storage, fileFilter,
         }).single(single_name);
     }
 
@@ -162,18 +166,18 @@ class Shared {
         }).fields(fields);
     }
 
-    handleUpload(upload_file) {
+    handleUpload(uploadFile) {
         return (req, res, next) => {
-            upload_file(req, res, (err) => {
-                if (err) return res.json(err);
+            uploadFile(req, res, (err) => {
+                if (err) return res.json(this.responseError(1011, err));
                 return next();
             });
         };
     }
 
-    deleteFile(file_path) {
-        if (fs.existsSync(file_path)) {
-            fs.unlinkSync(file_path);
+    deleteFile(filePath) {
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
         }
     }
 
@@ -212,7 +216,42 @@ class Shared {
     populateMongoose(fieldPath, select, match) {
         return { path: fieldPath, select, match };
     }
-}
 
+    joinPathFolderPublic(filePath) {
+        return path.join(__dirname, `../public/${filePath}`);
+    }
+
+    cvtFirstLetterUpper(str) {
+        return (str.replace(/\s\s+/g, ' ')).split(' ').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
+
+    resizeImage(fullUrlImage, fileName, width = 100, height = 100) {
+        const set = {};
+        const dirnameSaved = path.dirname(fullUrlImage);
+        const extname = path.extname(fullUrlImage);
+        const replacePath = fullUrlImage.split('\\').join('/');
+        const filePathSaved = this.sliceString(replacePath, '/uploads');
+        set.fullSizeImage = filePathSaved;
+        fileName = fileName || path.parse(fullUrlImage).name + 1;
+        const pathResizeSaved = `${dirnameSaved}\\${fileName}${extname}`;
+        const urlResize = pathResizeSaved.split('\\').join('/');
+        set.resizeImage = this.sliceString(urlResize, '/uploads');
+        sharp(fullUrlImage)
+            .resize(width, height)
+            .toFile(pathResizeSaved, (err) => {
+            // eslint-disable-next-line no-console
+                if (err) { console.log(err); }
+            });
+        return set;
+    }
+
+    escapeRegExp(string) {
+        return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    }
+
+    regexSearch(str) {
+        return new RegExp(this.escapeRegExp(str), 'ig');
+    }
+}
 const shaInstance = new Shared();
 module.exports = shaInstance;

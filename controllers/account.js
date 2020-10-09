@@ -6,11 +6,18 @@ class AccountController extends BaseController {
         super();
     }
 
-    async view(req, res) {
+    async viewAdmin(req, res) {
         try {
-            return super.renderPageAdmin(req, res, { path: 'account/index' });
+            return super.renderPageAdmin(req, res, { path: 'account/admin' });
         } catch (error) {
-            console.log(error)
+            return super.resJsonError(res, error, 'account');
+        }
+    }
+
+    async viewMember(req, res) {
+        try {
+            return super.renderPageAdmin(req, res, { path: 'account/member' });
+        } catch (error) {
             return super.resJsonError(res, error, 'account');
         }
     }
@@ -24,9 +31,9 @@ class AccountController extends BaseController {
         }
     }
 
-    async create(req, res) {
+    async createAdmin(req, res) {
         try {
-            const result = await accountService.create(req.body);
+            const result = await accountService.createAdmin(req.body);
             return super.resJsonSuccess(res, result);
         } catch (error) {
             return super.resJsonError(res, error, 'account');
@@ -45,6 +52,15 @@ class AccountController extends BaseController {
     async delete(req, res) {
         try {
             const result = await accountService.deleteOne(req.body);
+            return super.resJsonSuccess(res, result);
+        } catch (error) {
+            return super.resJsonError(res, error, 'account');
+        }
+    }
+
+    async getInfo(req, res) {
+        try {
+            const result = await accountService.getInfo(req.query);
             return super.resJsonSuccess(res, result);
         } catch (error) {
             return super.resJsonError(res, error, 'account');

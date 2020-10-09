@@ -2,6 +2,7 @@ const BaseService = require('./base');
 const models = require('../models/_utils');
 const { isEmpty, generatorTime } = require('../utils/shared');
 const { getDecoded } = require('../utils/utils');
+const { STATUS } = require('../constants/constants');
 
 class CrudService extends BaseService {
     constructor() {
@@ -11,19 +12,40 @@ class CrudService extends BaseService {
         this.bookmarkCollection = models.BookmarkModel;
         this.categoryCollection = models.CategoryModel;
         this.chapterCollection = models.ChapterModel;
-        this.commentReplyCollection = models.CommentReplyModel;
+        this.comment_replyCollection = models.CommentReplyModel;
         this.commentCollection = models.CommentModel;
         this.historyCollection = models.HistoryModel;
         this.ratingCollection = models.RatingModel;
         this.storyCollection = models.StoryModel;
-        this.viewStatisticCollection = models.ViewStatisticModel;
-        this.viewStatisticDetailCollection = models.ViewStatisticDetailModel;
+        this.view_statisticCollection = models.ViewStatisticModel;
+        this.view_statistic_detailCollection = models.ViewStatisticDetailModel;
+        this.informationCollection = models.InformationModel;
+    }
+
+    collectionCurrent() {
+        const { collectionName } = this;
+        return this[`${collectionName}Collection`];
     }
 
     listAll(query = {}, populate) {
         try {
             const { collectionName } = this;
             const promise = this[`${collectionName}Collection`].find(query).populate(populate);
+            return this.promise(promise);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    listActive(query = {}, fields, populate, options = {}) {
+        try {
+            const { collectionName } = this;
+            Object.assign(query, { status: STATUS.Active, isDeleted: false });
+            const promise = this[`${collectionName}Collection`].find(query);
+            if (fields) promise.select(fields);
+            if (populate) promise.populate(populate);
+            if (options.limit) promise.limit(+options.limit);
+            if (options.sort) promise.sort(options.sort);
             return this.promise(promise);
         } catch (error) {
             throw error;
@@ -62,12 +84,14 @@ class CrudService extends BaseService {
         }
     }
 
-    updateOne(conditions, set, options = {}) {
+    updateOne(conditions, set, options = { new: true }) {
         try {
             const { collectionName } = this;
             const decoded = getDecoded();
-            set.updated_by = decoded.user_o_id;
-            set.updated_at = generatorTime();
+            if (decoded) {
+                set.updatedBy = decoded.accountOId;
+            }
+            set.updatedAt = generatorTime();
             const promise = this[`${collectionName}Collection`].findOneAndUpdate(conditions, set, options);
             return this.promise(promise);
         } catch (error) {
@@ -78,7 +102,9 @@ class CrudService extends BaseService {
     getInfo(conditions, fields, populate) {
         try {
             const { collectionName } = this;
-            const promise = this[`${collectionName}Collection`].findOne(conditions).select(fields).populate(populate);
+            const promise = this[`${collectionName}Collection`].findOne(conditions);
+            if (fields) promise.select(fields);
+            if (populate) promise.populate(populate);
             return this.promise(promise);
         } catch (error) {
             throw error;
@@ -93,6 +119,12 @@ class CrudService extends BaseService {
         } catch (error) {
             throw error;
         }
+    }
+
+    populateModel(path, select, match = {}, options = {}) {
+        return {
+            path, select, match: { isDeleted: false, ...match }, options,
+        };
     }
 }
 module.exports = CrudService;

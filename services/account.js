@@ -3,7 +3,7 @@ const configJWT = require('../configs/jwt');
 const { STATUS, ROLES } = require('../constants/constants');
 const {
     responseError, responseSuccess, isEmpty, compareValue,
-    sliceString, deleteFile, getFullPath,
+    deleteFile,
 } = require('../utils/shared');
 
 class AccountService extends CrudService {
@@ -36,15 +36,28 @@ class AccountService extends CrudService {
             const payload = {
                 accountOId: account._id,
                 username: account.username,
+                firstname: account.firstname,
+                lastname: account.lastname,
             };
             const payloadRefreshToken = { ...payload };
-            const token = await configJWT.sign(payload, process.env.TOKEN_LIFE);
-            const refreshToken = await configJWT.sign(payloadRefreshToken, process.env.REFRESH_TOKEN_LIFE || '7 days');
-            const result = {
-                token,
-                refreshToken,
-                ...payload,
-            };
+            const propSignJWT = data.roleType === ROLES.ADMIN ? 'signAdmin' : 'signMember';
+            const token = await configJWT[propSignJWT]({ ...payload, roleType: account.roleType }, process.env.TOKEN_LIFE);
+            const dataRefreshTk = await configJWT[propSignJWT](payloadRefreshToken, process.env.REFRESH_TOKEN_LIFE || '7 days');
+            let result = {};
+            if (propSignJWT === 'signMember') {
+                result = {
+                    infoToken: token,
+                    refreshToken: dataRefreshTk.token,
+                    ...payload,
+                };
+            } else {
+                result = {
+                    token,
+                    refreshToken: dataRefreshTk,
+                    ...payload,
+                };
+            }
+
             return responseSuccess(208, result);
         } catch (error) {
             const { name } = error;
@@ -78,12 +91,12 @@ class AccountService extends CrudService {
 
     async list(data) {
         try {
-            const query = { isDeleted: false };
+            const query = { isDeleted: false, roleType: data.roleType };
             const options = {
                 limit: +data.limit || 10,
                 page: +data.page || 1,
-                sort: { [data.sort_key || '_id']: data.sort_order || -1 },
-                select: 'created_date fullname mobile status mobile email',
+                sort: { [data.sortKey || '_id']: data.sortOrder || -1 },
+                select: 'username firstname lastname createdAt status mobile email',
             };
             const result = await super.listWithPagination(query, options);
             if (!isEmpty(result)) {
@@ -113,86 +126,70 @@ class AccountService extends CrudService {
         }
     }
 
-    deleteUrlImage(full_url_image) {
-        full_url_image && deleteFile(full_url_image);
+    deleteUrlImage(fullUrlImage) {
+        if (fullUrlImage) deleteFile(fullUrlImage);
     }
 
-    async create(data) {
+    async createAdmin(data) {
         try {
-            const has_exist_email = await this.hasExistEmail(data);
-            if (has_exist_email) {
-                this.deleteUrlImage(data.full_url_image);
-                return responseError(1052);
-            }
-
+            const existUsername = await this.hasExistUsername({ username: data.username, roleType: ROLES.ADMIN });
+            if (existUsername) return responseError(1052);
             const set = {
-                fullname: data.fullname,
-                email: data.email,
+                username: data.username,
+                firstname: data.firstname,
+                lastname: data.lastname,
                 password: data.password,
-                status: STATUS.new,
-                role: data.role,
+                status: STATUS.Active,
+                roleType: ROLES.ADMIN,
             };
-            if (!isEmpty(data.full_url_image)) {
-                const replace_path = data.full_url_image.split('\\').join('/');
-                const url_image = sliceString(replace_path, '/uploads');
-                set.avatar = url_image;
-            }
+            if ('email' in data) set.email = data.email;
+            if ('mobile' in data) set.mobile = data.mobile;
             const result = await super.create(set);
-            if (!isEmpty(result)) {
-                return responseSuccess(101, result);
-            }
-            this.deleteUrlImage(data.full_url_image);
+            if (!isEmpty(result)) return responseSuccess(201);
+            // this.deleteUrlImage(data.fullUrlImage);
             return responseError(1050);
         } catch (error) {
-            this.deleteUrlImage(data.full_url_image);
+            // this.deleteUrlImage(data.fullUrlImage);
+            throw responseError(1000, error);
+        }
+    }
+
+    async getInfo(data) {
+        try {
+            const conditions = {
+                _id: data.accountOId,
+                isDeleted: false,
+            };
+            const fields = '_id username firstname lastname email mobile';
+            const result = await super.getInfo(conditions, fields);
+            if (isEmpty(result)) return responseError(1010);
+            return responseSuccess(204, result);
+        } catch (error) {
             throw responseError(1000, error);
         }
     }
 
     async updateOne(data) {
         try {
-            const has_exist_email = await this.hasExistEmail(data);
-            if (has_exist_email) {
-                this.deleteUrlImage(data.full_url_image);
-                return responseError(1052);
-            }
+            const existUsername = await this.hasExistUsername({
+                username: data.username, roleType: ROLES.ADMIN, accountOId: data.accountOId,
+            });
+            if (existUsername) return responseError(1052);
             const conditions = {
-                _id: data.user_o_id,
-                status: { $ne: STATUS.deleted },
+                _id: data.accountOId,
+                isDeleted: false,
             };
-            const set = {
-                fullname: data.fullname,
-                email: data.email,
-            };
-            if (data.status) {
-                set.status = data.status;
-            }
-            if (data.role) {
-                set.role = data.role;
-            }
-            const options = { new: true };
-            if (!isEmpty(data.full_url_image)) {
-                const replace_path = data.full_url_image.split('\\').join('/');
-                const new_url_image = sliceString(replace_path, '/uploads');
-                const setAvatar = {
-                    avatar: new_url_image,
-                };
-                const result = await super.updateOne(conditions, setAvatar);
-                if (isEmpty(result)) {
-                    this.deleteUrlImage(data.full_url_image);
-                    return responseError(1054);
-                }
-                const old_url_image = result.avatar;
-                const full_path_old_url_image = getFullPath(`../public/${old_url_image}`);
-                deleteFile(full_path_old_url_image);
-            }
-            const result = await super.updateOne(conditions, set, options);
-            if (isEmpty(result)) {
-                return responseError(1054);
-            }
-            return responseSuccess(103, result);
+            const set = { };
+            if ('username' in data) set.username = data.username;
+            if ('password' in data) set.password = data.password;
+            if ('firstname' in data) set.firstname = data.firstname;
+            if ('lastname' in data) set.lastname = data.lastname;
+            if ('email' in data) set.email = data.email;
+            if ('mobile' in data) set.mobile = data.mobile;
+            const result = await super.updateOne(conditions, set);
+            if (isEmpty(result)) return responseError(1007);
+            return responseSuccess(203);
         } catch (error) {
-            this.deleteUrlImage(data.full_url_image);
             throw responseError(1000, error);
         }
     }
@@ -200,18 +197,15 @@ class AccountService extends CrudService {
     async deleteOne(data) {
         try {
             const conditions = {
-                _id: data.user_o_id,
-                status: { $ne: STATUS.deleted },
+                _id: data.accountOId,
+                isDeleted: false,
             };
             const set = {
-                status: STATUS.deleted,
+                isDeleted: true,
             };
-            const options = { new: true };
-            const result = await super.updateOne(conditions, set, options);
-            if (!isEmpty(result)) {
-                return responseSuccess(105);
-            }
-            return responseError(1056);
+            const result = await super.updateOne(conditions, set);
+            if (isEmpty(result)) return responseError(1009);
+            return responseSuccess(205);
         } catch (error) {
             throw responseError(1000, error);
         }

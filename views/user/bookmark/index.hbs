@@ -1,0 +1,76 @@
+<style>
+  .content {
+    padding: 30px 40px;
+  }
+
+  .title {
+    margin-bottom: 20px;
+    padding-top: 10px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .item-book {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+  }
+
+  .profile-img {
+    width: 70px;
+    margin-right: 10px;
+  }
+
+  .profile-img img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .book-name {
+    width: 300px;
+  }
+
+  .chapter-name {
+    width: 200px;
+  }
+
+  .book-name a {
+    font-size: 17px;
+    color: rgb(44, 44, 44);
+    transition: .3s;
+    text-decoration: none;
+  }
+
+  .book-name a:hover {
+    color: #000;
+  }
+
+  .chapter-name a {
+    font-size: 16px;
+    text-decoration: none;
+    color: rgb(68, 68, 68);
+  }
+
+  .chapter-number {
+    width: 100px;
+  }
+
+  .chapter-number span,
+  .category span {
+    font-size: 15px;
+  }
+</style>
+
+
+<div class="content">
+  <div class="title">
+    <h3>Danh sách truyện đã đánh dấu</h3>
+  </div>
+  <div class="wrapper-list-books">
+  </div>
+  <div class="block-pagination"></div>
+</div>
+
+<script defer src="/assets/js/pages/pagination.js"></script>
+<script defer src="/assets/js/pages/user/bookmark.js"></script>

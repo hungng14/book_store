@@ -1780,7 +1780,9 @@
 *::before,
 *::after {
   -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+ }
 
 html {
   font-family: sans-serif;
@@ -11183,8 +11185,8 @@ code {
     padding: 0.5rem 0.75rem;
     font-size: 0.625rem; }
   .btn.btn-icon {
-    width: 42px;
-    height: 42px;
+    width: 30px;
+    height: 30px;
     padding: 0; }
   .btn.btn-icon-text .btn-icon-prepend {
     margin-right: .5rem; }
@@ -12429,21 +12431,20 @@ code {
     color: #c9c8c8; }
 
 .form-control {
-  border: 1px solid #ebedf2;
+  border: 1px solid #a0a0a0 ;
   font-family: "ubuntu-regular", sans-serif;
   font-size: 0.8125rem; }
   .form-control:focus {
     background-color: #ffffff;
     color: #000;
     outline: none; }
-
 select.form-control {
   padding: .4375rem .75rem;
   border: 0;
-  outline: 1px solid #ebedf2;
-  color: #c9c8c8; }
+  outline: 1px solid #a0a0a0;
+  color: #495057; }
   select.form-control:focus {
-    outline: 1px solid #ebedf2; }
+    outline: 1px solid #a0a0a0; }
   select.form-control.border-primary {
     outline: 1px solid #b66dff; }
     select.form-control.border-primary:focus {
@@ -12481,7 +12482,8 @@ select.form-control {
   font-size: 0.875rem;
   line-height: 1;
   vertical-align: top;
-  margin-bottom: .5rem; }
+  /* margin-bottom: .5rem; */
+ }
 
 .form-group.has-danger .form-control {
   border-color: #fe7c96; }
