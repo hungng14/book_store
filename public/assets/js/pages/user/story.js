@@ -19,12 +19,10 @@ function listChaptersOfStory(page = 1) {
             if (response.success) {
                 const { data } = response;
                 initPagination(data);
-                const elemWraChapter = getElement('.wrapper-chapters');
+                const elemWraChapter = getElement('.dropdown-chapters');
                 let tmpChapters = '';
                 data.docs.map((item) => {
-                    tmpChapters += `<div class="item-chapter">
-                      <a href="/story/${storyOId}/${item.chapterNumber}">Chương ${item.chapterNumber} (${item.title})</a> 
-                    </div>`;
+                    tmpChapters += `<li class="item-chapter"> <a href="/story/${storyOId}/${item.chapterNumber}">Chương ${item.chapterNumber} (${item.title}) </li>`;
                 });
                 elemWraChapter.innerHTML = tmpChapters;
             }

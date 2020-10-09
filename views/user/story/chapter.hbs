@@ -90,22 +90,49 @@
   }
 
   .wrapper-chapters {
+    margin: 0;
+    position: absolute;
+    background: #fff;
+    width: 500px;
+    padding: 0;
+    padding: 10px;
+    border-radius: 10px;
+    left: 80px;
+    top: 0;
+    -webkit-box-shadow: 2px 2px 10px 3px rgba(130, 130, 130, 1);
+    -moz-box-shadow: 2px 2px 10px 3px rgba(130, 130, 130, 1);
+    box-shadow: 2px 2px 10px 3px rgba(130, 130, 130, 1);
+  }
+
+  .dropdown-chapters {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
+  }
+
+  .wrapper-chapters {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .wrapper-chapters.open {
+    visibility: visible;
+    opacity: 1;
   }
 
   .item-chapter {
-    width: 300px;
     border-bottom: 1px solid #eee;
     margin-bottom: 10px;
-    ;
+  }
+
+  .item-chapter a {
+    display: block;
   }
 </style>
 
 <div class="content">
   <div class="wrapper-content">
-    <div class="block-actions">
+    <div class="block-actions" style="z-index: 2;">
       <div class="block-settings">
         <ul class="st-menu">
           <li class="st-item-menu">
@@ -114,42 +141,25 @@
             </a>
           </li>
           <li class="st-item-menu">
-            <a href="#" title="Stop audio" id="stop-audio">
+            <a href="javascript:;" title="Stop audio" id="stop-audio">
               <i class="mdi mdi-stop-circle"></i>
             </a>
           </li>
-          <li class="st-item-menu item-sl-chapters">
-            <a href="#" title="Đánh dấu">
+          <li class="st-item-menu">
+            <a href="javascript:;" title="Đánh dấu">
               <i class="mdi mdi-bookmark-outline"></i>
             </a>
           </li>
-          <li class="st-item-menu item-sl-chapters">
-            <a href="#" title="Danh sách chương">
+          <li class="st-item-menu position-relative">
+            <a href="javascript:;" title="Danh sách chương" id="show-chapters">
               <i class="mdi mdi-menu"></i>
             </a>
-            {{!-- <div class="wrapper-chapters">
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-              <div class="item-chapter"> <a href="#">Chương 1</a> </div>
-            </div> --}}
+            <div class="wrapper-chapters">
+              <ul class="dropdown-chapters">
+              </ul>
+              <div class="block-pagination"></div>
+            </div>
+
           </li>
           <li class="st-item-menu item-sl-showing">
             <a href="#" title="Cài đặt hiển thị">
@@ -164,7 +174,7 @@
         </ul>
       </div>
     </div>
-    <div class="block-chapter-content" data-chapterNumber="{{infoChapter.chapterNumber}}"
+    <div class="block-chapter-content" style="z-index: 1;" data-chapterNumber="{{infoChapter.chapterNumber}}"
       data-storyOId="{{infoChapter.storyOId}}">
       <div class="chapter-content">
         <div class="block-arrows">
@@ -229,52 +239,6 @@
     </div>
   </div>
 </div>
-
-<script src="/assets/js/pages/user/chapter.js"></script>
 <script src="https://code.responsivevoice.org/responsivevoice.js?key=MYbwFVlB"></script>
-<script>
-  let isPlaying = false;
-
-
-  const readContentElm = getElement('.read-content');
-  const text = readContentElm.textContent;
-
-  const mdiElm = getElement('#play-audio i.mdi');
-  const playAudio = getElement('#play-audio');
-  const onStart = () => {
-    console.log('oonStartk')
-  }
-
-  const onEnd = () => {
-    console.log('onEnd')
-    isPlaying = false;
-    mdiElm.classList.add('mdi-play-circle')
-    mdiElm.classList.remove('mdi-pause-circle');
-  }
-  playAudio.addEventListener('click', () => {
-
-
-    if (mdiElm.classList.contains('mdi-play-circle')) {
-      if (isPlaying) {
-        responsiveVoice.resume();
-      } else {
-        responsiveVoice.speak(text, 'Vietnamese Female', { onstart: onStart, onend: onEnd });
-      }
-      mdiElm.classList.remove('mdi-play-circle')
-      mdiElm.classList.add('mdi-pause-circle')
-    } else {
-      mdiElm.classList.add('mdi-play-circle')
-      mdiElm.classList.remove('mdi-pause-circle');
-      responsiveVoice.pause();
-    }
-    isPlaying = true;
-  })
-
-  getElement('#stop-audio').addEventListener('click', () => {
-    responsiveVoice.cancel();
-    mdiElm.classList.add('mdi-play-circle')
-    mdiElm.classList.remove('mdi-pause-circle');
-    isPlaying = false;
-  })
-
-</script>
+<script src="/assets/js/pages/pagination.js"></script>
+<script src="/assets/js/pages/user/chapter.js"></script>
