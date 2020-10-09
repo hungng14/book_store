@@ -108,6 +108,16 @@
     <div class="block-actions">
       <div class="block-settings">
         <ul class="st-menu">
+          <li class="st-item-menu">
+            <a href="#" title="Play audio" id="play-audio">
+              <i class="mdi mdi-play-circle"></i>
+            </a>
+          </li>
+          <li class="st-item-menu">
+            <a href="#" title="Stop audio" id="stop-audio">
+              <i class="mdi mdi-stop-circle"></i>
+            </a>
+          </li>
           <li class="st-item-menu item-sl-chapters">
             <a href="#" title="Đánh dấu">
               <i class="mdi mdi-bookmark-outline"></i>
@@ -221,3 +231,47 @@
 </div>
 
 <script src="/assets/js/pages/user/chapter.js"></script>
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=MYbwFVlB"></script>
+<script>
+  let isPlaying = false;
+  const onStart = () => {
+    console.log('oonStartk')
+  }
+
+  const onEnd = () => {
+    console.log('onEnd')
+    isPlaying = false;
+  }
+
+  const readContentElm = getElement('.read-content');
+  const text = readContentElm.textContent;
+
+  const mdiElm = getElement('#play-audio i.mdi');
+  const playAudio = getElement('#play-audio');
+  playAudio.addEventListener('click', () => {
+
+
+    if (mdiElm.classList.contains('mdi-play-circle')) {
+      if (isPlaying) {
+        responsiveVoice.resume();
+      } else {
+        responsiveVoice.speak(text, 'Vietnamese Female', { onstart: onStart, onend: onEnd });
+      }
+      mdiElm.classList.remove('mdi-play-circle')
+      mdiElm.classList.add('mdi-pause-circle')
+    } else {
+      mdiElm.classList.add('mdi-play-circle')
+      mdiElm.classList.remove('mdi-pause-circle');
+      responsiveVoice.pause();
+    }
+    isPlaying = true;
+  })
+
+  getElement('#stop-audio').addEventListener('click', () => {
+    responsiveVoice.cancel();
+    mdiElm.classList.add('mdi-play-circle')
+    mdiElm.classList.remove('mdi-pause-circle');
+    isPlaying = false;
+  })
+
+</script>
