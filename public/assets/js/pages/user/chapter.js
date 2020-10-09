@@ -4,6 +4,11 @@ const elemBlkChapContent = getElement('.block-chapter-content');
 const storyOId = elemBlkChapContent.getAttribute('data-storyOId');
 const chapterNumber = elemBlkChapContent.getAttribute('data-chapterNumber');
 
+const closePopoverOpen = () => {
+    const popoverOpen = getElement('.popover-actions.open');
+    popoverOpen && popoverOpen.classList.remove('open');
+};
+
 function prevChapter() {
     document.location.href = `/story/${storyOId}/${+chapterNumber - 1}`;
 }
@@ -28,12 +33,12 @@ getAllElement('.item-arrow-right').forEach((elm) => {
 let isPlaying = false;
 
 const readContentElm = getElement('.read-content');
-const text = readContentElm.textContent;
+const titleChapter = getElement('.title-chapter>h2').textContent;
+const text = `${titleChapter}:${readContentElm.textContent}`;
 
 const mdiElm = getElement('#play-audio i.mdi');
 const playAudio = getElement('#play-audio');
-const onStart = () => {
-};
+const onStart = () => {};
 
 const onEnd = () => {
     isPlaying = false;
@@ -45,7 +50,10 @@ playAudio.addEventListener('click', () => {
         if (isPlaying) {
             responsiveVoice.resume();
         } else {
-            responsiveVoice.speak(text, 'Vietnamese Female', { onstart: onStart, onend: onEnd });
+            responsiveVoice.speak(text, 'Vietnamese Female', {
+                onstart: onStart,
+                onend: onEnd,
+            });
         }
         mdiElm.classList.remove('mdi-play-circle');
         mdiElm.classList.add('mdi-pause-circle');
@@ -55,6 +63,7 @@ playAudio.addEventListener('click', () => {
         responsiveVoice.pause();
     }
     isPlaying = true;
+    closePopoverOpen();
 });
 
 getElement('#stop-audio').addEventListener('click', () => {
@@ -62,6 +71,7 @@ getElement('#stop-audio').addEventListener('click', () => {
     mdiElm.classList.add('mdi-play-circle');
     mdiElm.classList.remove('mdi-pause-circle');
     isPlaying = false;
+    closePopoverOpen();
 });
 
 // actions
@@ -71,6 +81,7 @@ showChapterElm && showChapterElm.addEventListener('click', () => {
     if (dropdownChaptersElm.classList.contains('open')) {
         dropdownChaptersElm.classList.remove('open');
     } else {
+        closePopoverOpen();
         dropdownChaptersElm.classList.add('open');
     }
 });
@@ -88,7 +99,9 @@ function listChaptersOfStory(page = 1) {
     })
         .then((response) => {
             if (response.success) {
-                const { data } = response;
+                const {
+                    data,
+                } = response;
                 initPagination(data);
                 const elemWraChapter = getElement('.dropdown-chapters');
                 let tmpChapters = '';
@@ -103,3 +116,43 @@ function listChaptersOfStory(page = 1) {
 }
 initPagination = initPaginationTemplate(listChaptersOfStory);
 listChaptersOfStory();
+
+const settingBgElm = getElement('#settings');
+const wrapSettingsElm = getElement('.wrapper-settings');
+settingBgElm && settingBgElm.addEventListener('click', () => {
+    if (wrapSettingsElm.classList.contains('open')) {
+        wrapSettingsElm.classList.remove('open');
+    } else {
+        closePopoverOpen();
+        wrapSettingsElm.classList.add('open');
+    }
+});
+
+const chapterContentElm = getElement('.chapter-content');
+const itemBgElms = getAllElement('.item-bg');
+itemBgElms.forEach((elm) => {
+    elm.addEventListener('click', () => {
+        const dataBg = elm.getAttribute('data-background');
+        if ((chapterContentElm.classList.contains('bg-white-selected') && dataBg === 'white')
+        || (chapterContentElm.classList.contains('bg-black-selected') && dataBg === 'black')) return;
+        itemBgElms.forEach((elmIt) => {
+            elmIt.classList.remove('active');
+        });
+        elm.classList.add('active');
+        if (dataBg === 'white') {
+            chapterContentElm.classList.add('bg-white-selected');
+            chapterContentElm.classList.remove('bg-black-selected');
+        }
+        if (dataBg === 'black') {
+            chapterContentElm.classList.remove('bg-white-selected');
+            chapterContentElm.classList.add('bg-black-selected');
+        }
+    });
+});
+
+const btnClosePopoverElms = getAllElement('.close-popover');
+btnClosePopoverElms.forEach((elm) => {
+    elm.addEventListener('click', () => {
+        getElement('.popover-actions.open').classList.remove('open');
+    });
+});
