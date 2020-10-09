@@ -12,6 +12,8 @@ class BookmarkService extends CrudService {
     async list(data) {
         try {
             const query = { isDeleted: false };
+            if (data.accountOId) query.accountOId = data.accountOId;
+            if (data.status) query.status = data.status;
             const populate = [
                 {
                     ...this.populateModel('story', '_id name profileImage'),

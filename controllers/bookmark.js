@@ -41,6 +41,9 @@ class BookmarkController extends BaseController {
 
     async list(req, res) {
         try {
+            if ((req.session.infoMember || {}).accountOId) {
+                req.query.accountOId = req.session.infoMember.accountOId;
+            }
             const result = await bookmarkService.list(req.query);
             return super.resJsonSuccess(res, result);
         } catch (error) {
