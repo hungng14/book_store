@@ -1,11 +1,12 @@
 /* eslint-disable no-undef */
-const signInButton = getElement('#sign-in');
-signInButton.addEventListener('click', () => {
+
+function onSignIn(e) {
+    e.preventDefault();
     const data = handleValue('getValue', '#form-sign-in', { names: ['username', 'password'] });
     HttpService.post('/sign-in', data)
         .then((response) => {
             if (response.success) {
-                const {infoToken} = response.data;
+                const { infoToken } = response.data;
                 loggerSuccess(response.message);
                 document.cookie = `_tk_=${infoToken.token}; expires=${new Date(infoToken.exp)}`;
                 document.location.reload();
@@ -16,10 +17,13 @@ signInButton.addEventListener('click', () => {
                 loggerError(response.message);
             }
         });
-});
+}
+const signInButton = getElement('#sign-in');
+signInButton.addEventListener('click', onSignIn);
+getElement('#form-sign-in').addEventListener('submit', onSignIn);
 
-const signUpButton = getElement('#sign-up');
-signUpButton.addEventListener('click', () => {
+const onSignUp = (e) => {
+    e.preventDefault();
     const data = handleValue('getValue', '#form-sign-up', { names: ['username', 'firstname', 'lastname', 'password', 'confirmPassword'] });
     HttpService.post('/register', data)
         .then((response) => {
@@ -32,4 +36,7 @@ signUpButton.addEventListener('click', () => {
                 loggerError(response.message);
             }
         });
-});
+};
+const signUpButton = getElement('#sign-up');
+signUpButton.addEventListener('click', onSignUp);
+getElement('#form-sign-up').addEventListener('submit', onSignUp);
