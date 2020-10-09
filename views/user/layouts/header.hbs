@@ -98,7 +98,7 @@
         width: 20px;
     }
 
-    .navbar-dropdown.dropdown-menu.open{
+    .navbar-dropdown.dropdown-menu.open {
         position: absolute;
         float: left;
         display: block;
@@ -144,10 +144,12 @@
                 <ul class="hd-nav-menu">
                     <li>
                         <div class="wr-search">
-                            <input class="form-control" type="text" placeholder="Tên truyện hoặc thể loại">
-                            <button class="btn-search" id="btn-search">
-                                <img src="/assets/images/search-icon.svg" alt="">
-                            </button>
+                            <form id="form-search">
+                                <input class="form-control" name="q" type="text" placeholder="Tên truyện hoặc thể loại">
+                                <button type="button" class="btn-search" id="btn-search">
+                                    <img src="/assets/images/search-icon.svg" alt="">
+                                </button>
+                            </form>
                         </div>
                     </li>
                     {{#if infoMember.isLoggedIn}}
