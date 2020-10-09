@@ -99,6 +99,7 @@ function listBookmarked() {
         limit: 10,
         sortKey: 'updatedAt',
         sortOrder: -1,
+        status: 'Active',
     })
         .then((response) => {
             if (response.success) {
