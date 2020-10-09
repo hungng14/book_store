@@ -234,6 +234,13 @@
 <script src="https://code.responsivevoice.org/responsivevoice.js?key=MYbwFVlB"></script>
 <script>
   let isPlaying = false;
+
+
+  const readContentElm = getElement('.read-content');
+  const text = readContentElm.textContent;
+
+  const mdiElm = getElement('#play-audio i.mdi');
+  const playAudio = getElement('#play-audio');
   const onStart = () => {
     console.log('oonStartk')
   }
@@ -241,13 +248,9 @@
   const onEnd = () => {
     console.log('onEnd')
     isPlaying = false;
+    mdiElm.classList.add('mdi-play-circle')
+    mdiElm.classList.remove('mdi-pause-circle');
   }
-
-  const readContentElm = getElement('.read-content');
-  const text = readContentElm.textContent;
-
-  const mdiElm = getElement('#play-audio i.mdi');
-  const playAudio = getElement('#play-audio');
   playAudio.addEventListener('click', () => {
 
 
