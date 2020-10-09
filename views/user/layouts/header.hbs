@@ -194,19 +194,16 @@
 </header>
 
 {{> user/signInMember/index}}
-
+<script src="/assets/js/pages/user/header.js"></script>
 <script>
-    getElement('#dropdown-item-logout').addEventListener('click', () => {
+    const dropdownItemLogout = getElement('#dropdown-item-logout');
+      dropdownItemLogout && dropdownItemLogout.addEventListener('click', () => {
         document.cookie = '_tk_=;';
         document.location.reload();
     })
-</script>
-
-<script src="/assets/js/pages/user/header.js"></script>
-<script>
     const profileDropdown = getElement('#profileDropdown');
     const dropdown = getElement('.dropdown-menu.navbar-dropdown');
-    profileDropdown.addEventListener('click', () => {
+    profileDropdown && profileDropdown.addEventListener('click', () => {
         if(dropdown.classList.contains('open')){
             dropdown.classList.remove('open');
         }else{
