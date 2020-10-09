@@ -18,9 +18,6 @@ function listStoryNewest() {
                             alt="">
                         <div class="wrapper-item-detail">
                             <h3 class="wrapper-item-title">${item.name}</h3>
-                            <p class="wrapper-item-description">
-                                ${item.shortDescription || ''}
-                            </p>
                         </div>
                     </div></a>`;
                 });
